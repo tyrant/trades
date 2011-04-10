@@ -29,3 +29,9 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+gem "devise"
+gem "cancan"
+gem "acts_as_geocodable"
+gem "paperclip"
+gem "acts_as_commentable_with_threading"

@@ -28,17 +28,44 @@ GEM
       activemodel (= 3.0.3)
       activesupport (= 3.0.3)
     activesupport (3.0.3)
+    acts_as_commentable_with_threading (1.1.1)
+      activerecord (~> 3.0)
+      activesupport (~> 3.0)
+      moretea-awesome_nested_set
+    acts_as_geocodable (2.0.2)
+      graticule (>= 2.0.0)
     arel (2.0.7)
+    bcrypt-ruby (2.1.4)
     builder (2.1.2)
+    cancan (1.6.4)
+    devise (1.2.1)
+      bcrypt-ruby (~> 2.1.2)
+      orm_adapter (~> 0.0.3)
+      warden (~> 1.0.3)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    graticule (2.0.1)
+      activesupport
+      happymapper (>= 0.3.0)
+      i18n
+      json
+    happymapper (0.3.2)
+      libxml-ruby (~> 1.1.3)
     i18n (0.5.0)
+    json (1.5.1)
+    libxml-ruby (1.1.4)
     mail (2.2.14)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    moretea-awesome_nested_set (1.4.3.1)
+      activerecord (~> 3.0.0)
+    orm_adapter (0.0.4)
+    paperclip (2.3.10)
+      activerecord (>= 2.3.0)
+      activesupport (>= 2.3.2)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -64,11 +91,18 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.24)
+    warden (1.0.3)
+      rack (>= 1.0.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_commentable_with_threading
+  acts_as_geocodable
+  cancan
+  devise
+  paperclip
   rails (= 3.0.3)
   sqlite3-ruby
 
