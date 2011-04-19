@@ -1,0 +1,30 @@
+:javascript
+  $(document).ready(function() {
+    $("#choose_trader").submit(function(event) {
+      $.getJSON('/traders/find.html', { trader_text: $("#trader_text").val() }, function(data) {
+        $.each(data, function(index, trader) {
+          $("#trader_results").append('<li class="pointer" id="trader_' + trader.id + '">' + trader.name + '</li>');
+          $("#trader_" + trader.id).click(function() {
+            $("#trader_reviewed_name").html(trader.name);
+          });
+        });
+        $("#trader_results").after('Not on the list? <a href="/traders/new">Add them!</a>');
+      });
+      event.preventDefault();
+    });
+  });
+
+  
+%h2 Choose a trader ...
+%form#choose_trader{:name => 'choose_trader', :action => '/', :method => 'get'}
+  %input{:type => 'text', :id => 'trader_text'}
+  %input{:type => 'submit', :value => 'Search'}
+%ul#trader_results
+
+%h2 ... Describe the job ...
+
+%h2 ... Leave a review!
+#trader_reviewed
+  The trader:
+  #trader_reviewed_name
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110410111434) do
+ActiveRecord::Schema.define(:version => 20110419004017) do
 
   create_table "addresses", :force => true do |t|
     t.string   "number"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(:version => 20110410111434) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "name"
   end
 
   add_index "traders", ["email"], :name => "index_traders_on_email", :unique => true

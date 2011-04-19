@@ -1,0 +1,14 @@
+= form_for(@trader) do |f|
+  - if @trader.errors.any?
+    #errorExplanation
+      = pluralize(@trader.errors.count, "error") 
+      prohibited this Trader being made:
+      %ul
+        - @trader.errors.full_messages.each do |m|
+          %li= msg
+
+  = f.label :name
+  %br
+  = f.text_field :name
+
+  = f.submit

@@ -1,0 +1,6 @@
+%ul
+  - @traders.each do |trader|
+    %li 
+      = trader.name
+
+= will_paginate @traders
