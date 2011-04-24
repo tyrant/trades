@@ -5,7 +5,7 @@ class Trader < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me
 
   has_many :jobs
   has_many :customers, :through => :jobs
@@ -14,16 +14,34 @@ class Trader < ActiveRecord::Base
   has_many :addresses, :as => :locatable
   has_many :reviews, :as => :reviewer
   has_many :reviews, :as => :reviewable
+  has_many :images, :as => :imageable
 
   cattr_reader :per_page
   @@per_page = 10
 
-  validates_presence_of :name
+  validates_presence_of :first_name
+  validates_presence_of :last_name
+  validates_presence_of :question, :if => "active.false?"
+
+  before_save :set_login_and_temp_password
+
+  def set_login_and_temp_password
+    unless self.active
+      self.login = Digest::SHA1.hexdigest(Time.now.usec)[0,8]
+      self.temp_password = Digest::SHA1.hexdigest(Time.now.usec.to_s + "blah blah blah salt salt")[0,8]
+    end
+  end
 
   def as_json(options)
-    {
+    trader = {
       'id' => self.id,
-      'name' => self.name
+      'name' => self.name,
     }
+    trader.merge!({ 'business_id' => self.business_id }) unless self.business_id.nil?
+    trader
+  end
+
+  def name
+    "#{self.first_name} #{self.last_name}"
   end
 end

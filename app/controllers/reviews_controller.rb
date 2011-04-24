@@ -1,17 +1,22 @@
 class ReviewsController < ApplicationController
 
-  respond_to :html, :json
 
   def new
+    @trader = Trader.new
+    @job = Job.new
     @review = Review.new
+
     respond_to do |format|
       format.html
     end 
   end
 
+  
   def create
     @review = Review.create(params[:review])
-    respond_with @review, :location => reviews_url
+    respond_to do |format|
+      format.html { redirect_to @review, :notice => "Successfully created a new review" }
+    end
   end
   
 end

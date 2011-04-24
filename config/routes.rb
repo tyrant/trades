@@ -4,11 +4,12 @@ Trades::Application.routes.draw do
 
   devise_for :customers
 
+  resources :jobs
   resources :reviews
-  #resources :traders
 
-  #match 'traders/find.html', {:controller => 'traders', :action => 'find'}
-
+  match 'traders/find', {:controller => 'traders', :action => 'find'}
+  resources :traders
+  
   match ':controller(/:action(/:id))'
 
   # The priority is based upon order of creation:
