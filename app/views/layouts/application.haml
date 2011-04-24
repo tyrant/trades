@@ -6,10 +6,13 @@
     = javascript_include_tag :all
     = csrf_meta_tag
   %body
-  %p{:class => "notice"}
-    = notice
-  %p{:class => "alert"}
-    = alert
+  %div#user_nav
+    - if customer_signed_in?
+      Signed in as #{current_customer.login}. Not you? #{link_to 'Sign out', destroy_customer_session_path}.
+    - else 
+      #{link_to "Sign up", new_customer_registration_path} or #{link_to "sign in", new_customer_session_path}.
+  %p{:class => "notice"}= notice
+  %p{:class => "alert"}= alert
 
   = yield
 

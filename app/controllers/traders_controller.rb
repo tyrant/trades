@@ -2,6 +2,7 @@ class TradersController < ApplicationController
 
   # Responds to the Ajax-based Find Trader form on the Reveiew page (for starters)
   def find
+    puts "PARAMS: #{params.inspect}"
     t = "%#{params[:trader_text]}%"
     @traders = Trader.where("first_name LIKE ? OR last_name LIKE ?", t, t).paginate(:page => params[:page])
 

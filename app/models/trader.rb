@@ -23,11 +23,11 @@ class Trader < ActiveRecord::Base
   validates_presence_of :last_name
   validates_presence_of :question, :if => "active.false?"
 
-  before_save :set_login_and_temp_password
+  before_validation :set_login_and_temp_password
 
   def set_login_and_temp_password
     unless self.active
-      self.login = Digest::SHA1.hexdigest(Time.now.usec)[0,8]
+      self.login = Digest::SHA1.hexdigest(Time.now.usec.to_s)[0,8]
       self.temp_password = Digest::SHA1.hexdigest(Time.now.usec.to_s + "blah blah blah salt salt")[0,8]
     end
   end
