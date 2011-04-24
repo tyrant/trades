@@ -43,6 +43,7 @@
     
   });
 
+%input{:type => 'button', :value => 'I did this job!'}
   
 %h2 Choose a trader ...
 %form#choose_trader{:name => 'choose_trader', :action => '/', :method => 'get'}
@@ -66,11 +67,11 @@
     %br
     = f.label :question
     = f.text_area :question
-    = f.hidden_field :active, :value => 'no'
+    = f.hidden_field :active, :value => '0'
     %br
     %strong What's this 'question' business?
     %br
-    The trader you're creating may one day come across this page and want to comment on it too, as the trader. To let him or her prove their identity, simply write a security question in the text field above, that only the trader will know, so that when they click on the 'I did this job!' button, they'll be shown the question and answer it, and their answer will be emailed to you. It's up to to you say if the answer is right or not, and if so, the website will authenticate them as the trader.
+    The trader you're creating may one day come across this page and want to comment on it too, as the trader. The only person really suited to confirming their identity is you. To let them do this, simply write a security question in the text field above, that only the trader will know, so that when they click on the 'I did this job!' button, they'll be shown the question and answer it, and their answer will be emailed to you. It's up to to you say if the answer is right or not, and if so, the website will authenticate them as the trader.
     %br
     = f.submit "Create a new trader"
 

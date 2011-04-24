@@ -26,7 +26,7 @@ class Ability
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     user ||= User.new
-    if false #user.admin?
+    if false #user.admin? # Not implemented yet!
       can :manage, :all
     else
       cannot :manage, :all

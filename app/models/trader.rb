@@ -32,7 +32,7 @@ class Trader < ActiveRecord::Base
     end
   end
 
-  def as_json(options)
+  def as_json
     trader = {
       'id' => self.id,
       'name' => self.name,

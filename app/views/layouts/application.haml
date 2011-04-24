@@ -11,6 +11,13 @@
       Signed in as #{current_customer.login}. Not you? #{link_to 'Sign out', destroy_customer_session_path}.
     - else 
       #{link_to "Sign up", new_customer_registration_path} or #{link_to "sign in", new_customer_session_path}.
+      
+  %div#site_nav
+    %span= link_to 'Traders', traders_path
+    %span= link_to 'Quotes', quotes_path
+    %span= link_to 'Reviews', reviews_path
+    %span= link_to 'Jobs', jobs_path
+    
   %p{:class => "notice"}= notice
   %p{:class => "alert"}= alert
 

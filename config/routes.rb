@@ -1,14 +1,16 @@
 Trades::Application.routes.draw do
 
   devise_for :traders
-
   devise_for :customers
 
   resources :jobs
+  
   resources :reviews
 
   match 'traders/find', {:controller => 'traders', :action => 'find'}
   resources :traders
+  
+  resources :quotes
   
   match ':controller(/:action(/:id))'
 
