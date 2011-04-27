@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
       return current_customer
     rescue
       return current_trader
-   end
+    end
   end
   
   def user_session

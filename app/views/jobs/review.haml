@@ -42,6 +42,9 @@
     });
     
   });
+  
+  
+%h1 Leave a review!
 
 %input{:type => 'button', :value => 'I did this job!'}
   
@@ -67,7 +70,7 @@
     %br
     = f.label :question
     = f.text_area :question
-    = f.hidden_field :active, :value => '0'
+    = f.hidden_field :sprightly, :value => '0'
     %br
     %strong What's this 'question' business?
     %br
@@ -89,7 +92,7 @@
   = f.submit "Create a new job"
   
 
-%h2 ... Leave a review!
+%h2 ... review it!
 #trader_reviewed
   = form_for @review, :remote => true do |f|
     %ul

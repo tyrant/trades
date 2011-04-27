@@ -10,10 +10,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110424042216) do
+ActiveRecord::Schema.define(:version => 20110427091422) do
 
   create_table "addresses", :force => true do |t|
-    t.string   "number"
     t.string   "street"
     t.string   "city"
     t.string   "state"
@@ -23,6 +22,8 @@ ActiveRecord::Schema.define(:version => 20110424042216) do
     t.datetime "updated_at"
     t.integer  "imageable_id"
     t.string   "imageable_type", :default => "Customer"
+    t.string   "suburb"
+    t.string   "locatable_type", :default => "Job"
   end
 
   create_table "businesses", :force => true do |t|
@@ -66,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20110424042216) do
     t.datetime "updated_at"
     t.integer  "customer_id"
     t.integer  "trader_id"
+    t.boolean  "completed"
   end
 
   create_table "professions", :force => true do |t|
@@ -114,11 +116,11 @@ ActiveRecord::Schema.define(:version => 20110424042216) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.boolean  "active"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "temp_password"
     t.text     "question"
+    t.boolean  "sprightly"
   end
 
   add_index "traders", ["email"], :name => "index_traders_on_email", :unique => true

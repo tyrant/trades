@@ -1,0 +1,113 @@
+:javascript
+  $(document).ready(function() {
+  
+    $("#choose_trader").submit(function(event) {
+      $.getJSON('/traders/find.html', $(this).serialize(), function(data) {
+        $("#trader_results").html("");
+        $.each(data, function(index, trader) {
+          $("#trader_results").append('<li class="pointer" id="trader_' + trader.id + '">' + trader.name + '</li>');
+          $("#trader_" + trader.id).click(function() {
+            if ($("#trader_x").parent().attr('id') == $(this).attr('id')) {
+              $("#trader_x").remove();
+              $("#job_trader_id").val('');
+            } else {
+              $("#trader_x").remove();
+              $(this).html($(this).html() + '<span id="trader_x"> X</span>');
+           
+              // Whack the *currently existing* trader id onto the job form.
+              $("#job_trader_id").val(trader.id);
+            }
+          });
+        });
+        $("#trader_results").append('<li>Not on the list? <a href="#" id="toggle_new_trader">Add them!</a></li>');
+        $("#toggle_new_trader").click(function() { $("#new_trader_div").toggle(); return false; });
+      });
+      event.preventDefault();
+    });
+
+    // Custom submit - use callback to whack the *newly created* trader id onto the job form.
+    $("#new_trader").submit(function(event) {
+      $.post('/traders/create.json', $(this).serialize(), function(response) {
+        $("#job_trader_id").val(response.id);
+      }, 'json');
+      return false;
+    });
+
+    // Custom submit - use callback to whack the new job id onto the review form.
+    $("#new_job").submit(function(event) {
+      $.post('/jobs/create.json', $(this).serialize(), function(response) {
+        $("#review_reviewable_id").val(response.id);
+      }, 'json');
+      return false;
+    });
+    
+  });
+  
+  
+%h1 Leave a review!
+
+%input{:type => 'button', :value => 'I did this job!'}
+  
+%h2 Choose a trader ...
+%form#choose_trader{:name => 'choose_trader', :action => '/', :method => 'get'}
+  %input{:type => 'text', :id => 'trader_text', :name => 'trader_text'}
+  %input{:type => 'submit', :value => 'Search'}
+%ul#trader_results
+
+
+-# New Trader form, shown and submitted only when the Select Trader list doesn't have the trader the user wants.
+#new_trader_div{:style => "display:none;"}
+  %h2 New trader
+  = form_for @trader, :remote => true do |f|
+    %ul
+      - @trader.errors.full_messages.each do |m|
+        %li= m
+    = f.label :first_name
+    = f.text_field :first_name
+    %br
+    = f.label :last_name
+    = f.text_field :last_name
+    %br
+    = f.label :question
+    = f.text_area :question
+    = f.hidden_field :sprightly, :value => '0'
+    %br
+    %strong What's this 'question' business?
+    %br
+    The trader you're creating may one day come across this page and want to comment on it too, as the trader. The only person really suited to confirming their identity is you. To let them do this, simply write a security question in the text field above, that only the trader will know, so that when they click on the 'I did this job!' button, they'll be shown the question and answer it, and their answer will be emailed to you. It's up to to you say if the answer is right or not, and if so, the website will authenticate them as the trader.
+    %br
+    = f.submit "Create a new trader"
+
+%h2 ... Describe the job ...
+= form_for @job, :remote => true do |f|
+  %ul
+    - @job.errors.full_messages.each do |m|
+      %li= m
+  = f.label :title
+  = f.text_field :title
+  %br
+  = f.label :description
+  = f.text_area :description
+  = f.hidden_field :trader_id
+  = f.submit "Create a new job"
+  
+
+%h2 ... review it!
+#trader_reviewed
+  = form_for @review, :remote => true do |f|
+    %ul
+      - @review.errors.full_messages.each do |m|
+        %li= m
+    = f.label :title
+    = f.text_field :title
+    %br
+    = f.label :description
+    = f.text_area :description
+    %br
+    = f.label :mark
+    = f.select(:mark, Review.marks.map{ |m| [m, m]})
+    = f.hidden_field :reviewable, :value => "Job"
+    = f.hidden_field :reviewable_id
+    = f.submit 'Create review'
+  
+

@@ -21,18 +21,18 @@ class Trader < ActiveRecord::Base
 
   validates_presence_of :first_name
   validates_presence_of :last_name
-  validates_presence_of :question, :if => "active.false?"
+  validates_presence_of :question#, :if => "sprightly?"
 
   before_validation :set_login_and_temp_password
 
   def set_login_and_temp_password
-    unless self.active
+    unless self.sprightly?
       self.login = Digest::SHA1.hexdigest(Time.now.usec.to_s)[0,8]
       self.temp_password = Digest::SHA1.hexdigest(Time.now.usec.to_s + "blah blah blah salt salt")[0,8]
     end
   end
 
-  def as_json
+  def as_json(options)
     trader = {
       'id' => self.id,
       'name' => self.name,

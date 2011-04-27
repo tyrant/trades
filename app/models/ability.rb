@@ -76,7 +76,34 @@ class Ability
         end
         
       elsif user.instance_of? Customer
-
+        can [:create, :read], Customer
+        
+        can [:update, :destroy], Customer do |customer|
+          current_user == customer
+        end
+        
+        can [:create, :read], Trader
+        
+        can [:create, :read], Address
+        can [:update, :destroy], Address do |address|
+          current_user.addresses.include? address
+        end
+        
+        can :read, Business
+        
+        can :read, Profession
+        
+        can [:create, :read], Job
+        can [:update, :destroy], Job do |job|
+          current_user == job.customer
+        end
+        
+        can :read, Quote
+        
+        can [:create, :read], Image
+        can [:update, :destroy], Image do |image|
+          image.imageable.instance_of? Customer and image.imageable.customer == current_user
+        end
       end
     end
   end
