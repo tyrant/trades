@@ -1,6 +1,10 @@
 %h1 New Job!
 
 = form_for @job, {:multipart => true} do |f|
+  %ul
+    - @job.errors.full_messages.each do |m|
+      %li= m
+      
   = f.label :title
   = f.text_field :title
   %br

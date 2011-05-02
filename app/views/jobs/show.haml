@@ -2,6 +2,7 @@
 
 %strong Description:
 = @job.description
+
 %br
 %br
 - if @job.completed?
@@ -11,21 +12,24 @@
     This job hasn't been completed - #{link_to "submit a quote!", new_job_quote_path}
   - else
     This job hasn't been completed.
+%br
+%br
 
-%strong Address:
-%table
-  %tr
-    %td Street
-    %td= @job.address.street
-  %tr
-    %td Suburb
-    %td= @job.address.suburb
-  %tr
-    %td City
-    %td= @job.address.city
-  %tr
-    %td State
-    %td= @job.address.state
-  %tr
-    %td Country
-    %td= @job.address.country
+- if !@job.address.nil?
+  %strong Address:
+  %table
+    %tr
+      %td Street
+      %td= @job.address.street
+    %tr
+      %td Suburb
+      %td= @job.address.suburb
+    %tr
+      %td City
+      %td= @job.address.city
+    %tr
+      %td State
+      %td= @job.address.state
+    %tr
+      %td Country
+      %td= @job.address.country

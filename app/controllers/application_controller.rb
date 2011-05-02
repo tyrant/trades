@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
 
   
   # Devise workarounds
+  helper_method :user_signed_in?, :current_user, :user_session
   
   def authenticate_user!
     begin

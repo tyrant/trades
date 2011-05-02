@@ -1,0 +1,19 @@
+%h1 All Jobs
+
+- if @jobs.length != 0
+  - @jobs.each do |job|
+    .job
+      %ul
+        %li= link_to job.title, job
+        %li= job.description
+        - if !job.address.nil?
+          %li
+            %ul
+              %li= job.address.street
+              %li= job.address.suburb
+              %li= job.address.city
+              %li= job.address.state
+              %li= job.address.country
+            
+- else
+  No jobs exist just yet.

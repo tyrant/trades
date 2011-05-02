@@ -16,7 +16,7 @@ class Job < ActiveRecord::Base
   
   accepts_nested_attributes_for :address, :images, :videos, :reviews
   
-  before_create :set_completed_to_fale
+  before_create :set_completed_to_false
 
   def as_json(options)
     job = {
