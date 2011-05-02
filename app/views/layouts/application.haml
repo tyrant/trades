@@ -1,25 +1,31 @@
 !!! 5
 %html
   %head
-    %title Trades
+    %title= content_for?(:title) ? yield(:title) : "Untitled"
     = stylesheet_link_tag :all
     = javascript_include_tag :all
     = csrf_meta_tag
+    = yield :head
   %body
-  %div#user_nav
-    - if customer_signed_in?
-      Signed in as #{current_customer.login}. Not you? #{link_to 'Sign out', destroy_customer_session_path}.
-    - else 
-      #{link_to "Sign up", new_customer_registration_path} or #{link_to "sign in", new_customer_session_path}.
-      
-  %div#site_nav
-    %span= link_to 'Traders', traders_path
-    %span= link_to 'Quotes', quotes_path
-    %span= link_to 'Reviews', reviews_path
-    %span= link_to 'Jobs', jobs_path
     
-  %p{:class => "notice"}= notice
-  %p{:class => "alert"}= alert
-
-  = yield
-
+  #container
+  
+    #user_nav
+      - if user_signed_in_questionmark
+        Signed in as #{current_user.login}. Not you? #{link_to 'Sign out', destroy_user_session_path}.
+      - else 
+        #{link_to "Sign up", new_user_registration_path} or #{link_to "sign in", new_user_session_path}.
+      
+    #site_nav
+      %span= link_to 'Traders', traders_path
+      %span= link_to 'Quotes', quotes_path
+      %span= link_to 'Reviews', reviews_path
+      %span= link_to 'Jobs', jobs_path
+      - flash.each do |name, msg|
+        = content_tag :div, msg, :id => "flash_#{name}"
+       
+    %p{:class => "alert"}= alert 
+    
+    = content_tag :h1, yield(:title) if show_title?
+    = yield
+  
