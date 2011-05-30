@@ -14,6 +14,7 @@ class JobsController < ApplicationController
   end
 
   def create
+    puts params.inspect
     @job = Job.new(params[:job])
     @job.customer = current_user
     respond_to do |format|

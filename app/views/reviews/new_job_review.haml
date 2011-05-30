@@ -5,30 +5,44 @@
       $.getJSON('/traders/find.html', $(this).serialize(), function(data) {
         $("#trader_results").html("");
         $.each(data, function(index, trader) {
-          $("#trader_results").append('<li class="pointer" id="trader_' + trader.id + '">' + trader.name + '</li>');
-          $("#trader_" + trader.id).click(function() {
-            if ($("#trader_x").parent().attr('id') == $(this).attr('id')) {
-              $("#trader_x").remove();
-              $("#job_trader_id").val('');
-            } else {
-              $("#trader_x").remove();
-              $(this).html($(this).html() + '<span id="trader_x"> X</span>');
+          if (trader.id != 0) {
+            $("#trader_results").append('<li class="pointer" id="trader_' + trader.id + '">' + trader.name + '</li>');
+            $("#trader_" + trader.id).click(function() {
+              if ($("#trader_x").parent().attr('id') == $(this).attr('id')) {
+                $("#trader_x").remove();
+                $("#job_trader_id").val('');
+              } else {
+                $("#trader_x").remove();
+                $(this).html($(this).html() + '<span id="trader_x"> X</span>');
            
-              // Whack the *currently existing* trader id onto the job form.
-              $("#job_trader_id").val(trader.id);
-            }
-          });
+                // Whack the *currently existing* trader id onto the job form.
+                $("#job_trader_id").val(trader.id);
+              }
+            });
+          } else {
+            $("#trader_results").append('<li>' + trader.name + '</li>');
+          }
         });
         $("#trader_results").append('<li>Not on the list? <a href="#" id="toggle_new_trader">Add them!</a></li>');
-        $("#toggle_new_trader").click(function() { $("#new_trader_div").toggle(); return false; });
+        $("#toggle_new_trader").click(function() {
+          $("#new_trader_div").toggle();
+          var self = $(this);
+          if (self.html() == "Add them!")
+            self.html("Close this window");
+          else if (self.html() == "Close this window") 
+            self.html("Add them!");
+          return false;
+        });
       });
-      event.preventDefault();
+      return false;
     });
 
     // Custom submit - use callback to whack the *newly created* trader id onto the job form.
     $("#new_trader").submit(function(event) {
       $.post('/traders/create.json', $(this).serialize(), function(response) {
         $("#job_trader_id").val(response.id);
+        $("#trader_submit").val("Trader created!");
+        $("#trader_submit").attr('disabled', 'disabled');
       }, 'json');
       return false;
     });
@@ -37,18 +51,29 @@
     $("#new_job").submit(function(event) {
       $.post('/jobs/create.json', $(this).serialize(), function(response) {
         $("#review_reviewable_id").val(response.id);
+        $("#job_submit").val("Job created!");
+        $("#job_submit").attr('disabled', 'disabled');
       }, 'json');
       return false;
     });
     
+    $("#new_review").submit(function(event) {
+      $.post('/review/create_job_review.json', $(this).serialize(), function(response) {
+        $("#review_submit").val("Review created!");
+        $("#review_submit").attr('disabled', 'disabled');
+      }, 'json');
+      return false;
+    });
   });
   
   
-%h1 Leave a review!
-
-%input{:type => 'button', :value => 'I did this job!'}
   
-%h2 Choose a trader ...
+%h1 Quick Review
+
+- if current_user.instance_of? Trader
+  %input{:type => 'button', :value => 'I did this job!'}
+  
+%h2 (Step 1 of 3) Choose a trader
 %form#choose_trader{:name => 'choose_trader', :action => '/', :method => 'get'}
   %input{:type => 'text', :id => 'trader_text', :name => 'trader_text'}
   %input{:type => 'submit', :value => 'Search'}
@@ -57,7 +82,7 @@
 
 -# New Trader form, shown and submitted only when the Select Trader list doesn't have the trader the user wants.
 #new_trader_div{:style => "display:none;"}
-  %h2 New trader
+  %h2 (Step 1a of 3) Create a new trader
   = form_for @trader, :remote => true do |f|
     %ul
       - @trader.errors.full_messages.each do |m|
@@ -74,11 +99,11 @@
     %br
     %strong What's this 'question' business?
     %br
-    The trader you're creating may one day come across this page and want to comment on it too, as the trader. The only person really suited to confirming their identity is you. To let them do this, simply write a security question in the text field above, that only the trader will know, so that when they click on the 'I did this job!' button, they'll be shown the question and answer it, and their answer will be emailed to you. It's up to to you say if the answer is right or not, and if so, the website will authenticate them as the trader.
+    The trader you're creating a profile for may one day come across this review you're writing, and want to comment on the review, as the trader. The only person really suited to confirming their identity is you. To do this, simply write a security question in the text field above, that only the trader will know. When the trader clicks on the 'I did this job!' button on this page (shown only to traders), they'll be shown the question you wrote, and answer it. Their answer will be emailed to you, and it's up to to you say if the answer is right or not, by clicking on one of the Yes/No buttons on the email. If "Yes", the website will authenticate them as the trader.
     %br
     = f.submit "Create a new trader"
 
-%h2 ... Describe the job ...
+%h2 (Step 2 of 3) Describe the job
 = form_for @job, :remote => true do |f|
   %ul
     - @job.errors.full_messages.each do |m|
@@ -89,10 +114,11 @@
   = f.label :description
   = f.text_area :description
   = f.hidden_field :trader_id
+  %br
   = f.submit "Create a new job"
   
 
-%h2 ... review it!
+%h2 (Step 3 of 3) Review it!
 #trader_reviewed
   = form_for @review, :remote => true do |f|
     %ul

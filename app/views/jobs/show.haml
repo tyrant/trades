@@ -5,15 +5,6 @@
 
 %br
 %br
-- if @job.completed?
-  This job has been completed by #{link_to @job.trader.name, @job.trader}.
-- else
-  - if current_user.instance_of? Trader
-    This job hasn't been completed - #{link_to "submit a quote!", new_job_quote_path}
-  - else
-    This job hasn't been completed.
-%br
-%br
 
 - if !@job.address.nil?
   %strong Address:
@@ -33,3 +24,23 @@
     %tr
       %td Country
       %td= @job.address.country
+      
+%br
+- if @job.completed?
+  This job has been completed by #{link_to @job.trader.name, @job.trader}.
+  - if @job.customer == current_user
+    #{link_to "Review this job", "/jobs/#{@job.id}/review" }.
+- else
+  - if current_user.instance_of? Trader
+    This job hasn't been completed - #{link_to "submit a quote!", '/quotes/new?jobid=' + @job.id}
+  - else
+    This job hasn't been completed.
+  %br
+  - if @job.customer == current_user
+    - if @job.quotes.length != 0
+      The following quotes have been submitted for this job:
+      %ul
+        - @job.quotes.each do |quote|
+          %li #{link_to quote.name, quote}, by #{link_to quote.trader.name, trader}
+    - else
+      No quotes yet. #{link_to 'Ask traders for some!', traders_path}

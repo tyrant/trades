@@ -3,15 +3,22 @@ Trades::Application.routes.draw do
   devise_for :traders
   devise_for :customers
 
-  match 'jobs/:id/review', {:controller => 'jobs', :action => 'review'}
+  match 'jobs/:job_id/review', {:controller => 'jobs', :action => 'review'}
   resources :jobs
-  
+
+  match 'reviews/quick', {:controller => 'reviews', :action => 'new_job_review'}
+  match 'reviews/create_job_review.json', {:controller => 'reviews', :action => 'create_job_review', :format => 'json'}
   resources :reviews
+
 
   match 'traders/find', {:controller => 'traders', :action => 'find'}
   resources :traders
   
   resources :quotes
+  
+  resources :professions
+  
+  resources :businesses
   
   match ':controller(/:action(/:id))'
 
@@ -64,7 +71,7 @@ Trades::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => "welcome#index"
+  root :to => "jobs#index"
 
   # See how all your routes lay out with "rake routes"
 

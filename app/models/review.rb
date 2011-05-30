@@ -18,7 +18,7 @@ class Review < ActiveRecord::Base
       'title' => self.title,
       'description' => self.description,
       'mark' => self.mark,
-      'reviewer' => self.reviewer_id,
+      'reviewer_id' => self.reviewer_id,
       'reviewer_type' => self.reviewer_type,
       'reviewable_id' => self.reviewer_id,
       'reviewable_type' => self.reviewable_type

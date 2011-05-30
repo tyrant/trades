@@ -1,2 +1,8 @@
 .pointer {
-  cursor: pointer; }
+  cursor: pointer;
+}
+
+textarea {
+  height: 130px;
+  width: 500px;
+}

@@ -1,0 +1,10 @@
+%h1 All Traders
+
+- if @traders.length != 0
+  - @traders.each do |trader|
+    .trader
+      %ul
+        %li #{link_to trader.name, trader}
+          
+- else
+  No traders.

@@ -26,7 +26,7 @@ class Ability
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     user ||= User.new
-    if false #user.admin? # Not implemented yet!
+    if user.admin? # Not implemented yet!
       can :manage, :all
     else
       cannot :manage, :all
@@ -38,7 +38,7 @@ class Ability
         can :update, Trader do |trader|
           trader == user
         end
-
+        
         can :create, Address
         can [:read, :update, :destroy], Address do |address|
           user.addresses.contains? address
@@ -79,14 +79,14 @@ class Ability
         can [:create, :read], Customer
         
         can [:update, :destroy], Customer do |customer|
-          current_user == customer
+          user == customer
         end
         
         can [:create, :read], Trader
         
         can [:create, :read], Address
         can [:update, :destroy], Address do |address|
-          current_user.addresses.include? address
+          user.addresses.include? address
         end
         
         can :read, Business
@@ -95,14 +95,24 @@ class Ability
         
         can [:create, :read], Job
         can [:update, :destroy], Job do |job|
-          current_user == job.customer
+          user == job.customer
         end
         
         can :read, Quote
         
         can [:create, :read], Image
         can [:update, :destroy], Image do |image|
-          image.imageable.instance_of? Customer and image.imageable.customer == current_user
+          image.imageable.instance_of? Customer and image.imageable.customer == user
+        end
+        
+        can [:create, :read], Video
+        can [:update, :destroy], Video do |video|
+          video.videoable.instance_of? Customer and video.videoable.customer == user
+        end
+        
+        can [:create, :read], Review
+        can [:update, :destroy], Review do |review|
+          review.reviewer == user
         end
       end
     end

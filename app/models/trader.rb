@@ -19,16 +19,16 @@ class Trader < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 10
 
-  validates_presence_of :first_name
-  validates_presence_of :last_name
-  validates_presence_of :question#, :if => "sprightly?"
+  #validates_presence_of :first_name
+  #validates_presence_of :last_name
+  validates_presence_of :question, :if => "sprightly?"
 
-  before_validation :set_login_and_temp_password
+  before_create :set_login_and_temp_password
 
   def set_login_and_temp_password
     unless self.sprightly?
-      self.login = Digest::SHA1.hexdigest(Time.now.usec.to_s)[0,8]
-      self.temp_password = Digest::SHA1.hexdigest(Time.now.usec.to_s + "blah blah blah salt salt")[0,8]
+      self.login = Digest::SHA1.hexdigest(Time.now.to_f.to_s)[0,8]
+      self.temp_password = Digest::SHA1.hexdigest(Time.now.to_f.to_s + "blah blah blah salt salt")[0,8]
     end
   end
 
@@ -37,7 +37,7 @@ class Trader < ActiveRecord::Base
       'id' => self.id,
       'name' => self.name,
     }
-    trader.merge!({ 'business_id' => self.business_id }) unless self.business_id.nil?
+    trader['business_id'] = self.business_id unless self.business_id.nil?
     trader
   end
 

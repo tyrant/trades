@@ -1,0 +1,26 @@
+%h1= @trader.name
+
+%p Email: #{@trader.email}
+
+%h3 Professions
+%ul
+  - @trader.professions.each do |profession|
+    %li= profession.name
+
+- @trader.addresses.each do |address|
+  &nbsp;
+%h3 Praise
+- if @self_reviews.length != 0
+  - @self_reviews.each do |review|
+    = review.to_json
+- else
+  Nothing just yet.
+%h3 Job Praise
+- if @job_reviews.length != 0
+  - @job_reviews.each do |review|
+    = review.to_json
+- else
+  Nothing just yet.
+  
+- if @trader == current_user 
+  = link_to 'Edit your profile', edit_trader_path(@trader)
