@@ -26,8 +26,6 @@
       %span #{link_to 'Businesses', businesses_path} #{link_to '(+)', new_business_path}
       - flash.each do |name, msg|
         = content_tag :div, msg, :id => "flash_#{name}"
-       
-    %p{:class => "alert"}= alert 
     
     = content_tag :h1, yield(:title) if show_title?
     = yield
