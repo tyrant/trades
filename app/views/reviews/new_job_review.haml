@@ -82,7 +82,7 @@
 
 -# New Trader form, shown and submitted only when the Select Trader list doesn't have the trader the user wants.
 #new_trader_div{:style => "display:none;"}
-  %h2 (Step 1a of 3) Create a new trader
+  %h2 (Step 1-and-a-bit of 3) Create a new trader
   = form_for @trader, :remote => true do |f|
     %ul
       - @trader.errors.full_messages.each do |m|

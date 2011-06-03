@@ -1,5 +1,7 @@
 class ReviewsController < ApplicationController
 
+  before_filter :authenticate_user!
+
 
   # Grab the HTML for a job review.
   def new_job_review

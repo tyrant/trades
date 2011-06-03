@@ -42,4 +42,5 @@ gem "haml"
 gem "sass"
 gem "will_paginate"
 gem "jquery-rails"
-
+gem "json"
+gem "flutie"

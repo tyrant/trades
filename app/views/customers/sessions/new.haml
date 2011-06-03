@@ -3,8 +3,8 @@
 %span You're not a customer? #{link_to "Sign in as a trader", '/traders/sign_in'}.
 
 = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-  %p= f.label :login
-  %p= f.text_field :login
+  %p= f.label :email  
+  %p= f.text_field :email
 
   %p= f.label :password
   %p= f.password_field :password

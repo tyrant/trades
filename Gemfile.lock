@@ -47,6 +47,7 @@ GEM
       rpx_now (>= 0.6.23)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    flutie (1.1.8)
     graticule (2.0.1)
       activesupport
       happymapper (>= 0.3.0)
@@ -123,8 +124,10 @@ DEPENDENCIES
   cancan
   devise
   devise_rpx_connectable
+  flutie
   haml
   jquery-rails
+  json
   nifty-generators
   paperclip
   rails (= 3.0.7)

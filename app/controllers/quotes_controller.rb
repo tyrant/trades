@@ -1,5 +1,7 @@
 class QuotesController < ApplicationController
 
+  before_filter :authenticate_user!
+
   def index
     @quotes = Quote.all
   end

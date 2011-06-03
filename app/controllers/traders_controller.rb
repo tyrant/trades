@@ -1,5 +1,7 @@
 class TradersController < ApplicationController
 
+  before_filter :authenticate_user!
+
   def index
     @traders = Trader.where(:sprightly => true)
   end
