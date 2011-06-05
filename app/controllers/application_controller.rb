@@ -10,62 +10,39 @@ class ApplicationController < ActionController::Base
 
   
   # Devise workarounds
-  helper_method :user_signed_in_questionmark, :current_user, :user_session, :destroy_user_session_path, :new_user_registration_path, :new_user_session_path
+  helper_method :'user_signed_in?', :current_user, :user_session
+  helper_method :destroy_user_session_path, :new_user_registration_path
+  helper_method :new_user_session_path
   
   def authenticate_user!
-    begin
-      authenticate_customer!
-    rescue
-      authenticate_trader!
-    end
+    user_a?('customer') ? authenticate_customer! : authenticate_trader!
   end
   
-  def user_signed_in_questionmark
-    begin
-      return customer_signed_in?
-    rescue
-      return trader_signed_in?
-    end
+  def user_signed_in?
+    user_a?('customer') ? customer_signed_in? : trader_signed_in?
   end
   
   def current_user
-    begin
-      return current_customer
-    rescue
-      return current_trader
-    end
+    user_a?('customer') ? current_customer : current_trader
   end
   
   def user_session
-    begin
-      return customer_session
-    rescue
-      return trader_session
-    end
+    user_a?('customer') ? customer_session : trader_session
   end
   
   def destroy_user_session_path
-    begin
-      return destroy_customer_session_path
-    rescue
-      return destroy_trader_session_path
-    end
+    user_a?('customer') ? destroy_customer_session_path : destroy_trader_session_path
   end
   
   def new_user_registration_path
-    begin
-      return new_customer_registration_path
-    rescue
-      return new_trader_registration_path
-    end
+    user_a?('customer') ? new_customer_registration_path : new_trader_registration_path
   end
   
   def new_user_session_path
-    begin
-      return new_customer_session_path
-    rescue
-      return new_trader_session_path
-    end
+    user_a?('customer') ? new_customer_session_path : new_trader_session_path
   end
   
+  def user_a?(type)
+    request.env['warden'].authenticate!(:scope => type)
+  end
 end

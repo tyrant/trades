@@ -31,6 +31,7 @@ group :development, :test do
   gem "nifty-generators"
 end
 
+gem "rake", "0.8.7"
 gem "devise"
 gem "cancan"
 gem "acts_as_geocodable"
@@ -40,4 +41,5 @@ gem "haml"
 gem "sass"
 gem "will_paginate"
 gem "jquery-rails"
+gem "formtastic"
 
