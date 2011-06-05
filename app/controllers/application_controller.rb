@@ -42,7 +42,9 @@ class ApplicationController < ActionController::Base
     user_a?('customer') ? new_customer_session_path : new_trader_session_path
   end
   
+  # See https://github.com/plataformatec/devise/blob/master/lib/devise/controllers/helpers.rb
+  # and look at the method signed_in? to see what's what.
   def user_a?(type)
-    request.env['warden'].authenticate!(:scope => type)
+    request.env['warden'].authenticate?(:scope => type)
   end
 end

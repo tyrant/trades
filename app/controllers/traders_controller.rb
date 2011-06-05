@@ -54,7 +54,7 @@ class TradersController < ApplicationController
     respond_to do |format|
       if @trader.save
         format.html { redirect_to @trader, :notice => "Successfully created a new Trader." }  
-        format.json { render :json => @trader }
+        format.json { render :json => @trader.to_json }
       end
     end
   end    
