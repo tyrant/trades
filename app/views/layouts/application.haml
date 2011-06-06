@@ -6,28 +6,27 @@
     = javascript_include_tag :all
     = csrf_meta_tag
     = yield :head
-  %body
-    
-  #container
-  
-    #user_nav
-      - if user_signed_in?
-        Signed in as #{current_user.email}. Not you? #{link_to 'Sign out', destroy_user_session_path}.
-      - else 
-        #{link_to "Sign up", new_user_registration_path} or #{link_to "sign in", new_user_session_path}.
+  %body  
+    #container
+      #user_nav
+        - if user_signed_in?
+          Signed in as #{current_user.email}. Not you? #{link_to 'Sign out', destroy_user_session_path}.
+        - else 
+          #{link_to "Sign up", new_user_registration_path} or #{link_to "sign in", new_user_session_path}.
       
-    #site_nav
-      - if user_is? Customer
-        %span #{link_to 'Quick Review', '/reviews/quick'}
-      %span #{link_to 'Traders', traders_path} #{link_to '(+)', new_trader_path}
-      %span #{link_to 'Quotes', quotes_path} #{link_to '(+)', new_quote_path}
-      %span #{link_to 'Reviews', reviews_path} #{link_to '(+)', new_review_path}
-      %span #{link_to 'Jobs', jobs_path} #{link_to '(+)', new_job_path}
-      %span #{link_to 'Professions', professions_path} #{link_to '(+)', new_profession_path}
-      %span #{link_to 'Businesses', businesses_path} #{link_to '(+)', new_business_path}
-      - flash.each do |name, msg|
-        = content_tag :div, msg, :id => "flash_#{name}"
+      #site_nav
+        - if current_user.instance_of? Customer
+          %span #{link_to 'Quick Review', '/reviews/quick'}
+        - if user_signed_in?
+          %span #{link_to 'Traders', traders_path} #{link_to '(+)', new_trader_path}
+          %span #{link_to 'Quotes', quotes_path} #{link_to '(+)', new_quote_path}
+          %span #{link_to 'Reviews', reviews_path} #{link_to '(+)', new_review_path}
+          %span #{link_to 'Jobs', jobs_path} #{link_to '(+)', new_job_path}
+          %span #{link_to 'Professions', professions_path} #{link_to '(+)', new_profession_path}
+          %span #{link_to 'Businesses', businesses_path} #{link_to '(+)', new_business_path}
+          - flash.each do |name, msg|
+            = content_tag :div, msg, :id => "flash_#{name}"
     
-    = content_tag :h1, yield(:title) if show_title?
-    = yield
+      = content_tag :h1, yield(:title) if show_title?
+      = yield
   
