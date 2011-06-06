@@ -50,6 +50,7 @@ class Ability
 
         can [:create, :read], Profession
 
+        cannot :manage, Job
         can :read, Job
         
         can [:create, :read], Quote

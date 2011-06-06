@@ -73,7 +73,7 @@
 - if current_user.instance_of? Trader
   %input{:type => 'button', :value => 'I did this job!'}
   
-%h2 (Step 1 of 3) Choose a trader
+%h2#step_1 (Step 1 of 3) Choose a trader
 %form#choose_trader{:name => 'choose_trader', :action => '/', :method => 'get'}
   %input{:type => 'text', :id => 'trader_text', :name => 'trader_text'}
   %input{:type => 'submit', :value => 'Search'}
@@ -82,7 +82,7 @@
 
 -# New Trader form, shown and submitted only when the Select Trader list doesn't have the trader the user wants.
 #new_trader_div{:style => "display:none;"}
-  %h2 (Step 1-and-a-bit of 3) Create a new trader
+  %h2#step_1a (Step 1-and-a-bit of 3) Create a new trader
   = form_for @trader, :remote => true do |f|
     %ul
       - @trader.errors.full_messages.each do |m|
@@ -103,8 +103,8 @@
     %br
     = f.submit "Create a new trader"
 
-%h2 (Step 2 of 3) Describe the job
-= form_for @job, :remote => true do |f|
+%h2#step_2 (Step 2 of 3) Describe the job
+= form_for @job, :remote => true, :display => 'none' do |f|
   %ul
     - @job.errors.full_messages.each do |m|
       %li= m
@@ -118,9 +118,9 @@
   = f.submit "Create a new job"
   
 
-%h2 (Step 3 of 3) Review it!
+%h2#step_3 (Step 3 of 3) Review it!
 #trader_reviewed
-  = form_for @review, :remote => true do |f|
+  = form_for @review, :remote => true, :display => 'none' do |f|
     %ul
       - @review.errors.full_messages.each do |m|
         %li= m

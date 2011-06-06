@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
 
   
   # Devise workarounds
+  
   helper_method :'user_signed_in?', :current_user, :user_session, :destroy_user_session_path, :new_user_registration_path, :new_user_session_path
     
   def current_user

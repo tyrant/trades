@@ -32,7 +32,7 @@
     #{link_to "Review this job", "/jobs/#{@job.id}/review" }.
 - else
   - if current_user.instance_of? Trader
-    This job hasn't been completed - #{link_to "submit a quote!", "/quotes/new?jobid=#{@job.id}"}
+    This job hasn't been completed - #{link_to "submit a quote!", "/quotes/new?job=#{@job.id}"}
   - else
     This job hasn't been completed.
   %br
