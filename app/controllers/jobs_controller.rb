@@ -22,10 +22,12 @@ class JobsController < ApplicationController
     @job.customer = current_user
     respond_to do |format|
       if @job.save
-        format.json { render :json => @job.to_json }
+        puts "SAVED JOB: #{@job.inspect}"
+        format.js { render 'after_ajax_create.haml', :layout => false }
         format.html { redirect_to @job, :notice => "New job created" }
       else
-        format.json { render :json => @job.errors }
+        puts "NON-SAVED JOB: #{@job.errors.inspect}"
+        format.js { render 'after_ajax_create.haml', :layout => false }
         format.html { render :action => "new" }
       end
     end

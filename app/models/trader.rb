@@ -19,8 +19,8 @@ class Trader < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 10
 
-  #validates_presence_of :first_name
-  #validates_presence_of :last_name
+  validates_presence_of :first_name
+  validates_presence_of :last_name
   validates_presence_of :question, :if => "sprightly?"
 
   before_create :set_login_and_temp_password

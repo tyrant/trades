@@ -6,3 +6,8 @@ textarea {
   height: 130px;
   width: 500px;
 }
+
+#map_canvas {
+  height: 400px;
+  width: 500px;
+}

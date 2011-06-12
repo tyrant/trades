@@ -10,20 +10,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110514073608) do
+ActiveRecord::Schema.define(:version => 20110611233344) do
 
   create_table "addresses", :force => true do |t|
-    t.string   "street"
-    t.string   "city"
     t.string   "state"
-    t.string   "country"
     t.integer  "locatable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "imageable_id"
     t.string   "imageable_type", :default => "Customer"
-    t.string   "suburb"
     t.string   "locatable_type", :default => "Job"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "businesses", :force => true do |t|

@@ -1,6 +1,6 @@
 class AddVideoableReferenceToVideo < ActiveRecord::Migration
   def self.up
-    alter_table :videos do |t|
+    change_table :videos do |t|
       t.references :videoable, :polymorphic => {:default => 'Quote'}
     end
   end

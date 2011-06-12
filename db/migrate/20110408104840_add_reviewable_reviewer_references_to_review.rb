@@ -1,6 +1,6 @@
 class AddReviewableReviewerReferencesToReview < ActiveRecord::Migration
   def self.up
-    alter_table :reviews do |t|
+    change_table :reviews do |t|
       t.references :reviewable, :polymorphic => {:default => 'Job'}
       t.references :reviewer, :polymorphic => {:default => 'Customer'}
     end

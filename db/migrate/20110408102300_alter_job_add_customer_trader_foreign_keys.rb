@@ -1,6 +1,6 @@
 class AlterJobAddCustomerTraderForeignKeys < ActiveRecord::Migration
   def self.up
-   alter_table :jobs do |t|
+   change_table :jobs do |t|
      t.references :customer
      t.references :trader
    end

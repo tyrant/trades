@@ -1,6 +1,6 @@
 class AddImageableReferenceToImage < ActiveRecord::Migration
   def self.up
-    alter_table :images do |t|
+    change_table :images do |t|
      t.references :imageable, :polymorphic => {:default => 'Job'}
     end
   end
