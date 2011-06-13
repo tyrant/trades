@@ -81,8 +81,10 @@ ActiveRecord::Schema.define(:version => 20110611233344) do
   end
 
   create_table "professions_traders", :id => false, :force => true do |t|
-    t.integer "profession_id"
-    t.integer "trader_id"
+    t.integer  "profession_id"
+    t.integer  "trader_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "quotes", :force => true do |t|

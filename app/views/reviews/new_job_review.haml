@@ -47,14 +47,6 @@
       return false;
     });*/
     
-    $("#new_review").submit(function(event) {
-      $.post('/review/create_job_review.json', $(this).serialize(), function(response) {
-        $("#review_submit").val("Review created!");
-        $("#review_submit").attr('disabled', 'disabled');
-      }, 'json');
-      return false;
-    });
-    
     // Mapplet!
     var map = new google.maps.Map(document.getElementById("map_canvas"), {
       zoom: 5,

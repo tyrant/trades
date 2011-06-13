@@ -1,0 +1,1 @@
+$("#new_job").children().firstChild().prepend('<ul><li>' + #{@job.errors.full_messages.collect {|m| m}.join('</li><li>')} + '</li></ul>');

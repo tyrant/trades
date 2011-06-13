@@ -15,10 +15,16 @@ class ReviewsController < ApplicationController
   end
   
   # Create a new job review.
-  def create_job_review
-    @review = Review.create(params[:review])
-    respond_to do |format|
-      format.html { redirect_to @review, :notice => "Successfully created a new review" }
+  def create
+    @review = Review.new(params[:review])
+
+    respond_to do |format| 
+      if @review.save
+        format.html { redirect_to @review, :notice => "Successfully created a new review" }
+        format.js { render js_root + 'reviews/ajax_create_success.js', :layout => false }
+      else
+        format.js { render js_root + 'reviews/ajax_create_fail.js', :layout => false }
+      end
     end
   end
   

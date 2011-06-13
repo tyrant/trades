@@ -1,6 +1,0 @@
-- if @job.errors.length == 0
-  $("#review_reviewable_id").val(#{@job.id});
-  $("#job_submit").val("Job created!");
-  $("#job_submit").attr('disabled', 'disabled');
-- else
-  $("#new_job").children().firstChild().prepend('<ul><li>' + #{@job.errors.full_messages.collect {|m| m}.join('</li><li>')} + '</li></ul>');
