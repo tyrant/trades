@@ -49,7 +49,6 @@ class TradersController < ApplicationController
   #       be emailed to the Customer, who then confirms or denies the question's correctness. If it's right, the trader will 
   #       then be asked for an email/password, the temporary ones will be wiped, the 'sprightly' flag will be set to True,
   #       and then they can behave, on the site, as the Trader in question.
-  
   def create
     @trader = Trader.new(params[:trader])
     
@@ -70,7 +69,7 @@ class TradersController < ApplicationController
 
   def update
     @trader = Trader.find(params[:trader])
-    if @trader.active? # and @trader.update_attributes ...
+    if @trader.sprightly? and @trader.update_attributes
     
     else
     
