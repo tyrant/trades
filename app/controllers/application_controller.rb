@@ -1,7 +1,5 @@
 class ApplicationController < ActionController::Base
 
-  js_root = RAILS_ROOT + '/public/javascripts/views/'
-
   protect_from_forgery
   
   rescue_from CanCan::AccessDenied do |e|
