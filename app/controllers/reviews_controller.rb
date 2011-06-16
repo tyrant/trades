@@ -21,9 +21,9 @@ class ReviewsController < ApplicationController
     respond_to do |format| 
       if @review.save
         format.html { redirect_to @review, :notice => "Successfully created a new review" }
-        format.js { render js_root + 'reviews/ajax_create_success.js', :layout => false }
+        format.js { render 'jax_create_success.js', :layout => false }
       else
-        format.js { render js_root + 'reviews/ajax_create_fail.js', :layout => false }
+        format.js { render 'ajax_create_fail.js', :layout => false }
       end
     end
   end

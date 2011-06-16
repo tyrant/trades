@@ -2,7 +2,7 @@ Trades::Application.routes.draw do
 
   devise_for :traders
   devise_for :customers
-
+  
   match 'jobs/:job_id/review', {:controller => 'jobs', :action => 'review'}
   resources :jobs
 
@@ -19,6 +19,8 @@ Trades::Application.routes.draw do
   resources :professions
   
   resources :businesses
+  
+  resources :images
   
   match ':controller(/:action(/:id))'
 

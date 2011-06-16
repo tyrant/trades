@@ -21,7 +21,9 @@ class TradersController < ApplicationController
   # Responds to the Ajax-based Find Trader form on the Review page (for starters)
   def find
     t = "%#{params[:trader_text]}%"
-    @traders = Trader.where("first_name LIKE ? OR last_name LIKE ?", t, t).paginate(:page => params[:page])
+    @traders = Trader.where("(t.first_name LIKE ? OR t.last_name LIKE ?)", t, t)
+    @traders = @traders.join(:professions_traders => :professions).where(:professions => {:name => params[:profession]}) if params.has_key? 'profession'
+    @traders = @traders.paginate(:page => params[:page])
     if @traders.length > 0
       render :json => @traders.to_json
     else
@@ -55,7 +57,7 @@ class TradersController < ApplicationController
     respond_to do |format|
       if @trader.save
         format.html { redirect_to @trader, :notice => "Successfully created a new Trader." }  
-        format.js { render js_root + 'traders/ajax_create_success.js' }
+        format.js { render 'ajax_create_success.js' }
       else
         format.html { render :action => 'new', :errors => @trader.errors }
         format.js { render :json => @trader.errors.to_json }

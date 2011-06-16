@@ -16,7 +16,7 @@ class Job < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :description
   
-  accepts_nested_attributes_for :address, :images, :videos, :reviews
+  accepts_nested_attributes_for :address, :videos, :reviews
   
   before_create :set_completed_to_false
 
@@ -34,5 +34,15 @@ class Job < ActiveRecord::Base
   
   def set_completed_to_false
     self.completed = false
+  end
+  
+  # The New Job form, at /reviews/quick, Ajaxly uploads images for this job - but of course,
+  # they're uploaded before the Job object is created. How do you associate those images with this Job?
+  # Simple - create a token for each image; send the token along with the Ajax upload, and when
+  # the New Job form is submitted, send every token generated along with it. After the Job object
+  # is created, match the token list against the tokens for all Image objects, and matches mean
+  # associations. This function does that.
+  def set_images(tokens)
+    self.images = Image.where('token IN ?', "(#{tokens})").to_a
   end
 end

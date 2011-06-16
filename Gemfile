@@ -39,6 +39,7 @@ gem "devise_rpx_connectable"
 gem "cancan"
 gem "acts_as_geocodable"
 gem "paperclip"
+gem "rmagick" # This needs imagemagick installed, at http://rmagick.rubyforge.org/install-osx.html (or OS of your choice)
 gem "acts_as_commentable_with_threading"
 gem "haml"
 gem "sass"

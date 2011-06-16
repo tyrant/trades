@@ -74,6 +74,11 @@
               $("#address_feedback").html("Address selected at: <em>" + marker.formatted_address + "</em>");
             });
           }
+          // Only one result? Click it.
+          if (markers.length == 1) {
+            //alert(markers.length);
+            markers[0].click();
+          }
         } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
           $("#address_feedback").html("No results! Try being a bit more specific.");
         } else {
@@ -81,19 +86,50 @@
         }
       });
     });
+
+    // Uploadify
+    $("#job_upload").uploadify({
+      uploader: '/uploadify/uploadify.swf',
+      script: '/images',
+      cancelImg: '/uploadify/cancel.png',
+      auto: true,
+      onSelect: function(event, ID, fileObj) {
+        // Generate unique token and append to job form hidden field and image upload data.
+        var new_token = hex_sha1(Date.now() + 'b');
+        var cur_tokens = $("#image_tokens").val();
+        if (cur_tokens) cur_tokens = cur_tokens.split(',');
+        else cur_tokens = [];
+        cur_tokens.push(new_token);
+        $("#image_tokens").val(cur_tokens.join(','));
+        $("#job_upload").uploadifySettings('scriptData', {token: new_token});
+      },
+      onComplete: function(event, ID, fileObj, response, data) {
+        // Append to a rather nice thumbnail list.
+        $("#job_thumbs").append('<li>' + response + '</li>');
+      },
+      queueSizeLimit: 5
+    });
+
+    $("#new_job_image").click(function() {
+       
+    });
   });
   
   
 %h1 Quick Review
 
-- if current_user.instance_of? Trader
+- if current_user.instance_of? Trader and @job.trader.nil?
   %input{:type => 'button', :value => 'I did this job!'}
   
 %h2#step_1 (Step 1 of 3) Choose a trader
+%p
+  %strong TODO
+  %em The list of returned Traders needs to have sorting options - sort by relevance (algorithm to deduce relevance TBD), distance from current location (either taken from the Google Map below or deduced by IP), average fee, reputation? Filtered by name, profession. Presentation: bullet list, first+last names, thumbnail image, link to Trader profile page. Click on Trader thumbnail to select for job below.
 %form#choose_trader{:name => 'choose_trader', :action => '/', :method => 'get', :class => 'formtastic'}
   %fieldset{:class => 'inputs'}
     %input{:type => 'text', :id => 'trader_text', :name => 'trader_text'}
     %input{:type => 'submit', :value => 'Search'}
+
 %ul#trader_results
 
 
@@ -116,7 +152,10 @@
       = f.submit "Create a new trader"
 
 %h2#step_2 (Step 2 of 3) Describe the job
-= semantic_form_for @job, :remote => true do |f|
+%p
+  %strong TODO
+  %em Title and Description done - jobs are Imageable and Videoable too. Find relevant jQuery plugins to handle and upload both. Rails has the Paperclip gem, which handles images very nicely - verify that it can do videos too. Google map - more polishing. Add animation for adding markers, plus, say, 200ms delay between adding each; if only one marker appears, then automatically select it; make it more clear to the user that they have to click on a marker to select that address. Also, Devise error when creating Job - template not found? What's up with that?
+= semantic_form_for @job, :remote => true, :html => { :multipart => true } do |f|
   %ul
     - @job.errors.full_messages.each do |m|
       %li= m
@@ -129,16 +168,24 @@
       = a.input :latitude, :as => :hidden
       = a.input :longitude, :as => :hidden
     %li.required
-      %label{:for => 'address'}
-        Address
+      %label{:for => 'address'} Address
       %input#address{:type => 'text'}
       %input#address_button{:type => 'button', :value => 'Get Address'}
       %span#address_feedback
       #map_canvas
+    %li.required
+      %label{:for => 'image'} Images
+    %input#job_upload{:type => 'file'}
+    %br
+    %input#image_tokens{:name => 'job[image_tokens]', :type => 'hidden', :value => ''}
+    %ul#job_thumbs
     = f.submit "Create a new job"
   
 
 %h2#step_3 (Step 3 of 3) Review it!
+%p
+  %strong TODO
+  %em Similar deal with Reviews as Jobs - get Imageable and Videoable cranking along.
 #trader_reviewed
   = semantic_form_for @review, :remote => true do |f|
     %ul
