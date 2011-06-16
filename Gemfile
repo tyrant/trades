@@ -32,7 +32,7 @@ group :development, :test do
   gem "nifty-generators"
 end
 
-gem "mysql2", '~> 0.2.7'
+gem "mysql2", '~> 0.2.7' # Do 'sudo apt-get install libmysql-ruby libmysqlclient-dev' for Ubuntu
 gem "rake", "0.8.7"
 gem "devise"
 gem "devise_rpx_connectable"
