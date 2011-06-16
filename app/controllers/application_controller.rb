@@ -5,6 +5,17 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |e|
     redirect_to root_url, :alert => e.message
   end
+  
+  before_filter do
+    if params['controller'] == 'images' and params['action'] == 'create'
+      # Re-mould params from what Uploadify supplies it as, to what Paperclip expects it as.
+      params[:image] = {}
+      params[:image][:token] = params[:token]
+      params[:image][:image] = params['Filedata']
+      params.delete 'Filedata'
+      params.delete 'token'
+    end
+  end
 
   
   # Devise workarounds
@@ -12,7 +23,6 @@ class ApplicationController < ActionController::Base
   helper_method :destroy_user_session_path, :new_user_registration_path
   helper_method :new_user_session_path
     
-
   def authenticate_user!
     user_a?('customer') ? authenticate_customer! : authenticate_trader!
   end

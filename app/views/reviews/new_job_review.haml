@@ -76,7 +76,7 @@
           }
           // Only one result? Click it.
           if (markers.length == 1) {
-            alert(markers.length);
+            //alert(markers.length);
             markers[0].click();
           }
         } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
@@ -88,30 +88,30 @@
     });
 
     // Uploadify
-    $("#job_image_image").uploadify({
+    $("#job_upload").uploadify({
       uploader: '/uploadify/uploadify.swf',
       script: '/images',
       cancelImg: '/uploadify/cancel.png',
       auto: true,
       onSelect: function(event, ID, fileObj) {
         // Generate unique token and append to job form hidden field and image upload data.
-        var new_token = hex_sha1(Date.now().getTime());
-        var cur_tokens = $("#new_job[image_tokens]").val().split(',')
+        var new_token = hex_sha1(Date.now() + 'b');
+        var cur_tokens = $("#image_tokens").val();
+        if (cur_tokens) cur_tokens = cur_tokens.split(',');
+        else cur_tokens = [];
         cur_tokens.push(new_token);
-        $("#new_job[image_tokens]").val(cur_tokens.join(','));
-
-        $("#job_image_image").uploadifySettings('scriptData', {token: new_token});
+        $("#image_tokens").val(cur_tokens.join(','));
+        $("#job_upload").uploadifySettings('scriptData', {token: new_token});
       },
       onComplete: function(event, ID, fileObj, response, data) {
         // Append to a rather nice thumbnail list.
-        $("#job_thumbs").append('<li>' + 'stuff' + '</li>');
+        $("#job_thumbs").append('<li>' + response + '</li>');
       },
-      queueSizeLimit: 5,
-      rollover: true
+      queueSizeLimit: 5
     });
 
     $("#new_job_image").click(function() {
-      
+       
     });
   });
   
@@ -153,8 +153,8 @@
 %h2#step_2 (Step 2 of 3) Describe the job
 %p
   %strong TODO
-  %em Title and Description done - jobs are Imageable and Videoable too. Find relevant jQuery plugins to handle and upload both. Rails has the Paperclip gem, which handles images very nicely - verify that it can do videos too. Google map - more polishing. Add animation for adding markers, plus, say, 200ms delay between adding each; if only one marker appears, then automatically select it; make it more clear to the user that they have to click on a marker to select that address. Also, Devise error when creating Job - template not found? What's up with that? Also have a 'Similar Jobs' list on RHS, to act as a 
-= semantic_form_for @job, :remote => true do |f|
+  %em Title and Description done - jobs are Imageable and Videoable too. Find relevant jQuery plugins to handle and upload both. Rails has the Paperclip gem, which handles images very nicely - verify that it can do videos too. Google map - more polishing. Add animation for adding markers, plus, say, 200ms delay between adding each; if only one marker appears, then automatically select it; make it more clear to the user that they have to click on a marker to select that address. Also, Devise error when creating Job - template not found? What's up with that?
+= semantic_form_for @job, :remote => true, :html => { :multipart => true } do |f|
   %ul
     - @job.errors.full_messages.each do |m|
       %li= m
@@ -174,11 +174,9 @@
       #map_canvas
     %li.required
       %label{:for => 'image'} Images
-    = f.semantic_fields_for :image do |i|
-      %input#new_job_image{:type => 'button', :value =>'Add another image'}
-      = i.file_field :image
+    %input#job_upload{:type => 'file'}
     %br
-    = f.input :image_tokens, :as => :hidden
+    %input#image_tokens{:name => 'job[image_tokens]', :type => 'hidden', :value => ''}
     %ul#job_thumbs
     = f.submit "Create a new job"
   

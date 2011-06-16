@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110614005226) do
+ActiveRecord::Schema.define(:version => 20110615012803) do
 
   create_table "addresses", :force => true do |t|
     t.string   "state"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20110614005226) do
     t.string   "image_content_type"
     t.string   "image_file_size"
     t.string   "image_updated_at"
+    t.string   "token"
   end
 
   create_table "jobs", :force => true do |t|

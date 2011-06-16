@@ -102,6 +102,7 @@ GEM
       rake (>= 0.8.7)
       thor (~> 0.14.4)
     rake (0.8.7)
+    rmagick (2.13.1)
     rpx_now (0.6.24)
       json_pure
     sass (3.1.2)
@@ -139,6 +140,7 @@ DEPENDENCIES
   paperclip
   rails (= 3.0.7)
   rake (= 0.8.7)
+  rmagick
   sass
   sqlite3-ruby
   webrat
