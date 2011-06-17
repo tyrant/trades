@@ -17,17 +17,16 @@ class JobsController < ApplicationController
   end
 
   def create
-    puts "CREATING JOB WITH #{params.inspect}"
+    puts params.inspect
+    image_tokens = params[:job].delete 'image_tokens'
     @job = Job.new(params[:job])
     @job.customer = current_user
     respond_to do |format|
       if @job.save
-        @job.set_images(params[:image_tokens])
-        puts "SAVED JOB: #{@job.inspect}"
+        @job.set_images(image_tokens)
         format.js { render 'ajax_create_success.js', :layout => false }
         format.html { redirect_to @job, :notice => "New job created" }
       else
-        puts "NON-SAVED JOB: #{@job.errors.inspect}"
         format.js { render 'ajax_create_fail.js', :layout => false }
         format.html { render :action => "new" }
       end

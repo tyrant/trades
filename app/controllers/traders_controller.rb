@@ -21,7 +21,7 @@ class TradersController < ApplicationController
   # Responds to the Ajax-based Find Trader form on the Review page (for starters)
   def find
     t = "%#{params[:trader_text]}%"
-    @traders = Trader.where("(t.first_name LIKE ? OR t.last_name LIKE ?)", t, t)
+    @traders = Trader.where("(first_name LIKE ? OR last_name LIKE ?)", t, t)
     @traders = @traders.join(:professions_traders => :professions).where(:professions => {:name => params[:profession]}) if params.has_key? 'profession'
     @traders = @traders.paginate(:page => params[:page])
     if @traders.length > 0
@@ -52,8 +52,8 @@ class TradersController < ApplicationController
   #       then be asked for an email/password, the temporary ones will be wiped, the 'sprightly' flag will be set to True,
   #       and then they can behave, on the site, as the Trader in question.
   def create
+    puts "STARTING CREATE"
     @trader = Trader.new(params[:trader])
-    
     respond_to do |format|
       if @trader.save
         format.html { redirect_to @trader, :notice => "Successfully created a new Trader." }  
