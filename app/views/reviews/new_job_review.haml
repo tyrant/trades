@@ -72,12 +72,14 @@
             markers.push(marker);
             google.maps.event.addListener(marker, 'click', function() {
               $("#address_feedback").html("Address selected at: <em>" + marker.formatted_address + "</em>");
+              $("#job_address_lat").val(marker.getPosition().lat());
+              $("#job_address_long").val(marker.getPosition().lng());
             });
           }
           // Only one result? Click it.
           if (markers.length == 1) {
             //alert(markers.length);
-            markers[0].click();
+            //markers[0].click();
           }
         } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
           $("#address_feedback").html("No results! Try being a bit more specific.");
@@ -107,10 +109,6 @@
         $("#job_thumbs").append('<li><img src="' + response + '" /></li>');
       },
       queueSizeLimit: 5
-    });
-
-    $("#new_job_image").click(function() {
-       
     });
   });
   
@@ -161,10 +159,8 @@
     = f.input :title
     = f.input :description
     = f.input :trader_id, :as => :hidden
-    = f.inputs :latitude, :longitude, :for => :address, :as => :hidden
-    = f.semantic_fields_for :address do |a|
-      = a.input :latitude, :as => :hidden
-      = a.input :longitude, :as => :hidden
+    %input#job_address_lat{:type => 'hidden', :name => 'job[address_attributes][latitude]'}
+    %input#job_address_long{:type => 'hidden', :name => 'job[address_attributes][longitude]'}
     %li.required
       %label{:for => 'address'} Address
       %input#address{:type => 'text'}

@@ -34,6 +34,7 @@ class Job < ActiveRecord::Base
   
   def set_completed_to_false
     self.completed = false
+    true
   end
   
   # The New Job form, at /reviews/quick, Ajaxly uploads images for this job - but of course,

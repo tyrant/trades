@@ -4,7 +4,7 @@ class ImagesController < ApplicationController
     @image = Image.new(params[:image])
     respond_to do |format|
       if @image.save
-        format.html { render :json => @image.path(:thumb) }
+        format.html { render :json => @image.path(:medium) }
       else
         format.html { render :json => @image.errors }
       end
