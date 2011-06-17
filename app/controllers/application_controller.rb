@@ -6,8 +6,9 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, :alert => e.message
   end
   
+  # Pre-controller params massages.
   before_filter do
-    if params['controller'] == 'images' and params['action'] == 'create'
+    if params['controller'] == 'images' && params['action'] == 'create'
       # Re-mould params from what Uploadify supplies it as, to what Paperclip expects it as.
       params[:image] = {}
       params[:image][:token] = params[:token]

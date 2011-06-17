@@ -104,8 +104,7 @@
         $("#job_upload").uploadifySettings('scriptData', {token: new_token});
       },
       onComplete: function(event, ID, fileObj, response, data) {
-        // Append to a rather nice thumbnail list.
-        $("#job_thumbs").append('<li>' + response + '</li>');
+        $("#job_thumbs").append('<li><img src="' + response + '" /></li>');
       },
       queueSizeLimit: 5
     });
