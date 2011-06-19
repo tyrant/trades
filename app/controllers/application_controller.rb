@@ -8,13 +8,25 @@ class ApplicationController < ActionController::Base
   
   # Pre-controller params massages.
   before_filter do
+  
     if params['controller'] == 'images' && params['action'] == 'create'
+    
       # Re-mould params from what Uploadify supplies it as, to what Paperclip expects it as.
       params[:image] = {}
       params[:image][:token] = params[:token]
       params[:image][:image] = params['Filedata']
       params.delete 'Filedata'
       params.delete 'token'
+      
+    elsif params['controller'] == 'reviews' && params['action'] == 'create'
+    
+      params[:reviewable_type] = params[:review].delete 'reviewable_type' if params.has_key? 'reviewable_type'
+      params[:reviewable_id] = params[:review].delete 'reviewable_id' if params.has_key? 'reviewable_id'
+      
+    elsif params['controller'] == 'jobs' && params['action'] == 'create'
+    
+      params[:device_tokens] = params[:jobs].delete 'device_tokens' if params.has_key? 'device_tokens'
+      
     end
   end
 

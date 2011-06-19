@@ -40,6 +40,7 @@ gem "cancan"
 gem "acts_as_geocodable"
 gem "paperclip"
 gem "rmagick" # This needs imagemagick installed, at http://rmagick.rubyforge.org/install-osx.html (or OS of your choice)
+# Also, on Ubuntu, do sudo apt-get install libmagickwand-dev
 gem "acts_as_commentable_with_threading"
 gem "haml"
 gem "sass"
@@ -48,3 +49,4 @@ gem "jquery-rails"
 gem "json"
 gem "flutie"
 gem "formtastic"
+gem "rspec-rails"

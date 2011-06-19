@@ -2,26 +2,25 @@ class ReviewsController < ApplicationController
 
   before_filter :authenticate_user!
 
-
-  # Grab the HTML for a job review.
-  def new_job_review
+  def new
     @trader = Trader.new
     @job = Job.new
     @review = Review.new
 
     respond_to do |format|
-      format.html
+      format.html { render 'new_job_review' }
     end 
   end
   
   # Create a new job review.
   def create
+    puts params.inspect
     @review = Review.new(params[:review])
-
+    @review.set_reviewable(params[:reviewable_type], params[:reviewable_id])
     respond_to do |format| 
       if @review.save
         format.html { redirect_to @review, :notice => "Successfully created a new review" }
-        format.js { render 'jax_create_success.js', :layout => false }
+        format.js { render 'ajax_create_success.js', :layout => false }
       else
         format.js { render 'ajax_create_fail.js', :layout => false }
       end

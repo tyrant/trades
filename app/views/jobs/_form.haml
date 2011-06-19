@@ -1,0 +1,23 @@
+= semantic_form_for @job, :remote => true, :html => { :multipart => true } do |f|
+  %ul
+    - @job.errors.full_messages.each do |m|
+      %li= m
+  = f.inputs "Job info" do
+    = f.input :title
+    = f.input :description
+    = f.input :trader_id, :as => :hidden
+    %input#job_address_lat{:type => 'hidden', :name => 'job[address_attributes][latitude]'}
+    %input#job_address_long{:type => 'hidden', :name => 'job[address_attributes][longitude]'}
+    %li.required
+      %label{:for => 'address'} Address
+      %input#address{:type => 'text'}
+      %input#address_button{:type => 'button', :value => 'Get Address'}
+      %span#address_feedback
+      #map_canvas
+    %li.required
+      %label{:for => 'image'} Images
+    %input#job_upload{:type => 'file'}
+    %br
+    %input#image_tokens{:name => 'job[image_tokens]', :type => 'hidden', :value => ''}
+    %ul#job_thumbs
+    = f.submit "Create a new job"
