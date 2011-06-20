@@ -1,0 +1,11 @@
+= semantic_form_for @review, :remote => true do |f|
+  %ul
+    - @review.errors.full_messages.each do |m|
+      %li= m
+  = f.inputs "Review info" do
+    = f.inputs :title, :description
+    = f.input :mark, :as => :select, :collection => Review.marks.map{ |m| [m, m]}
+    = f.input :reviewable, :as => :hidden, :value => "Job"
+    = f.input :reviewable_id, :as => :hidden
+    = f.submit 'Create review'
+  

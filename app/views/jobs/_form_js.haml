@@ -1,0 +1,66 @@
+:javascript
+  $(document).ready(function() {    
+    // Mapplet!
+    var map = new google.maps.Map(document.getElementById("map_canvas"), {
+      zoom: 5,
+      center: new google.maps.LatLng(-41.079351, 173.144531),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    
+    var geocoder = new google.maps.Geocoder();
+    var markers = [];    
+    $("#address_button").click(function() {
+      geocoder.geocode({'address': $("#address").val()}, function(results, status) {
+        $("#address_feedback").html("");
+        for (i in markers) {
+          markers[i].setMap(null);
+        }
+        if (status == google.maps.GeocoderStatus.OK) {
+          for (i in results) {
+            marker = new google.maps.Marker({
+              map: map,
+              position: results[i].geometry.location
+            });
+            marker.formatted_address = results[i].formatted_address
+            markers.push(marker);
+            google.maps.event.addListener(marker, 'click', function() {
+              $("#address_feedback").html("Address selected at: <em>" + marker.formatted_address + "</em>");
+              $("#job_address_lat").val(marker.getPosition().lat());
+              $("#job_address_long").val(marker.getPosition().lng());
+            });
+          }
+          // Only one result? Click it.
+          if (markers.length == 1) {
+            //alert(markers.length);
+            //markers[0].click();
+          }
+        } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+          $("#address_feedback").html("No results! Try being a bit more specific.");
+        } else {
+          $("#address_feedback").html("Error: " + status);
+        }
+      });
+    });
+
+    // Uploadify
+    $("#job_upload").uploadify({
+      uploader: '/uploadify/uploadify.swf',
+      script: '/images',
+      cancelImg: '/uploadify/cancel.png',
+      auto: true,
+      onSelect: function(event, ID, fileObj) {
+        // Generate unique token and append to job form hidden field and image upload data.
+        var new_token = hex_sha1(Date.now() + 'b');
+        var cur_tokens = $("#image_tokens").val();
+        if (cur_tokens) cur_tokens = cur_tokens.split(',');
+        else cur_tokens = [];
+        cur_tokens.push(new_token);
+        $("#image_tokens").val(cur_tokens.join(','));
+        $("#job_upload").uploadifySettings('scriptData', {token: new_token});
+      },
+      onComplete: function(event, ID, fileObj, response, data) {
+        $("#job_thumbs").append('<li><img src="' + response + '" /></li>');
+      },
+      queueSizeLimit: 5
+    });
+  });

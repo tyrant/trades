@@ -1,0 +1,13 @@
+= semantic_form_for @trader, :remote => true do |f|
+  %ul
+    - @trader.errors.full_messages.each do |m|
+      %li= m
+  = f.inputs "Your trader isn't listed above - add them!" do
+    = f.input :first_name
+    = f.input :last_name
+    = f.input :question
+    %strong What's this 'question' business?
+    %br
+    The trader you're creating a profile for may one day come across this review you're writing, and want to comment on the review, as the trader. The only person really suited to confirming their identity is you. To do this, simply write a security question in the text field above, that only the trader will know. When the trader clicks on the 'I did this job!' button on this page (which is visible only to people logged in as traders), they'll be shown the question you wrote, and answer it. Their answer will be emailed to you, and it's up to to you say if the answer is right or not, by clicking on one of the Yes/No buttons on the email. If "Yes", the website will authenticate them as the trader.
+  = f.hidden_field :sprightly, :value => '0'
+  = f.submit "Create a new trader"
