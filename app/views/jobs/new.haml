@@ -1,34 +1,5 @@
-%h1 New Job!
+= render 'form_js'
 
-= form_for @job, {:multipart => true} do |f|
-  %ul
-    - @job.errors.full_messages.each do |m|
-      %li= m
-      
-  = f.label :title
-  = f.text_field :title
-  %br
-  = f.label :description
-  = f.text_area :description
-  %br
-  
-  Address:
-  %br
-  = f.fields_for :address do |a|
-    = a.label :street
-    = a.text_field :street
-    %br
-    = a.label :suburb
-    = a.text_field :suburb
-    %br
-    = a.label :city
-    = a.text_field :city
-    %br
-    = a.label :state
-    = a.text_field :state
-    %br
-    = a.label :country
-    = a.text_field :country
-  
-  %br
-  = f.submit
+%h1 Create a new job
+
+= render 'form'

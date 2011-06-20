@@ -37,7 +37,7 @@
   });
 
 = render 'jobs/form_js'
-  
+
 %h1 Quick Review
 
 - if current_user.instance_of? Trader && @job.trader.nil?
@@ -58,17 +58,19 @@
   %h2#step_1a (Step 1-and-a-bit of 3) Create a new trader
   = render 'traders/form'
 
+
 %h2#step_2 (Step 2 of 3) Describe the job
 %p
   %strong TODO
-  %em Title and Description done - jobs are Imageable and Videoable too. Find relevant jQuery plugins to handle and upload both. Rails has the Paperclip gem, which handles images very nicely - verify that it can do videos too. Google map - more polishing. Add animation for adding markers, plus, say, 200ms delay between adding each; if only one marker appears, then automatically select it; make it more clear to the user that they have to click on a marker to select that address. Also, Devise error when creating Job - template not found? What's up with that?
+  %em Title, Description and Imageable done - jobs are Videoable too. Find relevant video jQuery plugin. Google map - more polishing. Add animation for adding markers, plus, say, 200ms delay between adding each; if only one marker appears, then automatically select it; make it more clear to the user that they have to click on a marker to select that address. 
 = render 'jobs/form'
   
 
 %h2#step_3 (Step 3 of 3) Review it!
 %p
   %strong TODO
-  %em Similar deal with Reviews as Jobs - get Imageable and Videoable cranking along.
+  %em Similar deal with Reviews as Jobs - get Videoable cranking along.
 #trader_reviewed
   = render 'reviews/form'
+
 

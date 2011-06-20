@@ -52,12 +52,11 @@ class TradersController < ApplicationController
   #       then be asked for an email/password, the temporary ones will be wiped, the 'sprightly' flag will be set to True,
   #       and then they can behave, on the site, as the Trader in question.
   def create
-    puts "STARTING CREATE"
     @trader = Trader.new(params[:trader])
     respond_to do |format|
       if @trader.save
         format.html { redirect_to @trader, :notice => "Successfully created a new Trader." }  
-        format.js { render 'ajax_create_success.js' }
+        format.js { render 'ajax_create_success.js', :layout => false }
       else
         format.html { render :action => 'new', :errors => @trader.errors }
         format.js { render :json => @trader.errors.to_json }

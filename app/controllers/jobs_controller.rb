@@ -17,13 +17,11 @@ class JobsController < ApplicationController
   end
 
   def create
-    puts params.inspect
-    image_tokens = params[:job].delete 'image_tokens'
     @job = Job.new(params[:job])
     @job.customer = current_user
     respond_to do |format|
       if @job.save
-        @job.set_images(image_tokens)
+        @job.set_images(params[:image_tokens]) if params.has_key? 'image_tokens'
         format.js { render 'ajax_create_success.js', :layout => false }
         format.html { redirect_to @job, :notice => "New job created" }
       else
@@ -41,7 +39,7 @@ class JobsController < ApplicationController
     @job = Job.find(params[:id])
     respond_to do |format|
       if @job.update_attributes(params[:job])
-        format.json { render :json => @job.to_json }
+        format.json { render :json => @job }
         format.html { redirect_to @job, :notice => "This job has been updated" }
       else
         format.json { render :json => @job.errors }
