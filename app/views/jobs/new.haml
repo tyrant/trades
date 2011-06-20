@@ -1,5 +1,11 @@
 = render 'form_js'
+= render 'traders/search_js', :locals => { :create_new => false }
 
 %h1 Create a new job
 
 = render 'form'
+
+(optional)
+%h2 Invite traders to do the job
+
+= render 'traders/search'

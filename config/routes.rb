@@ -10,7 +10,7 @@ Trades::Application.routes.draw do
   match 'reviews/create_job_review.json', {:controller => 'reviews', :action => 'create_job_review', :format => 'json'}
   resources :reviews
 
-  match 'traders/find', {:controller => 'traders', :action => 'find'}
+  match 'traders/search', {:controller => 'traders', :action => 'search'}
   resources :traders
   
   resources :quotes

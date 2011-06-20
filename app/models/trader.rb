@@ -2,7 +2,7 @@ class Trader < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+    :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :question, :sprightly
@@ -25,12 +25,6 @@ class Trader < ActiveRecord::Base
 
   before_create :set_login_and_temp_password
 
-  def set_login_and_temp_password
-    unless self.sprightly?
-      self.login = Digest::SHA1.hexdigest(Time.now.to_f.to_s)[0,8]
-      self.temp_password = Digest::SHA1.hexdigest(Time.now.to_f.to_s + "blah blah blah salt salt")[0,8]
-    end
-  end
 
   def as_json(options)
     trader = {
@@ -44,4 +38,23 @@ class Trader < ActiveRecord::Base
   def name
     "#{self.first_name} #{self.last_name}"
   end
+  
+  def name=(full_name)
+    self.first_name = full_name.split(' ')[0]
+    self.last_name = full_name.split(' ')[1]
+  end
+  
+  private
+
+
+    # ----- CALLBACKS -----#
+
+    # before_create
+
+    def set_login_and_temp_password
+      unless self.sprightly?
+        self.login = Digest::SHA1.hexdigest(Time.now.to_f.to_s)[0,8]
+        self.temp_password = Digest::SHA1.hexdigest(Time.now.to_f.to_s + "blah blah blah salt salt")[0,8]
+      end
+    end
 end

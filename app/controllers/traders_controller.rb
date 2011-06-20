@@ -1,7 +1,5 @@
 class TradersController < ApplicationController
 
-  before_filter :authenticate_user!
-
   def index
     @traders = Trader.where(:sprightly => true)
   end
@@ -19,7 +17,7 @@ class TradersController < ApplicationController
   end
 
   # Responds to the Ajax-based Find Trader form on the Review page (for starters)
-  def find
+  def search
     t = "%#{params[:trader_text]}%"
     @traders = Trader.where("(first_name LIKE ? OR last_name LIKE ?)", t, t)
     @traders = @traders.join(:professions_traders => :professions).where(:professions => {:name => params[:profession]}) if params.has_key? 'profession'

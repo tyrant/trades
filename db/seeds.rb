@@ -6,6 +6,9 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
+Profession.all.each { |p| p.destroy }
+Trader.all.each {|t| t.destroy }
+
 Profession.create([
   {:name => 'Stegosaurus Construction'},
   {:name => 'Ambulance Juggling'},
@@ -24,7 +27,7 @@ Profession.create([
 @trader2 = Trader.create(
   :first_name => 'Eau',
   :last_name => 'de Klingon',
-  :email = '1@3.com',
+  :email => '1@3.com',
   :password => 'blargh'
 )
 
@@ -35,8 +38,3 @@ Profession.create([
   :password => 'blargh' 
 )
 
-Job.create([
-  {
-    
-  }  
-])

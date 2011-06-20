@@ -22,15 +22,14 @@
       #site_nav
         - if current_user.instance_of? Customer
           %span #{link_to 'Quick Review', '/reviews/quick'}
-        - if user_signed_in?
-          %span #{link_to 'Traders', traders_path} #{link_to '(+)', new_trader_path}
-          %span #{link_to 'Quotes', quotes_path} #{link_to '(+)', new_quote_path}
-          %span #{link_to 'Reviews', reviews_path} #{link_to '(+)', new_review_path}
-          %span #{link_to 'Jobs', jobs_path} #{link_to '(+)', new_job_path}
-          %span #{link_to 'Professions', professions_path} #{link_to '(+)', new_profession_path}
-          %span #{link_to 'Businesses', businesses_path} #{link_to '(+)', new_business_path}
-          - flash.each do |name, msg|
-            = content_tag :div, msg, :id => "flash_#{name}"
+
+        %span #{link_to 'Traders', traders_path}
+        %span #{link_to 'Quotes', quotes_path}
+        %span #{link_to 'Reviews', reviews_path}
+        %span #{link_to 'Jobs', jobs_path}
+        %span #{link_to 'Professions', professions_path}
+        - flash.each do |name, msg|
+          = content_tag :div, msg, :id => "flash_#{name}"
     
       = content_tag :h1, yield(:title) if show_title?
       = yield

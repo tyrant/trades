@@ -4,10 +4,10 @@ development:
   adapter: mysql2
   database: trades_development
   username: root
-  #password: root
-  password: blaughblaugh
-  #socket: /tmp/mysql.sock
-  socket: /var/run/mysqld/mysqld.sock
+  password: root
+  #password: blaughblaugh
+  socket: /tmp/mysql.sock
+  #socket: /var/run/mysqld/mysqld.sock
   pool: 5
   timeout: 5000
 

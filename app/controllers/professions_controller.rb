@@ -1,7 +1,5 @@
 class ProfessionsController < ApplicationController
-
-  before_filter :authenticate_user!
-
+  
   def index
     @professions = Profession.all
   end

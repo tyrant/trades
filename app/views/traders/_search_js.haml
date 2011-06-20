@@ -1,0 +1,44 @@
+-# Yay for copypasta! Can Haml really not handle putting Ruby control flows inside Javascript?
+
+-# Options: create_new? true/false.
+- create_new = false
+
+%script{:type => 'text/javascript'}
+  $(document).ready(function() {
+    $("#choose_trader").submit(function(event) {
+      $.getJSON($(this).attr('action'), $(this).serialize(), function(data) {
+        $("#trader_results").html("");
+        $.each(data, function(index, trader) {
+          if (trader.id != 0) {
+            $("#trader_results").append('<li class="pointer" id="trader_' + trader.id + '">' + trader.name + '</li>');
+            $("#trader_" + trader.id).click(function() {
+              if ($("#trader_x").parent().attr('id') == $(this).attr('id')) {
+                $("#trader_x").remove();
+                $("#job_trader_id").val('');
+              } else {
+                $("#trader_x").remove();
+                $(this).html($(this).html() + '<span id="trader_x"> X</span>');
+                $("#job_trader_id").val(trader.id);
+              }
+            });
+          } else {
+            $("#trader_results").append('<li>' + trader.name + '</li>');
+          }
+        });
+
+        - if create_new
+          $("#trader_results").append('<li>Not on the list? <a href="#" id="toggle_new_trader">Add them!</a></li>');
+          $("#toggle_new_trader").click(function() {
+            $("#new_trader_div").toggle();
+            var self = $(this);
+            if (self.html() == "Add them!")
+              self.html("Close this window");
+            else if (self.html() == "Close this window") 
+              self.html("Add them!");
+            event.preventDefault();
+          });
+
+      });
+      event.preventDefault();
+    });
+  });

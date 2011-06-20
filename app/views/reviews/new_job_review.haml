@@ -1,70 +1,27 @@
-:javascript
-  $(document).ready(function() {
-  
-    $("#choose_trader").submit(function(event) {
-      $.getJSON('/traders/find.html', $(this).serialize(), function(data) {
-        $("#trader_results").html("");
-        $.each(data, function(index, trader) {
-          if (trader.id != 0) {
-            $("#trader_results").append('<li class="pointer" id="trader_' + trader.id + '">' + trader.name + '</li>');
-            $("#trader_" + trader.id).click(function() {
-              if ($("#trader_x").parent().attr('id') == $(this).attr('id')) {
-                $("#trader_x").remove();
-                $("#job_trader_id").val('');
-              } else {
-                $("#trader_x").remove();
-                $(this).html($(this).html() + '<span id="trader_x"> X</span>');
-                $("#job_trader_id").val(trader.id);
-              }
-            });
-          } else {
-            $("#trader_results").append('<li>' + trader.name + '</li>');
-          }
-        });
-        $("#trader_results").append('<li>Not on the list? <a href="#" id="toggle_new_trader">Add them!</a></li>');
-        $("#toggle_new_trader").click(function() {
-          $("#new_trader_div").toggle();
-          var self = $(this);
-          if (self.html() == "Add them!")
-            self.html("Close this window");
-          else if (self.html() == "Close this window") 
-            self.html("Add them!");
-          return false;
-        });
-      });
-      event.preventDefault();
-    });
-  });
-
+= render 'traders/search_js', :locals => { :create_new => true }
 = render 'jobs/form_js'
 
 %h1 Quick Review
+If you've just had a job done and you just want to quickly throw together a review, here's the place to do it.
 
-- if current_user.instance_of? Trader && @job.trader.nil?
+- if current_user.instance_of?(Trader) && @job.trader.nil?
   %input{:type => 'button', :value => 'I did this job!'}
   
 %h2#step_1 (Step 1 of 3) Choose a trader
 %p
   %strong TODO
   %em The list of returned Traders needs to have sorting options - sort by relevance (algorithm to deduce relevance TBD), distance from current location (either taken from the Google Map below or deduced by IP), average fee, reputation? Filtered by name, profession. Presentation: bullet list, first+last names, thumbnail image, link to Trader profile page. Click on Trader thumbnail to select for job below.
-%form#choose_trader{:name => 'choose_trader', :action => '/', :method => 'get', :class => 'formtastic'}
-  %fieldset{:class => 'inputs'}
-    %input{:type => 'text', :id => 'trader_text', :name => 'trader_text'}
-    %input{:type => 'submit', :value => 'Search'}
-
-%ul#trader_results
+= render 'traders/search'
 
 #new_trader_div{:style => "display:none;"}
   %h2#step_1a (Step 1-and-a-bit of 3) Create a new trader
   = render 'traders/form'
-
 
 %h2#step_2 (Step 2 of 3) Describe the job
 %p
   %strong TODO
   %em Title, Description and Imageable done - jobs are Videoable too. Find relevant video jQuery plugin. Google map - more polishing. Add animation for adding markers, plus, say, 200ms delay between adding each; if only one marker appears, then automatically select it; make it more clear to the user that they have to click on a marker to select that address. 
 = render 'jobs/form'
-  
 
 %h2#step_3 (Step 3 of 3) Review it!
 %p
@@ -72,5 +29,3 @@
   %em Similar deal with Reviews as Jobs - get Videoable cranking along.
 #trader_reviewed
   = render 'reviews/form'
-
-
