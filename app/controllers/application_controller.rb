@@ -20,12 +20,17 @@ class ApplicationController < ActionController::Base
       
     elsif params['controller'] == 'reviews' && params['action'] == 'create'
     
-      params[:reviewable_type] = params[:review].delete 'reviewable_type' if params.has_key? 'reviewable_type'
-      params[:reviewable_id] = params[:review].delete 'reviewable_id' if params.has_key? 'reviewable_id'
+      params[:reviewable_type] = params[:review].delete 'reviewable_type' if params.has_key? 'review'
+      params[:reviewable_id] = params[:review].delete 'reviewable_id' if params.has_key? 'review'
       
     elsif params['controller'] == 'jobs' && params['action'] == 'create'
     
-      params[:device_tokens] = params[:jobs].delete 'device_tokens' if params.has_key? 'device_tokens'
+      params[:image_tokens] = params[:job].delete 'image_tokens' if params.has_key? 'job'
+      
+    elsif params['controller'] == 'traders' && params['action'] == 'request_trader'
+      
+      # Aren't hacks fun? 'review_reviewable_id', because that's what's in jobs/ajax_create_success.js.
+      params[:job_id] = params.delete 'review_reviewable_id'
       
     end
   end

@@ -1,32 +1,70 @@
 -# Yay for copypasta! Can Haml really not handle putting Ruby control flows inside Javascript?
 
--# Options: create_new? true/false.
-- create_new = false
+-# Option: create_new? true/false.
+-# Option: select_many? true/false.
 
-%script{:type => 'text/javascript'}
+- if create_new == true
+  - create_new = 'var create_new = true;'
+- elsif create_new == false
+  - create_new = 'var create_new = false';
+
+- if select_many == true
+  - select_many = 'var select_many = true;'
+- elsif select_many == false
+  - select_many = 'var select_many = false;'
+
+- if trader_bucket
+  - trader_bucket = "var trader_bucket = '#{trader_bucket}';"
+
+:javascript
+  #{create_new}
+  #{select_many}
+  #{trader_bucket}
+
   $(document).ready(function() {
     $("#choose_trader").submit(function(event) {
       $.getJSON($(this).attr('action'), $(this).serialize(), function(data) {
         $("#trader_results").html("");
         $.each(data, function(index, trader) {
           if (trader.id != 0) {
-            $("#trader_results").append('<li class="pointer" id="trader_' + trader.id + '">' + trader.name + '</li>');
-            $("#trader_" + trader.id).click(function() {
-              if ($("#trader_x").parent().attr('id') == $(this).attr('id')) {
-                $("#trader_x").remove();
-                $("#job_trader_id").val('');
-              } else {
-                $("#trader_x").remove();
-                $(this).html($(this).html() + '<span id="trader_x"> X</span>');
-                $("#job_trader_id").val(trader.id);
-              }
-            });
+
+            if (select_many) {
+
+              $("#trader_results").append('<input type="checkbox" name="select_trader" id="trader_' + trader.id + '" />'
+                + '<label class="pointer" for="trader_' + trader.id + '">' + trader.name + '</label>');
+              $("#trader_" + trader.id).click(function() {
+                var trader_ids = $(trader_bucket).val();
+                if (trader_ids != '') {
+                  trader_ids = trader_ids.split(',');
+                } else {
+                  trader_ids = [];
+                }
+                
+                if ($(this).is(':checked') && $.inArray(trader.id, trader_ids) == -1) {
+                  trader_ids.push(trader.id);                                   // Checked; add this trader ID.
+                } else if (!$(this).is(':checked') && $.inArray(trader.id.toString(), trader_ids) > -1) {
+                  trader_ids.splice(trader_ids.indexOf(trader.id.toString()), 1);          // Unchecked; remove this trader ID.
+                }
+                $(trader_bucket).val(trader_ids.join(','));   
+              });
+
+            } else {
+
+              $("#trader_results").append('<input type="radio" name="select_trader" id="trader_' + trader.id + '" />'
+                + '<label class="pointer" for="trader_' + trader.id + '">' + trader.name + '</label>');
+              $("#trader_" + trader.id).click(function() {
+                $(trader_bucket).val(trader.id);
+              });
+
+            }
+
           } else {
-            $("#trader_results").append('<li>' + trader.name + '</li>');
+            $("#trader_results").append('<li>' + trader.name + '</li>'); // Display "No results".
           }
         });
 
-        - if create_new
+        if (create_new) {
+
           $("#trader_results").append('<li>Not on the list? <a href="#" id="toggle_new_trader">Add them!</a></li>');
           $("#toggle_new_trader").click(function() {
             $("#new_trader_div").toggle();
@@ -36,8 +74,10 @@
             else if (self.html() == "Close this window") 
               self.html("Add them!");
             event.preventDefault();
+
           });
 
+        }
       });
       event.preventDefault();
     });

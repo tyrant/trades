@@ -1,0 +1,9 @@
+%form#request_quote{:method => 'post', :action => '/traders/request_quote.json'}
+  %input#review_reviewble_id{:type => 'hidden'}
+  %input#traders{:type => 'hidden', :name => 'trader_bucket', :value => ""}
+  The text in the box below will be sent to each of the traders you choose. Fiddle around with it all you want. Otherwise, if you just want the job to be visible on search pages, tick the 'Public' box in the form above.
+  %br
+  %textarea{:rows => 5, :columns => 20, :name => 'request_content'}
+    Hi! I've got a great job for you.
+  %br
+  %input{:type => 'submit', :value => 'Contact traders'}

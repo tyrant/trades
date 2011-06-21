@@ -1,11 +1,14 @@
 = render 'form_js'
-= render 'traders/search_js', :locals => { :create_new => false }
+= render 'traders/request_quote_js'
+= render :partial => 'traders/search_js', :locals => { :create_new => false, :select_many => true, :trader_bucket => '#traders' }
 
 %h1 Create a new job
 
 = render 'form'
 
-(optional)
+(Optional - select Traders here, and each will be sent a message asking them if they wouldn't mind terribly if they could do your job.)
 %h2 Invite traders to do the job
 
 = render 'traders/search'
+
+= render 'traders/request_quote'

@@ -1,4 +1,4 @@
-= render 'traders/search_js', :locals => { :create_new => true }
+= render :partial => 'traders/search_js', :locals => { :create_new => true, :select_many => false, :trader_bucket => '#job_trader_id' }
 = render 'jobs/form_js'
 
 %h1 Quick Review

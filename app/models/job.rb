@@ -44,6 +44,6 @@ class Job < ActiveRecord::Base
   # is created, match the token list against the tokens for all Image objects, and matches mean
   # associations. This function does that.
   def set_images(tokens)
-    self.images = Image.where('token IN ?', "(#{tokens})").to_a
+    self.images = Image.where('token IN (?)', "#{tokens}").to_a
   end
 end

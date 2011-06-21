@@ -8,22 +8,7 @@
 
 - if !@job.address.nil?
   %strong Address:
-  %table
-    %tr
-      %td Street
-      %td= @job.address.street
-    %tr
-      %td Suburb
-      %td= @job.address.suburb
-    %tr
-      %td City
-      %td= @job.address.city
-    %tr
-      %td State
-      %td= @job.address.state
-    %tr
-      %td Country
-      %td= @job.address.country
+  (#{@job.address.latitude}, #{@job.address.longitude})
       
 %br
 - if @job.completed?

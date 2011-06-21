@@ -78,4 +78,8 @@ class TradersController < ApplicationController
   def verify
 
   end
+  
+  def request_quote
+    Trader.find(params[:traders].split(',')).each {|t| t.request_quote(params[:job_id], params[:request_content]) }
+  end
 end

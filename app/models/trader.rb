@@ -44,6 +44,12 @@ class Trader < ActiveRecord::Base
     self.last_name = full_name.split(' ')[1]
   end
   
+  # Send an email to this Trader, letting them know that the owner of Job.find(job_id) would like them to
+  # submit a Quote.
+  def request_quote(job_id, content)
+    
+  end
+  
   private
 
 
