@@ -8,22 +8,6 @@ gem 'rails', '3.0.7'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem "rake", "0.8.7"
 
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-# gem 'ruby-debug'
-# gem 'ruby-debug19'
-
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
-
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
@@ -40,7 +24,7 @@ gem "cancan"
 gem "acts_as_geocodable"
 gem "paperclip"
 gem "rmagick" # This needs imagemagick installed, at http://rmagick.rubyforge.org/install-osx.html (or OS of your choice)
-# Also, on Ubuntu, do sudo apt-get install libmagickwand-dev
+# rmagick: also, on Ubuntu, do sudo apt-get install libmagickwand-dev
 gem "acts_as_commentable_with_threading"
 gem "haml"
 gem "sass"
@@ -50,3 +34,4 @@ gem "json"
 gem "flutie"
 gem "formtastic"
 gem "rspec-rails"
+gem "breadcrumbs_on_rails"

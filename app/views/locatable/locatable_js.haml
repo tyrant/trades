@@ -1,0 +1,56 @@
+- # Locatable stuff. Google map, centred and zoomed to the location of your choice, plus the ability to geocode a given address and spit out the lat+lng onto a pair of tags, and the Google-filtered address string onto a third tag.
+
+- map_lat = 'var map_lat = ' + defined?(map_lat) ? map_lat : '-41.079351' + ';'
+- map_lng = 'var map_lng = ' + defined?(map_lng) ? map_lng : '173.144531' + ';'
+- map_zoom = 'var map_zoom = ' + defined?(map_zoom) ? map_zoom : '5' + ';'
+- map_canvas = 'var map_canvas = ' + defined?(map_canvas) ? map_canvas : '"#map_canvas"' + ';'
+- address = 'var address = ' + defined?(address) ? address : '"#address"' + ';'
+- button = 'var button = ' + defined?(button) ? button : '"#address_button"' + ';'
+- feedback = 'var feedback = ' + defined?(feedback) ? feedback : '"#address_feedback"' + ';'
+- tag_lat => 'var tag_lat = ' + defined?(tag_lat) ? tag_lat : '"#job_address_lng"' + ';'
+- tag_lng => 'var tag_lng = ' + defined?(tag_lng) ? tag_lng : '"#job_address_long"' + ';'
+
+:javascript
+  $(document).ready(function() {    
+    // Mapplet!
+    var map = new google.maps.Map(document.getElementById("map_canvas"), {
+      zoom: 5,
+      center: new google.maps.LatLng(-41.079351, 173.144531),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    
+    var geocoder = new google.maps.Geocoder();
+    var markers = [];    
+    $("#address_button").click(function() {
+      geocoder.geocode({'address': $("#address").val()}, function(results, status) {
+        $("#address_feedback").html("");
+        for (i in markers) {
+          markers[i].setMap(null);
+        }
+        if (status == google.maps.GeocoderStatus.OK) {
+          for (i in results) {
+            marker = new google.maps.Marker({
+              map: map,
+              position: results[i].geometry.location
+            });
+            marker.formatted_address = results[i].formatted_address
+            markers.push(marker);
+            google.maps.event.addListener(marker, 'click', function() {
+              $("#address_feedback").html("Address selected at: <em>" + marker.formatted_address + "</em>");
+              $("#job_address_lat").val(marker.getPosition().lat());
+              $("#job_address_long").val(marker.getPosition().lng());
+            });
+          }
+          // Only one result? Click it.
+          if (markers.length == 1) {
+            //alert(markers.length);
+            //markers[0].click();
+          }
+        } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+          $("#address_feedback").html("No results! Try being a bit more specific.");
+        } else {
+          $("#address_feedback").html("Error: " + status);
+        }
+      });
+    });
+  });

@@ -79,7 +79,11 @@ class TradersController < ApplicationController
 
   end
   
+  # TODO Get emails sent with a Resque worker.
   def request_quote
-    Trader.find(params[:traders].split(',')).each {|t| t.request_quote(params[:job_id], params[:request_content]) }
+    Trader.find(params[:traders].split(',')).each do |trader|
+      # RequestQuoteWorker(trader, params[:job_id], params[:request_content])
+      trader.request_quote(params[:job_id], params[:request_content])
+    end
   end
 end
