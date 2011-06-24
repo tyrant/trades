@@ -39,9 +39,10 @@ class Trader < ActiveRecord::Base
     "#{self.first_name} #{self.last_name}"
   end
   
+  # 'first last' becomes 'first', 'last'; 'first middle last' becomes 'first middle', 'last'.
   def name=(full_name)
-    self.first_name = full_name.split(' ')[0]
-    self.last_name = full_name.split(' ')[1]
+    self.first_name = full_name.split(' ').delete_last.join(' ')
+    self.last_name = full_name.split(' ').last
   end
   
   # Send an email to this Trader, letting them know that the owner of Job.find(job_id) would like them to
@@ -53,7 +54,7 @@ class Trader < ActiveRecord::Base
   private
 
 
-    # ----- CALLBACKS -----#
+    # ----- CALLBACKS ----- #
 
     # before_create
 

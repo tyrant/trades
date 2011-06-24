@@ -1,0 +1,22 @@
+-# Given a list of Job objects with attached Address lat+lngs, display them on a KML'd suburb-encoded Google map.
+-# The goal of this partial is to show a map with Job listings, grouped by suburb, atop a KML suburb overlay. The 
+
+- map_lat = js_var map_lat, 0.00
+- map_lng = js_var map_lng, 0.00
+- map_zoom = js_var map_zoom, 5
+- job_map_canvas = js_var job_map_canvas, '#job_map_canvas'
+- job_objects = js_jobs job_objects, '[]'
+
+:javascript
+  #{map_lat}
+  #{map_lng}
+  #{map_zoom}
+  #{job_map_canvas}
+
+  var map = new google.maps.Map(document.getElementById(job_map_canvas), {
+    zoom: map_zoom,
+    center: new google.maps.LatLng(map_lat, map_lng),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+  var layer = new google.maps.KmlLayer('/kml/wellington-city-suburbs.kmz');
+  layer.setMap(map);

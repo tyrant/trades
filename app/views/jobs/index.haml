@@ -1,4 +1,15 @@
+= render :partial => 'job_map_js'
+
+%strong TODO
+%em Cool stuff to add to general display of jobs: crank out that ol' Google Mappage, plus suburb geocoding and KML overlays. For privacy reasons, might as well not go below Suburb resolution level.
+%br/
+%em Now. When searching for and displaying Jobs, what I want done is to search, initially, by city; have a Marker over each suburb KML overlay with a counter showing the number of jobs in that suburb; (if a suburb has no jobs, show neither a Marker nor an overlay, just vanilla Map); and clicking on the suburb overlay brings up a MarkerInfoWindow, centred on the Marker for that suburb, containing a paginated list of Job links for that suburb.
+%br/
+
 %h1 All Jobs
+
+= render :partial => 'job_map'
+
 = link_to "New job", new_job_path
 
 - if @jobs.length != 0
@@ -8,8 +19,8 @@
         %li= link_to job.title, job
         %li= job.description
         - if !job.address.nil?
-          %li= job.address.latitude
-          %li= job.address.longitude
+          %li= job.address.lat
+          %li= job.address.lng
 
             
 - else

@@ -10,18 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110620043021) do
+ActiveRecord::Schema.define(:version => 20110624035704) do
 
   create_table "addresses", :force => true do |t|
     t.string   "state"
     t.integer  "locatable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "imageable_id"
-    t.string   "imageable_type", :default => "Customer"
     t.string   "locatable_type", :default => "Job"
-    t.float    "latitude"
-    t.float    "longitude"
+    t.float    "lat"
+    t.float    "lng"
   end
 
   create_table "businesses", :force => true do |t|

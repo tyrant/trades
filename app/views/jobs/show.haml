@@ -11,21 +11,39 @@
   (#{@job.address.latitude}, #{@job.address.longitude})
       
 %br
+
 - if @job.completed?
+
   This job has been completed by #{link_to @job.trader.name, @job.trader}.
-  - if @job.customer == current_user
-    #{link_to "Review this job", "/jobs/#{@job.id}/review" }.
+
+  
+  %h2 Reviews
+  - if @job.reviews.length != 0
+    - @job.reviews.each do |review|
+      
+
+  - else 
+    - if @job.customer == current_user
+      No reviews yet - #{link_to "make one!", "/jobs/#{@job.id}/review" }.
+    - else
+      No reviews yet.
+
 - else
+
   - if current_user.instance_of? Trader
     This job hasn't been completed - #{link_to "submit a quote!", "/quotes/new?job=#{@job.id}"}
   - else
     This job hasn't been completed.
   %br
+
   - if @job.customer == current_user
+
     - if @job.quotes.length != 0
-      The following quotes have been submitted for this job:
+      %h2 Quotes
+      The following quotes have been submitted for your job:
       %ul
         - @job.quotes.each do |quote|
           %li #{link_to quote.name, quote}, by #{link_to quote.trader.name, trader}
     - else
       No quotes yet. #{link_to 'Ask traders for some!', traders_path}
+

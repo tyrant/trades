@@ -7,8 +7,8 @@
     = f.input :description
     = f.input :public, :hint => "If you want to make your job viewable on the site's search results, click here."
     = f.input :trader_id, :as => :hidden
-    %input#job_address_lat{:type => 'hidden', :name => 'job[address_attributes][latitude]'}
-    %input#job_address_long{:type => 'hidden', :name => 'job[address_attributes][longitude]'}
+    %input#job_address_lat{:type => 'hidden', :name => 'job[address_attributes][lat]'}
+    %input#job_address_long{:type => 'hidden', :name => 'job[address_attributes][lng]'}
     %li.required
       %label{:for => 'address'} Address
       %input#address{:type => 'text'}
