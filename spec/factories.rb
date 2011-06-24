@@ -1,4 +1,6 @@
 Factory.define :address do |a|
+  a.lat 5.2
+  a.lng 23.5
 end
 
 Factory.define :businees do |b|

@@ -1,11 +1,12 @@
 class JobsController < ApplicationController
 
-  def index
-    @jobs = Job.all
+  # Job search options: by trader name, by trader profession, by address ()
+  def index 
+    @jobs = Job.where(true)
+    
   end
 
   def show
-    
     @job = Job.find(params[:id])
     # if @job.title != params[:title]
     #   redirect_to root_path, :notice => "Title doesn't match ID"

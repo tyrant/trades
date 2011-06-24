@@ -5,4 +5,8 @@ class Array
     self
   end
 
+  def delete_last
+    self.delete_at(self.length-1)
+    self
+  end
 end
