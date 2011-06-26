@@ -8,20 +8,18 @@
 
 - if !@job.address.nil?
   %strong Address:
-  (#{@job.address.latitude}, #{@job.address.longitude})
+  (#{@job.address.lat}, #{@job.address.lng})
       
 %br
 
 - if @job.completed?
-
   This job has been completed by #{link_to @job.trader.name, @job.trader}.
 
-  
   %h2 Reviews
   - if @job.reviews.length != 0
     - @job.reviews.each do |review|
+      s
       
-
   - else 
     - if @job.customer == current_user
       No reviews yet - #{link_to "make one!", "/jobs/#{@job.id}/review" }.

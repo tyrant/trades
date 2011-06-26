@@ -3,6 +3,8 @@
 = render :partial => 'traders/search_js', :locals => { :create_new => false, :select_many => true, :trader_bucket => '#traders' }
 
 %h1 Create a new job
+%strong TODO
+%em Get Resque installed on here, and write an EmailWorker to send emails to all Traders about this job.
 
 = render 'form'
 

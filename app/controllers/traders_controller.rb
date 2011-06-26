@@ -81,9 +81,10 @@ class TradersController < ApplicationController
   
   # TODO Get emails sent with a Resque worker.
   def request_quote
-    Trader.find(params[:traders].split(',')).each do |trader|
+    Trader.find(params[:trader_bucket].split(',')).each do |trader|
       # RequestQuoteWorker(trader, params[:job_id], params[:request_content])
       trader.request_quote(params[:job_id], params[:request_content])
     end
+    render 'ajax_request_quote.js', :layout => false
   end
 end

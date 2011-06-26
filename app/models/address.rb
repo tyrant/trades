@@ -5,7 +5,7 @@ class Address < ActiveRecord::Base
   belongs_to :locatable, :polymorphic => :true
   belongs_to :imageable, :polymorphic => :true
   
-  validates_presence_of :latitude
-  validates_presence_of :longitude
+  validates_presence_of :lat
+  validates_presence_of :lng
   
 end

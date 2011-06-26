@@ -22,13 +22,15 @@ class Job < ActiveRecord::Base
 
   def as_json(options)
     job = {
-      'id' => self.id,
-      'title' => self.title,
-      'description' => self.description
+      'job' => { 
+        'id' => self.id,
+        'title' => self.title,
+        'description' => self.description
+      }
     }
-    job['customer_id'] = self.customer_id if defined?(self.customer_id) and !self.customer_id.nil?
-    job['trader_id'] = self.trader_id if defined?(self.trader_id) and !self.trader_id.nil?
-    job['address_id'] = self.address.id if defined?(self.address) and !self.address.nil?
+    job['job']['customer_id'] = self.customer_id if defined?(self.customer_id) and !self.customer_id.nil?
+    job['job']['trader_id'] = self.trader_id if defined?(self.trader_id) and !self.trader_id.nil?
+    job['job']['address_id'] = self.address.id if defined?(self.address) and !self.address.nil?
     job
   end
   
@@ -45,5 +47,13 @@ class Job < ActiveRecord::Base
   # associations. This function does that.
   def set_images(tokens)
     self.images = Image.where('token IN (?)', "#{tokens}").to_a
+  end
+  
+  def to_param
+    "#{self.title}-#{self.id}"
+  end
+  
+  def by_region(regions)
+    
   end
 end

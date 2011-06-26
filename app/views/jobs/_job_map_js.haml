@@ -1,22 +1,32 @@
 -# Given a list of Job objects with attached Address lat+lngs, display them on a KML'd suburb-encoded Google map.
--# The goal of this partial is to show a map with Job listings, grouped by suburb, atop a KML suburb overlay. The 
+-# The goal of this partial is to show a map with Job listings, grouped by suburb, atop a KML suburb overlay.
 
-- map_lat = js_var map_lat, 0.00
-- map_lng = js_var map_lng, 0.00
-- map_zoom = js_var map_zoom, 5
-- job_map_canvas = js_var job_map_canvas, '#job_map_canvas'
-- job_objects = js_jobs job_objects, '[]'
+- map_lat = 'var map_lat = ' + js_var(map_lat)
+- map_lng = 'var map_lng = ' + js_var(map_lng)
+- map_zoom = 'var map_zoom = ' + js_var(map_zoom)
+- job_objects = 'var job_objects = ' + js_jobs(job_objects)
 
 :javascript
   #{map_lat}
   #{map_lng}
   #{map_zoom}
-  #{job_map_canvas}
-
-  var map = new google.maps.Map(document.getElementById(job_map_canvas), {
-    zoom: map_zoom,
-    center: new google.maps.LatLng(map_lat, map_lng),
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+  #{job_objects}
+  
+  $(document).ready(function() {
+    var map = new google.maps.Map(document.getElementById('job_map_canvas'), {
+      zoom: map_zoom,
+      center: new google.maps.LatLng(map_lat, map_lng),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    
+    // At present this spits out the entire Jobs table. Later I will add a bit of filtering,
+    // Ajax requests, code that for map zoom levels below a certain threshold outputs only city map markers
+    // that onclick zoom to the city in question, and merging of duplicate locations into one marker,
+    // onclick brings up an info window linking to each Job.
+    _.each(job_objects, function(job, i) {
+      map.addMarker(new google.maps.Marker({
+        position: new google.maps.LatLng(job.lat, job.lng),
+        map: map
+      }));
+    });
   });
-  var layer = new google.maps.KmlLayer('/kml/wellington-city-suburbs.kmz');
-  layer.setMap(map);

@@ -1,14 +1,15 @@
 - # Locatable stuff. Google map, centred and zoomed to the location of your choice, plus the ability to geocode a given address and spit out the lat+lng onto a pair of tags, and the Google-filtered address string onto a third tag.
 
-- map_lat = js_var map_lat, -41.079351
-- map_lng = 'var map_lng = ' + defined?(map_lng) ? map_lng : '173.144531' + ';'
-- map_zoom = 'var map_zoom = ' + defined?(map_zoom) ? map_zoom : '5' + ';'
-- map_canvas = 'var map_canvas = ' + defined?(map_canvas) ? map_canvas : '"#map_canvas"' + ';'
-- address = 'var address = ' + defined?(address) ? address : '"#address"' + ';'
-- button = 'var button = ' + defined?(button) ? button : '"#address_button"' + ';'
-- feedback = 'var feedback = ' + defined?(feedback) ? feedback : '"#address_feedback"' + ';'
-- tag_lat = 'var tag_lat = ' + defined?(tag_lat) ? tag_lat : '"#job_address_lat"' + ';'
-- tag_lng = 'var tag_lng = ' + defined?(tag_lng) ? tag_lng : '"#job_address_long"' + ';'
+- map_lat = 'var map_lat = ' + js_var(map_lat)
+- map_lng = 'var map_lng = ' + js_var(map_lng)
+- map_zoom = 'var map_zoom = ' + js_var(map_zoom)
+- map_canvas = 'var map_canvas = ' + js_var(map_canvas)
+- address = 'var address = ' + js_var(address)
+- button = 'var button = ' + js_var(button)
+- feedback = 'var feedback = ' + js_var(feedback)
+- tag_lat = 'var tag_lat = ' + js_var(tag_lat)
+- tag_lng = 'var tag_lng = ' + js_var(tag_lng)
+- tag_readable = 'var tag_readable = ' + js_var(tag_readable)
 
 :javascript
   #{map_lat}
@@ -20,9 +21,11 @@
   #{feedback}
   #{tag_lat}
   #{tag_lng}
+  #{tag_readable}
 
   $(document).ready(function() {    
     // Mapplet!
+    console.log('map_canvas: ' + map_canvas + ' map_zoom: ' + map_zoom + ' map_lat: ' + map_lat + ' map_lng: ' + map_lng);
     var map = new google.maps.Map(document.getElementById(map_canvas), {
       zoom: map_zoom,
       center: new google.maps.LatLng(map_lat, map_lng),
@@ -49,6 +52,7 @@
               $(feedback).html("Address selected at: <em>" + marker.formatted_address + "</em>");
               $(tag_lat).val(marker.getPosition().lat());
               $(tag_lng).val(marker.getPosition().lng());
+              $(tag_readable).val(marker.formatted_address);
             });
           }
           // Only one result? Click it.
