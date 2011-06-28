@@ -1,4 +1,10 @@
 class ReviewsController < ApplicationController
+  
+  # Review searches:
+  # Filter by reviewable_type (Job, Trader, Business, Quote), location if job, 
+  def index
+    
+  end
 
   def new
     @trader = Trader.new

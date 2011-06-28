@@ -9,6 +9,7 @@
 Profession.all.each { |p| p.destroy }
 City.all.each { |l| l.destroy }
 Trader.all.each { |t| t.destroy }
+Address.all.each { |a| a.destroy }
 Job.all.each { |j| j.destroy }
 Customer.all.each { |c| c.destroy }
 
@@ -74,16 +75,121 @@ City.create!(:name => 'Invercargill', :lat => -45.87876, :lng => 170.502798)
 )
 
 @address1 = Address.create!(
-  :lat => 
-  :lng => 
+  :lat => -41.289424,
+  :lng => 174.75994,
+  :readable => 'My place!'
 )
 
 @job1 = Job.create!(
   :title => 'Job 1 title',
   :description => 'Job 1 description',
   :customer => @customer1,
-  :trader => @trader1
+  :trader => @trader1,
+  :address => @address1
 )
 
+@review1 = Review.create!(
+  :title => 'Review 1 title',
+  :description => 'Review 1 description of a Job',
+  :mark => 3,
+  :reviewer => @customer1,
+  :reviewable => @job1
+)
 
-  
+@review2 = Review.create!(
+  :title => 'Review 2 title',
+  :description => 'Review 2 description of a Trader',
+  :mark => 4,
+  :reviewer => @customer1,
+  :reviewable => @trader1
+)
+
+@address2 = Address.create!(
+  :lat => -41.293713,
+  :lng => 174.784284,
+  :readable => 'WellRailed meetup'
+)
+
+@job2 = Job.create!(
+  :title => 'Job 2 title',
+  :description => 'Job 2 description',
+  :customer => @customer2,
+  :trader => @trader2,
+  :address => @address2
+)
+
+@review3 = Review.create!(
+  :title => 'Review 3 title',
+  :description => 'Review 3 description of a Job',
+  :mark => 2,
+  :reviewer => @customer2,
+  :reviewable => @job2
+)
+
+@review4 = Review.create!(
+  :title => 'Review 4 title',
+  :description => 'Review 4 description of a Trader',
+  :mark => 1,
+  :reviewer => @customer2,
+  :reviewable => @trader2
+)
+
+@address3 = Address.create!(
+  :lat => 41.300846,
+  :lng => 174.780625,
+  :readable => 'Just next door: THE BASIN RESERVE!!!!!! (actual Platinum Rentals ad for a Kelburn flat)'
+)
+
+@job3 = Job.create!(
+  :title => 'Job 3 title',
+  :description => 'Job 3 description',
+  :customer => @customer1,
+  :trader => @trader1,
+  :address => @address3
+)
+
+@review5 = Review.create!(
+  :title => 'Review 5 title',
+  :description => 'Review 5 description of a Job',
+  :mark => 2,
+  :reviewer => @customer1,
+  :reviewable => @job3
+)
+
+@review6 = Review.create!(
+  :title => 'Review 6 title',
+  :description => 'Review 6 description of a Trader',
+  :mark => 3,
+  :reviewer => @customer1,
+  :reviewable => @trader1
+)
+
+@address4 = Address.create!(
+  :lat => -41.309389,
+  :lng => 174.782073,
+  :readable => 'Hospital'
+)
+
+@job4 = Job.create!(
+  :title => 'Job 4 title',
+  :description => 'Job 4 description',
+  :customer => @customer2,
+  :trader => @trader2,
+  :address => @address4
+)
+
+@review7 = Review.create!(
+  :title => 'Review 7 title',
+  :description => 'Review 7 description of a Job',
+  :mark => 5,
+  :reviewer => @customer2,
+  :reviewable => @job4
+)
+
+@review8 = Review.create!(
+  :title => 'Review 8 title',
+  :description => 'Review 8 description of a Trader',
+  :mark => 5,
+  :reviewer => @customer2,
+  :reviewable => @trader2
+)
