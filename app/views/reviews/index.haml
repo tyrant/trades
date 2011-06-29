@@ -1,0 +1,10 @@
+%h1 Reviews
+
+%strong TODO
+%em Things to add: search. Search by reviewable type - job, trader, quote or business, and if job, then location also. Search by reviewer type and name.
+
+
+%ul
+  - @reviews.each do |review|
+    %li 
+      #{link_to review.title, review_path(review)}: reviewing #{link_to reviewable_name(review.reviewable), reviewable_path(review.reviewable)}, by #{reviewer_name(review.reviewer)}

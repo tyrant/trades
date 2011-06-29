@@ -12,4 +12,14 @@ class Customer < ActiveRecord::Base
   has_many :traders, :through => :jobs
   has_many :addresses, :as => :locatable
   has_many :reviews, :as => :reviewer
+  
+  def name
+    "#{self.first_name} #{self.last_name}"
+  end
+  
+  # 'first last' becomes 'first', 'last'; 'first middle last' becomes 'first middle', 'last'.
+  def name=(full_name)
+    self.first_name = full_name.split(' ').delete_last.join(' ')
+    self.last_name = full_name.split(' ').last
+  end
 end

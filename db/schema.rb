@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110626044645) do
+ActiveRecord::Schema.define(:version => 20110628230748) do
 
   create_table "addresses", :force => true do |t|
     t.string   "state"
@@ -94,10 +94,8 @@ ActiveRecord::Schema.define(:version => 20110626044645) do
   add_index "professions_jobs", ["profession_id", "job_id"], :name => "by_profession_and_job", :unique => true
 
   create_table "professions_traders", :id => false, :force => true do |t|
-    t.integer  "profession_id", :default => 0, :null => false
-    t.integer  "trader_id",     :default => 0, :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "profession_id"
+    t.integer "trader_id"
   end
 
   add_index "professions_traders", ["profession_id", "trader_id"], :name => "by_profession_and_trade", :unique => true
@@ -108,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20110626044645) do
     t.integer  "job_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "title"
   end
 
   create_table "reviews", :force => true do |t|
