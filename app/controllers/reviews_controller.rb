@@ -3,7 +3,15 @@ class ReviewsController < ApplicationController
   # Review searches:
   # Filter by reviewable_type (Job, Trader, Business, Quote), location if job, content text.
   def index
-    @reviews = Review.all
+    @reviews = Review.where(1)
+    @reviews = @reviews.where("reviewable_type = ?", params[:reviewable_type]) if params[:reviewable_type] && params[:reviewable_type] != 'All'
+    @reviews = @reviews.where("reviewer_type = ?", params[:reviewer_type]) if params[:reviewer_type] && params[:reviewer_type] != 'All'
+    @reviews = @reviews.where("title LIKE ? OR description LIKE ?", "%#{params[:text]}%", "%#{params[:text]}%") if params[:text]
+    puts @reviews.inspect
+    respond_to do |format|
+      format.json { render 'ajax_search.js', :layout => false }
+      format.html
+    end
   end
 
   def new

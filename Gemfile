@@ -19,9 +19,8 @@ end
 gem "mysql2", '~> 0.2.7' # Do 'sudo apt-get install libmysql-ruby libmysqlclient-dev' for Ubuntu
 gem "rake", "0.8.7"
 gem "devise"
-gem "devise_rpx_connectable"
 gem "cancan"
-gem "acts_as_geocodable"
+gem "geocoder"
 gem "paperclip"
 gem "rmagick" # This needs imagemagick installed, at http://rmagick.rubyforge.org/install-osx.html (or OS of your choice)
 # rmagick: also, on Ubuntu, do sudo apt-get install libmagickwand-dev

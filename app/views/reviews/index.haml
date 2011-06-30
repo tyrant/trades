@@ -1,10 +1,39 @@
+:javascript
+  $(document).ready(function() {
+    $("#search_reviews").submit(function(event) {
+      $.ajax({
+        url: '/reviews',
+        data: $(this).serialize(),
+        dataType: 'json',
+        contentType: 'application/json',
+        // complete used, rather than success, because if a 304 Not Modified is returned, success doesn't fire.
+        complete: function(xhr, textStatus) {
+          $("#review_list").html(xhr.responseText);
+        },
+      });
+      
+      event.preventDefault();
+    });
+  });
+
 %h1 Reviews
 
 %strong TODO
 %em Things to add: search. Search by reviewable type - job, trader, quote or business, and if job, then location also. Search by reviewer type and name.
 
 
-%ul
+%h2 Find Reviews
+%form#search_reviews{:method => 'post', :action => ''}
+  What's being reviewed?
+  = select_tag(:reviewable_type, options_for_select(Review::REVIEWABLE_TYPES))
+  -#%br
+  =# job location stuff
+  -#Who's doing the reviewing?
+  -# select_tag(:reviewer_type, options_for_select(Review::REVIEWER_TYPES))
+  %br
+  %input{:type => 'submit', :value => 'Find reviews'}
+  
+%ul#review_list
   - @reviews.each do |review|
-    %li 
-      #{link_to review.title, review_path(review)}: reviewing #{link_to reviewable_name(review.reviewable), reviewable_path(review.reviewable)}, by #{reviewer_name(review.reviewer)}
+    = render :partial => 'review_instance', :locals => {:review => review}
+

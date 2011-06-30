@@ -32,20 +32,16 @@ GEM
       activerecord (~> 3.0)
       activesupport (~> 3.0)
       moretea-awesome_nested_set
-    acts_as_geocodable (2.0.2)
-      graticule (>= 2.0.0)
     arel (2.0.10)
     bcrypt-ruby (2.1.4)
     breadcrumbs_on_rails (2.0.0)
     builder (2.1.2)
     cancan (1.6.5)
-    devise (1.3.4)
+    cocaine (0.1.0)
+    devise (1.4.0)
       bcrypt-ruby (~> 2.1.2)
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
-    devise_rpx_connectable (0.2.2)
-      devise (>= 1.1.2)
-      rpx_now (>= 0.6.23)
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -54,21 +50,13 @@ GEM
       actionpack (>= 2.3.7)
       activesupport (>= 2.3.7)
       i18n (~> 0.4)
-    graticule (2.0.1)
-      activesupport
-      happymapper (>= 0.3.0)
-      i18n
-      json
+    geocoder (1.0.2)
     haml (3.1.2)
-    happymapper (0.3.2)
-      libxml-ruby (~> 1.1.3)
     i18n (0.5.0)
-    jquery-rails (1.0.11)
+    jquery-rails (1.0.12)
       railties (~> 3.0)
       thor (~> 0.14)
-    json (1.5.2)
-    json_pure (1.5.2)
-    libxml-ruby (1.1.4)
+    json (1.5.3)
     mail (2.2.19)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -81,9 +69,10 @@ GEM
     nifty-generators (0.4.6)
     nokogiri (1.4.6)
     orm_adapter (0.0.5)
-    paperclip (2.3.11)
+    paperclip (2.3.12)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
+      cocaine (>= 0.0.2)
     polyglot (0.3.1)
     rack (1.2.3)
     rack-mount (0.6.14)
@@ -105,8 +94,6 @@ GEM
       thor (~> 0.14.4)
     rake (0.8.7)
     rmagick (2.13.1)
-    rpx_now (0.6.24)
-      json_pure
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -127,7 +114,7 @@ GEM
     thor (0.14.6)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
-    tzinfo (0.3.28)
+    tzinfo (0.3.29)
     warden (1.0.4)
       rack (>= 1.0)
     webrat (0.7.3)
@@ -141,13 +128,12 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable_with_threading
-  acts_as_geocodable
   breadcrumbs_on_rails
   cancan
   devise
-  devise_rpx_connectable
   flutie
   formtastic
+  geocoder
   haml
   jquery-rails
   json

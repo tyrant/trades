@@ -1,5 +1,9 @@
 class Review < ActiveRecord::Base
 
+  # For form select boxes.
+  REVIEWABLE_TYPES = [['All', 'All'], ['Job', 'Job'], ['Trader', 'Trader'], ['Quote', 'Quote']] # Add in 'business' later.
+  REVIEWER_TYPES = [['All', 'All'], ['Customer', 'Customer'], ['Trader', 'Trader']]
+
   belongs_to :reviewable, :polymorphic => :true
   belongs_to :reviewer, :polymorphic => :true
 

@@ -85,6 +85,6 @@ class TradersController < ApplicationController
       # RequestQuoteWorker(trader, params[:job_id], params[:request_content])
       trader.request_quote(params[:job_id], params[:request_content])
     end
-    render 'ajax_request_quote.js', :layout => false
+    render 'ajax_request_trader.js', :layout 
   end
 end
