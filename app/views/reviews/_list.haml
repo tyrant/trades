@@ -1,0 +1,36 @@
+.results
+  - if reviews.length != 0
+    - if editable
+      - reviews.each do |review|
+        .listable
+          .title
+            = link_to 'Edit', edit_review_path(review), { :class => "review_edit_button", :id => "review_#{review.id}" }
+            = link_to review.title, review, { :id => "review_#{review.id}_title_text" }
+            %input{ :type => 'text', :value => review.title, :style => 'display:none;', :id => "review_#{review.id}_title_input" }
+          .mark
+            %span{ :id => "review_#{review.id}_mark_text" }
+              #{review.mark} stars
+            %select{ :id => "review_#{review.id}_mark_input", :style => "display:none;" }
+              - Review.marks.each do |t|
+                - if t == review.mark
+                  %option{ :selected => 'selected', :value => t }= t
+                - else
+                  %option{ :value => t }= t
+          .desc
+            %div{ :id => "review_#{review.id}_desc_text" }
+              = simple_format review.description
+            %textarea{ :id => "review_#{review.id}_desc_input", :style => 'display:none;' }
+              = review.description
+          %div{ :id => "review_#{review.id}_errors" }
+          %input{ :type => 'button', :id => "review_#{review.id}_submit", :class => 'review_submit_button', :value => 'Edit', :style => 'display:none;' }
+    - else
+      - reviews.each do |review|
+        .listable
+          .title
+            = link_to review.title, review
+          .mark
+            #{review.mark} stars 
+          .desc
+            = simple_format review.description
+  - else
+    No reviews exist just yet.

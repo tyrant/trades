@@ -1,0 +1,13 @@
+%h1
+  Review: #{@review.title}
+  
+%strong Subject of this review:
+= link_to "link.", reviewable_path(@review.reviewable)
+%br
+%strong Description:
+%br
+= @review.description
+%br
+%strong Mark:
+= @review.mark
+

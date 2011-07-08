@@ -22,15 +22,6 @@ module ReviewsHelper
     end
   end
   
-  def reviewer_name(reviewer)
-    puts reviewer
-    if reviewer.instance_of? Customer
-      return reviewer.email
-    elsif reviewer.instance_of? Trader
-      return reviewer.name
-    end
-  end
-  
   def reviewable_name(reviewable)
     if reviewable.instance_of? Job
       return reviewable.title
@@ -41,5 +32,14 @@ module ReviewsHelper
     elsif reviewable.instance_of? Business
       return reviewable.name
     end
-  end  
+  end
+  
+  def reviewer_name(reviewer)
+    puts reviewer
+    if reviewer.instance_of? Customer
+      return reviewer.email
+    elsif reviewer.instance_of? Trader
+      return reviewer.name
+    end
+  end
 end

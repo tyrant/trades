@@ -24,8 +24,6 @@
   #{tag_readable}
 
   $(document).ready(function() {    
-    // Mapplet!
-    console.log('map_canvas: ' + map_canvas + ' map_zoom: ' + map_zoom + ' map_lat: ' + map_lat + ' map_lng: ' + map_lng);
     var map = new google.maps.Map(document.getElementById(map_canvas), {
       zoom: map_zoom,
       center: new google.maps.LatLng(map_lat, map_lng),

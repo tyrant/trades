@@ -1,3 +1,6 @@
+- content_for :google_maps do
+  = render :partial => 'locatable/locatable.haml'
+
 = render :partial => 'traders/search_js', :locals => { :create_new => true, :select_many => false, :trader_bucket => '#job_trader_id' }
 = render :partial => 'jobs/form_js'
 

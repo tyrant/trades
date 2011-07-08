@@ -21,6 +21,8 @@ Trades::Application.routes.draw do
   resources :businesses
   resources :images
   
+  match 'profile' => 'application#profile'
+  
   #match ':controller(/:action(/:id))'
 
   root :to => "jobs#index"

@@ -1,3 +1,6 @@
+- content_for :google_maps do
+  = render :partial => 'locatable/locatable.haml'
+
 = render :partial => 'job_map_js', :locals => { :map_lat => -41.079351, :map_lng => 173.144531, :map_zoom => 6, :job_objects => @jobs }
 
 %strong TODO
@@ -29,17 +32,5 @@
   %br/
   %input{:type => 'submit', :value => 'Find Jobs'}
 
-- if @jobs.length != 0
-  - @jobs.each do |job|
-    .job
-      %ul
-        %li= link_to job.title, job
-        %li= job.description
-        - if !job.address.nil?
-          %li= job.address.lat
-          %li= job.address.lng
-
-            
-- else
-  No jobs exist just yet.
+= render :partial => 'list', :locals => { :jobs => @jobs }
 

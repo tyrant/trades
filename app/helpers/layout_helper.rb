@@ -31,4 +31,5 @@ module LayoutHelper
     return "[];" if jobs.nil? || jobs.empty?
     '[' + jobs.map{|j| "{ lat: #{j.address.lat}, lng: #{j.address.lng}, title: '#{j.title}', id: #{j.id} }" }.join(', ') + '];'
   end
+
 end

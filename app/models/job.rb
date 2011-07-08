@@ -16,6 +16,9 @@ class Job < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :description
   
+  cattr_reader :per_page
+  @@per_page = 10
+  
   accepts_nested_attributes_for :address, :videos, :reviews
   
   before_create :set_completed_to_false

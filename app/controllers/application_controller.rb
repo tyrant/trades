@@ -1,5 +1,40 @@
 class ApplicationController < ActionController::Base
 
+
+  # ----- MISCELLANEOUS ACTIONS NOT PART OF OTHER CONTROLLERS ----- #
+
+
+  # Display all sorts of cool things about the logged-in user, for their profile page. Customer/trader 'show'
+  # actions are for publicly viewable pages - profile pages are separate from that and have a lot more editable stuff.
+  
+  def profile
+  
+    # Customers: display paginated Jobs they own, paginated Reviews they wrote (for Jobs and Traders).
+    # Default pagination is ten items, first page. Other pages and sizes are available by Ajaxly hitting
+    # each model's Index controller directly.
+    if current_user.instance_of? Customer
+    
+      @jobs = current_user.jobs.paginate(:page => 1, :order => 'created_at DESC') || {}
+      @job_reviews = current_user.reviews.paginate(:page => 1, :order => 'created_at DESC').find_all {|r| r.reviewable.instance_of? Job } || {}
+      @trader_reviews = current_user.reviews.paginate(:page => 1, :order => 'created_at DESC').find_all {|r| r.reviewable.instance_of? Trader } || {}
+      puts "JOB REVIEWS: #{@job_reviews}"
+      puts "TRADER REVIEWS: #{@trader_reviews}"     
+      render 'customers/profile' and return
+      
+    elsif current_user.instance_of? Trader
+    
+      render 'traders/profile' and return
+    
+    else
+      redirect_to root_url, :alert => 'Log in first!'
+    end
+    
+
+  end
+  
+  
+  # ----- EVERYTHING ELSE ----- #
+
   protect_from_forgery
   
   rescue_from CanCan::AccessDenied do |e|
@@ -67,6 +102,10 @@ class ApplicationController < ActionController::Base
   
   def new_user_session_path
     user_a?('customer') ? new_customer_session_path : new_trader_session_path
+  end
+  
+  def profile_path
+    '/profile'
   end
   
   # See https://github.com/plataformatec/devise/blob/master/lib/devise/controllers/helpers.rb

@@ -11,3 +11,12 @@ textarea {
   height: 400px;
   width: 500px;
 }
+
+.listable {
+  height: 90px;
+  overflow: hidden;
+}
+
+.expanded_listable {
+  height: 100%;
+}

@@ -1,0 +1,10 @@
+%h1 Your Shit
+
+%h2 Jobs
+= render :partial => 'jobs/list', :locals => { :jobs => @jobs, :editable => true } 
+
+%h2 Job Reviews
+= render :partial => 'reviews/list', :locals => { :reviews => @job_reviews, :editable => true }
+
+%h2 Trader Reviews
+= render :partial => 'reviews/list', :locals => { :reviews => @trader_reviews, :editable => true }
