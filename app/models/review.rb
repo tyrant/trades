@@ -9,6 +9,9 @@ class Review < ActiveRecord::Base
 
   validates_presence_of :description
   validates_numericality_of :mark
+  
+  cattr_reader :per_page
+  @@per_page = 10
 
   def self.marks
     [1, 2, 3, 4, 5]

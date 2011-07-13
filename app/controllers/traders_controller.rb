@@ -9,10 +9,11 @@ class TradersController < ApplicationController
     if !@trader.sprightly?
       redirect_to(traders_path, :notice => "This trader's profile is inactive right now.") and return
     else
-      # Grab the five highest reviews this Trader's received for their work
-      @job_reviews = Review.find_by_sql("SELECT * FROM reviews r INNER JOIN jobs j ON r.reviewable_id=j.id INNER JOIN traders t ON j.trader_id=t.id ORDER BY r.mark DESC LIMIT 5")
-      # Grab the five highest reviews this Trader's received for themselves
-      @self_reviews = Review.find_by_sql("SELECT * FROM reviews r INNER JOIN traders t ON r.reviewable_id=t.id ORDER BY r.mark DESC LIMIT 5")
+      # Grab the reviews this Trader's received for their work.
+      @job_reviews = Review.joins(:job => :trader).where('trader.id = ?', @trader.id).order("review.mark DESC").paginate(:page => 1)
+      
+      # Grab the reviews this Trader's received for themselves
+      @self_reviews = Review.joins(:trader).where('trader.id = ?', @trader.id).order("review.mark DESC").paginate(:page => 1)
     end
   end
 

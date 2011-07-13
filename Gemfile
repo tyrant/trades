@@ -30,5 +30,3 @@ gem "formtastic"
 gem "rspec-rails"
 gem "breadcrumbs_on_rails"
 gem "koala"
-
-

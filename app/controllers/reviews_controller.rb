@@ -42,6 +42,19 @@ class ReviewsController < ApplicationController
     end
   end
   
+  def update
+    @review = Review.find(params[:id])
+    respond_to do |format|
+      if @review.update_attributes(params[:review])
+        format.json { render :json => @review }
+        format.html { redirect_to @review, :notice => "This review has been updated" }
+      else
+        format.json { render :json => @review.errors }
+        format.html { render :action => "edit" }
+      end
+    end
+  end
+  
   
   # Grab the HTML for a trader review.
   def new_trader_review

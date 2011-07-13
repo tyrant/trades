@@ -124,9 +124,10 @@ $(document).ready(function() {
     return error_list
   }
 
-  // Expand or contract list items.
+  // Expand or contract list items. FIXME: double-clicking writes height value to style attribute of .desc,
+  // for some reason, overriding class height values.
   $(".listable .desc").click(function() {
-    if ($($(this).children()[1]).attr('style') == 'display: none;') {
+    if ($(this).parent().children().length == 2 || $($(this).children()[1]).attr('style') == 'display: none;') {
       $(this).parent().toggleClass("expanded_listable", 300);
     }
   });
@@ -143,6 +144,7 @@ $(document).ready(function() {
     $("#job_" + job_id + "_desc_text").toggle();
     $("#job_" + job_id + "_desc_input").toggle();
     $("#job_" + job_id + "_submit").toggle();
+    $("#job_" + job_id + "_errors").html('');
 
     if (!desc_expanded || (desc_expanded && !edit_expanded)) {
       $(this).parent().parent().addClass("expanded_listable", 300);
@@ -167,7 +169,7 @@ $(document).ready(function() {
         } else {
           $("#job_" + job_id + "_errors").html('<strong>Job successfully edited</strong>');
           $("#job_" + job_id + "_title_text").html(response.job.title);
-          $("#job_" + job_id + "_desc_text").html(response.job.description);
+          $("#job_" + job_id + "_desc_text").html('<p>' + response.job.description.replace(/\n/gi, "<br />") + '</p>');
         }
       },
       datatype: 'json'
@@ -188,6 +190,7 @@ $(document).ready(function() {
     $("#review_" + review_id + "_desc_text").toggle();
     $("#review_" + review_id + "_desc_input").toggle();
     $("#review_" + review_id + "_submit").toggle();
+    $("#review_" + review_id + "_errors").html('');
 
     if (!desc_expanded || (desc_expanded && !edit_expanded)) {
       $(this).parent().parent().addClass("expanded_listable", 300);
@@ -204,7 +207,7 @@ $(document).ready(function() {
     var mark = $("#review_" + review_id + "_mark_input").val();
     var description = $("#review_" + review_id + "_desc_input").val();
     $.ajax({
-      url: '/review/' + review_id,
+      url: '/reviews/' + review_id,
       type: 'put',
       data: { review: { title: title, mark: mark, description: description } },
       success: function(response) {
@@ -213,8 +216,8 @@ $(document).ready(function() {
         } else {
           $("#review_" + review_id + "_errors").html('<strong>Review successfully edited</strong>');
           $("#review_" + review_id + "_title_text").html(response.review.title);
-          $("#review_" + review_id + "_mark_text").html(response.review.mark);
-          $("#review_" + review_id + "_desc_text").html(response.review.description);
+          $("#review_" + review_id + "_mark_text").html(response.review.mark + (response.review.mark == 1 ? ' star' : ' stars'));
+          $("#review_" + review_id + "_desc_text").html('<p>' + response.review.description.replace(/\n/gi, "<br />") + '</p>');
         }
       },
       datatype: 'json'

@@ -1,4 +1,11 @@
 class Trader < ActiveRecord::Base
+
+  # Purpose of attribute "sprightly": Customers use the Create Trader form on the Quick Review page
+  # when they're Reviewing a Job and the Trader doing this Job doesn't yet exist on the site. The Trader
+  # object is created, but at that point isn't controlled by an actual person. If that person uses the
+  # website, sees their profile and thinks "hey, that's me!", they answer the security question given by
+  # the object's creator, and sprightly = true.
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -21,7 +28,7 @@ class Trader < ActiveRecord::Base
 
   validates_presence_of :first_name
   validates_presence_of :last_name
-  validates_presence_of :question, :if => "sprightly?"
+  validates_presence_of :question, :unless => "sprightly?"
 
   before_create :set_login_and_temp_password
 
@@ -49,6 +56,10 @@ class Trader < ActiveRecord::Base
   # submit a Quote.
   def request_quote(job_id, content)
     
+  end
+  
+  def to_param
+    "#{self.name.slugify}-#{self.id}"
   end
   
   private

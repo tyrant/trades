@@ -32,5 +32,5 @@
   %br/
   %input{:type => 'submit', :value => 'Find Jobs'}
 
-= render :partial => 'list', :locals => { :jobs => @jobs }
+= render :partial => 'list', :locals => { :jobs => @jobs, :editable => false }
 

@@ -43,21 +43,24 @@ City.create!(:name => 'Invercargill', :lat => -45.87876, :lng => 170.502798)
   :first_name => 'Eau',
   :last_name => 'de Humanity',
   :email => '1@2.com',
-  :password => 'blargh'
+  :password => 'blargh',
+  :sprightly => true
 )
 
 @trader2 = Trader.create!(
   :first_name => 'Eau',
   :last_name => 'de Klingon',
   :email => '1@3.com',
-  :password => 'blargh'
+  :password => 'blargh',
+  :sprightly => true
 )
 
 @trader3 = Trader.create!(
   :first_name => 'Orifice',
   :last_name => 'McSweeney',
   :email => '1@4.com',
-  :password => 'blargh' 
+  :password => 'blargh',
+  :sprightly => true
 )
 
 @customer1 = Customer.create!(

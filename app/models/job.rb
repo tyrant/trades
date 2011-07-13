@@ -52,9 +52,9 @@ class Job < ActiveRecord::Base
     self.images = Image.where('token IN (?)', "#{tokens}").to_a
   end
   
-  #def to_param
-  #  "#{self.title}-#{self.id}"
-  #end
+  def to_param
+    "#{self.title.slugify}-#{self.id}"
+  end
   
   def by_region(regions)
     

@@ -29,7 +29,10 @@
           .title
             = link_to review.title, review
           .mark
-            #{review.mark} stars 
+            - if review.mark == 1
+              #{review.mark} star
+            - else
+              #{review.mark} stars
           .desc
             = simple_format review.description
   - else
