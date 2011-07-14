@@ -2,6 +2,7 @@ class TradersController < ApplicationController
 
   def index
     @traders = Trader.where(:sprightly => true)
+    @title = 'All Traders'
   end
   
   def show
@@ -9,11 +10,11 @@ class TradersController < ApplicationController
     if !@trader.sprightly?
       redirect_to(traders_path, :notice => "This trader's profile is inactive right now.") and return
     else
-      # Grab the reviews this Trader's received for their work.
-      @job_reviews = Review.joins(:job => :trader).where('trader.id = ?', @trader.id).order("review.mark DESC").paginate(:page => 1)
+      # Grab the reviews this Trader's received for their work. Why can't polymorphic joins work? :'(
+      @job_reviews = Review.find_by_sql("SELECT * FROM reviews r INNER JOIN jobs j ON r.reviewable_id = j.id INNER JOIN traders t ON j.trader_id = t.id WHERE r.reviewable_type = 'Job' AND t.id = #{@trader.id}")
       
-      # Grab the reviews this Trader's received for themselves
-      @self_reviews = Review.joins(:trader).where('trader.id = ?', @trader.id).order("review.mark DESC").paginate(:page => 1)
+      # Grab the reviews this Trader's received for themselves.
+      @self_reviews = Review.find_by_sql("select * from reviews r inner join traders t on r.reviewable_id = t.id where r.reviewable_type = 'Trader' and t.id = #{@trader.id}")
     end
   end
 

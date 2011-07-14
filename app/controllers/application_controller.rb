@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   
   def profile
   
+    @title = 'Your Profile'
+  
     # Customers: display paginated Jobs they own, paginated Reviews they wrote (for Jobs and Traders).
     # Default pagination is ten items, first page. Other pages and sizes are available by Ajaxly hitting
     # each model's Index controller directly.
@@ -16,9 +18,8 @@ class ApplicationController < ActionController::Base
     
       @jobs = current_user.jobs.paginate(:page => 1, :order => 'created_at DESC') || {}
       @job_reviews = current_user.reviews.paginate(:page => 1, :order => 'created_at DESC').find_all {|r| r.reviewable.instance_of? Job } || {}
-      @trader_reviews = current_user.reviews.paginate(:page => 1, :order => 'created_at DESC').find_all {|r| r.reviewable.instance_of? Trader } || {}
-      puts "JOB REVIEWS: #{@job_reviews}"
-      puts "TRADER REVIEWS: #{@trader_reviews}"     
+      @trader_reviews = current_user.reviews.paginate(:page => 1, :order => 'created_at DESC').find_all {|r| r.reviewable.instance_of? Trader } || {}  
+      
       render 'customers/profile' and return
       
     elsif current_user.instance_of? Trader

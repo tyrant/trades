@@ -25,12 +25,10 @@
         - if current_user.instance_of? Customer
           %span #{link_to 'Quick Review', '/reviews/quick'}
 
-        %span #{link_to 'Your Profile', profile_path}
+        %span #{link_to 'Profile', profile_path}
         %span #{link_to 'Traders', traders_path}
-        %span #{link_to 'Quotes', quotes_path}
         %span #{link_to 'Reviews', reviews_path}
         %span #{link_to 'Jobs', jobs_path}
-        %span #{link_to 'Professions', professions_path}
         - flash.each do |name, msg|
           = content_tag :div, msg, :id => "flash_#{name}"
     

@@ -1,19 +1,21 @@
+- content_for :title do
+  = @title
+
 - content_for :google_maps do
   = render :partial => 'locatable/locatable.haml'
 
 = render :partial => 'traders/search_js', :locals => { :create_new => true, :select_many => false, :trader_bucket => '#job_trader_id' }
 = render :partial => 'jobs/form_js'
 
-%h1 Quick Review
+%h1= @title
+
 If you've just had a job done and you just want to quickly throw together a review, here's the place to do it.
 
 - if current_user.instance_of?(Trader) && @job.trader.nil?
   %input{:type => 'button', :value => 'I did this job!'}
   
 %h2#step_1 (Step 1 of 3) Choose a trader
-%p
-  %strong TODO
-  %em The list of returned Traders needs to have sorting options - sort by relevance (algorithm to deduce relevance TBD), distance from current location (either taken from the Google Map below or deduced by IP), average fee, reputation? Filtered by name, profession. Presentation: bullet list, first+last names, thumbnail image, link to Trader profile page. Click on Trader thumbnail to select for job below.
+
 = render 'traders/search'
 
 #new_trader_div{:style => "display:none;"}
@@ -21,9 +23,7 @@ If you've just had a job done and you just want to quickly throw together a revi
   = render 'traders/form'
 
 %h2#step_2 (Step 2 of 3) Describe the job
-%p
-  %strong TODO
-  %em Title, Description and Imageable done - jobs are Videoable too. Find relevant video jQuery plugin. Google map - more polishing. Add animation for adding markers, plus, say, 200ms delay between adding each; if only one marker appears, then automatically select it; make it more clear to the user that they have to click on a marker to select that address. 
+
 = render 'jobs/form'
 
 %h2#step_3 (Step 3 of 3) Review it!

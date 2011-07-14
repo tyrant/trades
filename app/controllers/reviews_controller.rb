@@ -21,6 +21,7 @@ class ReviewsController < ApplicationController
     @trader = Trader.new
     @job = Job.new
     @review = Review.new
+    @title = 'Quick Review'
 
     respond_to do |format|
       format.html { render 'new_job_review' }

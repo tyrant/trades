@@ -2,7 +2,7 @@
   - if reviews.length != 0
     - if editable
       - reviews.each do |review|
-        .listable
+        .listable{ :editable => 'true' }
           .title
             = link_to 'Edit', edit_review_path(review), { :class => "review_edit_button", :id => "review_#{review.id}" }
             = link_to review.title, review, { :id => "review_#{review.id}_title_text" }
@@ -25,7 +25,7 @@
           %input{ :type => 'button', :id => "review_#{review.id}_submit", :class => 'review_submit_button', :value => 'Edit', :style => 'display:none;' }
     - else
       - reviews.each do |review|
-        .listable
+        .listable{ :editable => 'false' }
           .title
             = link_to review.title, review
           .mark

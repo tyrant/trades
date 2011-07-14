@@ -2,7 +2,7 @@
   %ul
     - @trader.errors.full_messages.each do |m|
       %li= m
-  = f.inputs "Your trader isn't listed above - add them!" do
+  = f.inputs "The trader you're looking for isn't listed above - add them!" do
     = f.input :first_name
     = f.input :last_name
     = f.input :question

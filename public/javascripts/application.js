@@ -127,7 +127,7 @@ $(document).ready(function() {
   // Expand or contract list items. FIXME: double-clicking writes height value to style attribute of .desc,
   // for some reason, overriding class height values.
   $(".listable .desc").click(function() {
-    if ($(this).parent().children().length == 2 || $($(this).children()[1]).attr('style') == 'display: none;') {
+    if ($(this).parent().attr('editable') == 'false' || $($(this).children()[1]).attr('style') == 'display: none;') {
       $(this).parent().toggleClass("expanded_listable", 300);
     }
   });

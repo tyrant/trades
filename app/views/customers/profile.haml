@@ -1,4 +1,7 @@
-%h1 Your Stuff
+- content_for :title do
+  = @title
+
+%h1= @title
 
 %h2 Jobs
 = render :partial => 'jobs/list', :locals => { :jobs => @jobs, :editable => true } 

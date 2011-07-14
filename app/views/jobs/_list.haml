@@ -2,7 +2,7 @@
   - if jobs.length != 0
     - if editable
       - jobs.each do |job|
-        .listable
+        .listable{ :editable => 'true' }
           .title
             = link_to 'Edit', edit_job_path(job), { :class => "job_edit_button", :id => "job_#{job.id}" }
             = link_to job.title, job, { :id => "job_#{job.id}_title_text" }
@@ -16,7 +16,7 @@
           %input{ :type => 'button', :id => "job_#{job.id}_submit", :class => 'job_submit_button', :value => 'Edit', :style => 'display:none;' }
     - else
       - jobs.each do |job|
-        .listable
+        .listable{ :editable => 'false' }
           .title
             = link_to job.title, job
           .desc

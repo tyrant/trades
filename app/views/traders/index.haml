@@ -1,10 +1,5 @@
-%h1 All Traders
+- content_for :title do
+  = @title
 
-- if @traders.length != 0
-  - @traders.each do |trader|
-    .trader
-      %ul
-        %li #{link_to trader.name, trader}
-          
-- else
-  No traders.
+%h1= @title
+= render :partial => 'list', :locals => { :traders => @traders }
