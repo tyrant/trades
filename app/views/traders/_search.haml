@@ -1,6 +1,42 @@
-%form#choose_trader{:action => '/traders/search.json', :method => 'get', :class => 'formtastic'}
-  %fieldset{:class => 'inputs'}
-    %input{:type => 'text', :id => 'trader_text', :name => 'trader_text'}
-    %input{:type => 'submit', :value => 'Find a trader'}
+Either find the trader who did your job, or if s/he isn't listed, add them yourself. Takes about five seconds.
 
-%ul#trader_results
+%form#choose_trader{:action => '/traders/search.json', :method => 'get', :class => 'formtastic'}
+  %input#trader_search_page{:type => 'hidden', :name => 'page', :value => '1'}
+  %fieldset{:class => 'inputs'}
+    %table
+      %tr
+        %td Name
+        %td
+          %input{:type => 'text', :id => 'trader_text', :name => 'trader_text'}
+          
+      %tr
+        %td Profession
+        %td
+          %select#profession{:name => 'profession'}
+            %option{:value => "0"}
+              \-- any profession --
+            - @professions.each do |profession|
+              %option{:value => "#{profession.id}"}
+                = profession.name
+      %tr
+        %td City/Region
+        %td
+          %select#city{:name => 'city'}
+            %option{:value => '0'}
+              \-- any city --
+            - @cities.each do |city|
+              %option{:value => "#{city.id}"}
+                = city.name
+      %tr
+        %td
+        %td
+          %input{:type => 'submit', :value => 'Find a trader'}
+      %tr
+        %td Selected trader
+        %td
+          %strong
+            %span#selected_traders_list (none)
+
+%span#selected_traders
+#trader_results
+  %ul#trader_results_list

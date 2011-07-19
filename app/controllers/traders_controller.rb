@@ -22,13 +22,16 @@ class TradersController < ApplicationController
   def search
     t = "%#{params[:trader_text]}%"
     @traders = Trader.where("(first_name LIKE ? OR last_name LIKE ?)", t, t)
-    @traders = @traders.join(:professions_traders => :professions).where(:professions => {:name => params[:profession]}) if params.has_key? 'profession'
-    @traders = @traders.paginate(:page => params[:page])
-    if @traders.length > 0
-      render :json => @traders.to_json
-    else
-      render :json => [{'id' => 0, 'name' => 'No traders match your search.'}].to_json
-    end
+    @traders = @traders.joins(:professions).where("professions.id = ?", params[:profession]) if params.has_key? 'profession' and params[:profession] != '0'
+    
+    page = params.has_key?('page') ? params[:page] : 1
+    @traders = @traders.paginate(:page => page, :per_page => 10)
+    render :json => {
+      'traders' => @traders,
+      'page' => page,
+      'total_pages' => @traders.total_pages,
+      'total_entries' => @traders.total_entries
+    }
   end
 
   def new

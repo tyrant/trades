@@ -21,6 +21,9 @@ class ReviewsController < ApplicationController
     @trader = Trader.new
     @job = Job.new
     @review = Review.new
+    @professions = Profession.all
+    @cities = City.all
+    
     @title = 'Quick Review'
 
     respond_to do |format|

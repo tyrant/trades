@@ -1,3 +1,14 @@
+:javascript
+  $(document).ready(function() {
+    $("#accordion").accordion({
+      autoHeight: false,
+      navigation: true,
+      change: function(event, ui) {
+        google.maps.event.trigger(document.getElementById('map_canvas'), 'resize');
+      }
+    });
+  });
+
 - content_for :title do
   = @title
 
@@ -9,26 +20,32 @@
 
 %h1= @title
 
-If you've just had a job done and you just want to quickly throw together a review, here's the place to do it.
+If you've just had a job done and want to throw together a quick review, this is the place.
 
 - if current_user.instance_of?(Trader) && @job.trader.nil?
   %input{:type => 'button', :value => 'I did this job!'}
-  
-%h2#step_1 (Step 1 of 3) Choose a trader
 
-= render 'traders/search'
+#accordion
 
-#new_trader_div{:style => "display:none;"}
-  %h2#step_1a (Step 1-and-a-bit of 3) Create a new trader
-  = render 'traders/form'
+  %h3#step_1
+    %a{:href => '#section1'}
+      Step 1: Choose a trader
+  %div
+    = render 'traders/search'
 
-%h2#step_2 (Step 2 of 3) Describe the job
+    #new_trader_div{:style => "display:none;"}
+      %h4#step_1a Step 1-and-a-bit: Create a new trader
+      = render 'traders/form'
 
-= render 'jobs/form'
+  %h3#step_2
+    %a{:href => '#section2'}
+      Step 2: Describe the job
+  %div
+    = render 'jobs/form'
 
-%h2#step_3 (Step 3 of 3) Review it!
-%p
-  %strong TODO
-  %em Similar deal with Reviews as Jobs - get Videoable cranking along.
-#trader_reviewed
-  = render 'reviews/form'
+  %h3#step_3
+    %a{:href => '#section3'}
+      Step 3: Review it!
+
+  #trader_reviewed
+    = render 'reviews/form'

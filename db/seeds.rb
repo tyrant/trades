@@ -13,11 +13,11 @@ Address.all.each { |a| a.destroy }
 Job.all.each { |j| j.destroy }
 Customer.all.each { |c| c.destroy }
 
-Profession.create!(:name => 'Stegosaurus Construction')
-Profession.create!(:name => 'Ambulance Juggling')
-Profession.create!(:name => 'Titanic Chewing')
-Profession.create!(:name => 'Indecision Nonmaking')
-Profession.create!(:name => 'Tantrum Fuelling')
+@pro1 = Profession.create!(:name => 'Stegosaurus Construction')
+@pro2 = Profession.create!(:name => 'Ambulance Juggling')
+@pro3 = Profession.create!(:name => 'Titanic Chewing')
+@pro4 = Profession.create!(:name => 'Indecision Nonmaking')
+@pro5 = Profession.create!(:name => 'Tantrum Fuelling')
 
 City.create!(:name => 'Whanagrei', :lat => -35.72366, :lng => 174.323502)
 City.create!(:name => 'Auckland', :lat => -36.853664, :lng => 174.764929)
@@ -44,7 +44,8 @@ City.create!(:name => 'Invercargill', :lat => -45.87876, :lng => 170.502798)
   :last_name => 'de Humanity',
   :email => '1@2.com',
   :password => 'blargh',
-  :sprightly => true
+  :sprightly => true,
+  :professions => [@pro1, @pro2]
 )
 
 @trader2 = Trader.create!(
@@ -59,6 +60,118 @@ City.create!(:name => 'Invercargill', :lat => -45.87876, :lng => 170.502798)
   :first_name => 'Orifice',
   :last_name => 'McSweeney',
   :email => '1@4.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader4 = Trader.create!(
+  :first_name => 'Keith',
+  :last_name => 'Zambizi',
+  :email => '1@5.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader5 = Trader.create!(
+  :first_name => 'Honkytonk',
+  :last_name => 'Badonkadonk',
+  :email => '1@6.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader6 = Trader.create!(
+  :first_name => 'First',
+  :last_name => 'Second',
+  :email => '1@7.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader7 = Trader.create!(
+  :first_name => 'Statford',
+  :last_name => 'de Aven',
+  :email => '1@8.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader8 = Trader.create!(
+  :first_name => 'Carry on',
+  :last_name => 'Kampfing',
+  :email => '1@9.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader9 = Trader.create!(
+  :first_name => 'Sticks',
+  :last_name => 'Stones',
+  :email => '1@10.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader10 = Trader.create!(
+  :first_name => 'Darth',
+  :last_name => 'Vader',
+  :email => '1@11.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader11 = Trader.create!(
+  :first_name => 'Enterprise',
+  :last_name => 'A',
+  :email => '1@12.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader12 = Trader.create!(
+  :first_name => 'Channel',
+  :last_name => 'Five',
+  :email => '1@13.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader13 = Trader.create!(
+  :first_name => 'Welcome',
+  :last_name => 'to Zombocom',
+  :email => '1@14.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader14 = Trader.create!(
+  :first_name => 'Nazi',
+  :last_name => 'Gold',
+  :email => '1@15.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader15 = Trader.create!(
+  :first_name => 'Customers',
+  :last_name => 'Run!',
+  :email => '1@16.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader16 = Trader.create!(
+  :first_name => 'Warp Nine',
+  :last_name => 'Engage',
+  :email => '1@17.com',
+  :password => 'blargh',
+  :sprightly => true
+)
+
+@trader17 = Trader.create!(
+  :first_name => 'First',
+  :last_name => 'Class',
+  :email => '1@18.com',
   :password => 'blargh',
   :sprightly => true
 )

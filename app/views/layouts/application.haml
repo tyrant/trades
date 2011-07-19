@@ -9,7 +9,7 @@
     = yield :head
       
     = content_for?(:google_maps) ? yield(:google_maps) : ''
-    = javascript_include_tag 'jquery.min', 'jquery-ui.min', 'application.js', 'rails.js'
+    = javascript_include_tag 'jquery.min', 'jquery-ui-1.8.14.custom.min', 'application.js', 'rails.js'
     %script{:type => 'text/javascript', :src => '/uploadify/swfobject.js'}
     %script{:type => 'text/javascript', :src => '/uploadify/jquery.uploadify.v2.1.4.min.js'} 
 
@@ -25,7 +25,9 @@
         - if current_user.instance_of? Customer
           %span #{link_to 'Quick Review', '/reviews/quick'}
 
-        %span #{link_to 'Profile', profile_path}
+        - if user_signed_in?
+          %span #{link_to 'Profile', profile_path}
+          
         %span #{link_to 'Traders', traders_path}
         %span #{link_to 'Reviews', reviews_path}
         %span #{link_to 'Jobs', jobs_path}

@@ -23,14 +23,14 @@
 
   $(document).ready(function() {
     $("#choose_trader").submit(function(event) {
-      $.getJSON($(this).attr('action'), $(this).serialize(), function(data) {
-        $("#trader_results").html("");
-        $.each(data, function(index, trader) {
-          if (trader.id != 0) {
+      $.getJSON($(this).attr('action'), $(this).serialize(), function(response) {
+        $("#trader_results").html('<ul id="trader_results_list"></ul>');
+        if (response.traders.total_entries != 0) {
+          $.each(response.traders, function(index, trader) {
 
-            if (select_many) {
+            if (select_many) {              // Use checkboxes
 
-              $("#trader_results").append('<input type="checkbox" name="select_trader" id="trader_' + trader.id + '" />'
+              $("#trader_results_list").append('<input type="checkbox" name="select_trader" id="trader_' + trader.id + '" />'
                 + '<label class="pointer" for="trader_' + trader.id + '">' + trader.name + '</label>');
               $("#trader_" + trader.id).click(function() {
                 var trader_ids = $(trader_bucket).val();
@@ -48,37 +48,65 @@
                 $(trader_bucket).val(trader_ids.join(','));   
               });
 
-            } else {
+            } else {               // Use radio buttons
 
-              $("#trader_results").append('<input type="radio" name="select_trader" id="trader_' + trader.id + '" />'
-                + '<label class="pointer" for="trader_' + trader.id + '">' + trader.name + '</label>');
+              $("#trader_results_list").append('<li><input type="radio" name="select_trader" id="trader_' + trader.id + '" />'
+                + '<strong class="list_heading"><label class="pointer" for="trader_' + trader.id + '" style="display:inline;">' + trader.name + '</label></strong> (<a href="/traders/' + trader.name.slugify() + '-' + trader.id + '">profile</a>)</li>');
               $("#trader_" + trader.id).click(function() {
                 $(trader_bucket).val(trader.id);
+                $("#selected_traders_list").html('<a href="/traders/' + trader.name.slugify() + '-' + trader.id + '">' + trader.name + '</a>');
               });
 
             }
-
+          });
+          
+          // Pagination - prev/next.
+          
+          $("#trader_results").prepend(' Page ' + response.page + ' of ' + response.total_pages);
+          
+          $('<button id="trader_search_next">Next</button>').prependTo("#trader_results").button();         
+          if (response.page < response.total_pages) {
+            $("#trader_search_next").click(function() {
+              $("#trader_search_page").val(parseInt(response.page) + 1);
+              $("#choose_trader").submit();
+              return false;
+            });
           } else {
-            $("#trader_results").append('<li>' + trader.name + '</li>'); // Display "No results".
+            $("#trader_search_next").attr("disabled", "disabled").css("color", "gray"); 
+          }  
+          
+          $('<button id="trader_search_prev">Prev</button>').prependTo("#trader_results").button();
+          if (response.page > 1) {
+            $("#trader_search_prev").click(function() {
+              $("#trader_search_page").val(parseInt(response.page) - 1);
+              $("#choose_trader").submit();
+              return false;
+            });
+          } else {
+            $("#trader_search_prev").attr("disabled", "disabled").css("color", "gray");
           }
-        });
+          
+        } else {
+          $("#trader_results_list").append('<li>No traders match your search.</li>');
+        }
 
         if (create_new) {
 
-          $("#trader_results").append('<li>Not on the list? <a href="#" id="toggle_new_trader">Add them!</a></li>');
+          $("#trader_results_list").append('<li>Not on the list? <a href="#" id="toggle_new_trader">Add them!</a></li>');
+          $("#toggle_new_trader").button();
           $("#toggle_new_trader").click(function() {
-            $("#new_trader_div").toggle();
-            var self = $(this);
-            if (self.html() == "Add them!")
-              self.html("Close this window");
-            else if (self.html() == "Close this window") 
-              self.html("Add them!");
+            $("#new_trader_div").slideToggle(200);
+            if ($("#toggle_new_trader span").html() == "Add them!")
+              $("#toggle_new_trader span").html("Minimise this");
+            else if ($("#toggle_new_trader span").html() == "Minimise this") 
+              $("#toggle_new_trader span").html("Add them!");
             event.preventDefault();
 
           });
 
         }
       });
+      
       event.preventDefault();
     });
   });

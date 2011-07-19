@@ -1,3 +1,5 @@
+Write a few quick words about the job itself.
+
 = semantic_form_for @job, :remote => true, :html => { :multipart => true } do |f|
   %ul
     - @job.errors.full_messages.each do |m|
@@ -20,6 +22,5 @@
       %label{:for => 'image'} Images
     %input#job_upload{:type => 'file'}
     %br
-    %input#image_tokens{:name => 'job[image_tokens]', :type => 'hidden', :value => ''}
-    %ul#job_thumbs
+    = render :partial => 'imageable/show', :locals => { :id => 'job_image_tokens', :name => 'job[image_tokens]', :thumbs => 'job_thumbs' }
     = f.submit "Create a new job"

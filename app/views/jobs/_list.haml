@@ -4,8 +4,8 @@
       - jobs.each do |job|
         .listable{ :editable => 'true' }
           .title
-            = link_to 'Edit', edit_job_path(job), { :class => "job_edit_button", :id => "job_#{job.id}" }
             = link_to job.title, job, { :id => "job_#{job.id}_title_text" }
+            = link_to 'Edit', edit_job_path(job), { :class => "job_edit_button", :id => "job_#{job.id}" }
             %input{ :type => 'text', :value => job.title, :style => 'display:none;', :id => "job_#{job.id}_title_input" }
           .desc
             %div{ :id => "job_#{job.id}_desc_text" }

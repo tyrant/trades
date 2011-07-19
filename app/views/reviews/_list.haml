@@ -4,8 +4,8 @@
       - reviews.each do |review|
         .listable{ :editable => 'true' }
           .title
-            = link_to 'Edit', edit_review_path(review), { :class => "review_edit_button", :id => "review_#{review.id}" }
             = link_to review.title, review, { :id => "review_#{review.id}_title_text" }
+            = link_to 'Edit', edit_review_path(review), { :class => "review_edit_button", :id => "review_#{review.id}" }
             %input{ :type => 'text', :value => review.title, :style => 'display:none;', :id => "review_#{review.id}_title_input" }
           .mark
             %span{ :id => "review_#{review.id}_mark_text" }
