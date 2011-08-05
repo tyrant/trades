@@ -17,10 +17,9 @@ Write a few quick words about the job itself.
       %input#address{:type => 'text'}
       %input#address_button{:type => 'button', :value => 'Get Address'}
       %span#address_feedback
+      
       #map_canvas
-    %li.required
-      %label{:for => 'image'} Images
-    %input#job_upload{:type => 'file'}
-    %br
-    = render :partial => 'imageable/show', :locals => { :id => 'job_image_tokens', :name => 'job[image_tokens]', :thumbs => 'job_thumbs' }
+      
+    = render :partial => 'imageable/show', :locals => { :upload_id => 'job_upload', :hidden_id => 'job_image_tokens', :name => 'job[image_tokens]', :thumbs => 'job_thumbs' }
+    
     = f.submit "Create a new job"

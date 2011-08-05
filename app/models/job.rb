@@ -12,6 +12,13 @@ class Job < ActiveRecord::Base
   has_many :reviews, :as => :reviewable
   has_many :quotes
   has_and_belongs_to_many :professions, :join_table => :professions_jobs
+  
+  define_index do
+    indexes title
+    indexes description
+    indexes trader.first_name, :as => :trader_first_name, :sortable => true
+    indexes trader.last_name, :as => :trader_last_name, :sortable => true
+  end
 
   validates_presence_of :title
   validates_presence_of :description

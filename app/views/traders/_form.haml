@@ -9,5 +9,6 @@
     -#%strong What's this 'question' business?
     -#%br
     -#The trader you're creating a profile for may come across this review you're writing, and want to respond in person. For the site to recognise
-  = f.hidden_field :sprightly, :value => '0'
-  = f.submit "Create a new trader"
+    = f.hidden_field :sprightly, :value => '0'
+    = render :partial => 'imageable/show', :locals => { :upload_id => 'trader_upload', :hidden_id => 'trader_image_tokens', :name => 'trader_image_tokens', :thumbs => 'trader_image_thumbs' }
+    = f.submit "Create a new trader"

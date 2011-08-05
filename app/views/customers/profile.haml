@@ -1,7 +1,11 @@
+:javascript
+  head.ready(function() {
+    $(".job_edit_button").button();
+    $(".review_edit_button").button();
+  });
+  
 - content_for :title do
   = @title
-
-%h1= @title
 
 %h2 Jobs
 = render :partial => 'jobs/list', :locals => { :jobs => @jobs, :editable => true } 

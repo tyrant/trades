@@ -2,35 +2,42 @@
 -#  - the bucket into which to stuff the newly generated image tokens
 -#  - the file input id to apply Uploadify to
 -#  - the element into which to shove the returned thumbnails
+-# Can be called more than once per page, so it's wrapped in a self-executing function.
 
 - image_tokens = "var image_tokens = " + js_var(image_tokens)
 - upload_input = "var upload_input = " + js_var(upload_input)
 - uploaded_thumbs = "var uploaded_thumbs = " + js_var(uploaded_thumbs)
 
 :javascript
-  #{image_tokens}
-  #{upload_input}
-  #{uploaded_thumbs}
+  (function() {
+    #{image_tokens}
+    #{upload_input}
+    #{uploaded_thumbs}
 
-  $(document).ready(function() {
-    $(upload_input).uploadify({
-      uploader: '/uploadify/uploadify.swf',
-      script: '/images',
-      cancelImg: '/uploadify/cancel.png',
-      auto: true,
-      onSelect: function(event, ID, fileObj) {
-        // Generate unique token and append to job form hidden field and image upload data.
-        var new_token = hex_sha1(Date.now() + 'b');
-        var cur_tokens = $(image_tokens).val();
-        if (cur_tokens) cur_tokens = cur_tokens.split(',');
-        else cur_tokens = [];
-        cur_tokens.push(new_token);
-        $(image_tokens).val(cur_tokens.join(','));
-        $(upload_input).uploadifySettings('scriptData', {token: new_token});
-      },
-      onComplete: function(event, ID, fileObj, response, data) {
-        $(job_thumbs).append('<li><img src="' + response + '" /></li>');
-      },
-      queueSizeLimit: 5
+    head.ready(function() {
+      $(upload_input).uploadify({
+        width: 120,
+        buttonText: 'Upload images',
+        uploader: '/uploadify/uploadify.swf',
+        script: '/images',
+        cancelImg: '/uploadify/cancel.png',
+        auto: true,
+        onSelect: function(event, ID, fileObj) {
+          // Generate unique token and append to job form hidden field and image upload data.
+          var new_token = hex_sha1(Date.now() + 'salt salt salt');
+          var cur_tokens = $(image_tokens).val();
+          if (cur_tokens) cur_tokens = cur_tokens.split(',');
+          else cur_tokens = [];
+          cur_tokens.push(new_token);
+          $(image_tokens).val(cur_tokens.join(','));
+          $(upload_input).uploadifySettings('scriptData', {token: new_token});
+        },
+        onComplete: function(event, ID, fileObj, response, data) {
+          var image = $.parseJSON(response);
+          $(uploaded_thumbs).append('<a href="' + image.original + '" rel="prettyPhoto[' + upload_input + ']"><img src="' + image.thumb + '" width="50" height="50" /></a>');
+          $(uploaded_thumbs).prettyPhoto();
+        },
+        queueSizeLimit: 5
+      });
     });
-  });
+  })();

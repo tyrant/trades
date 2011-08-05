@@ -17,12 +17,12 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:id])
   end
 
+  # When this is changed to do more reviews than just /reviews/quick, update CSS headline 
+  # highlighting code in application.haml.
   def new
     @trader = Trader.new
     @job = Job.new
     @review = Review.new
-    @professions = Profession.all
-    @cities = City.all
     
     @title = 'Quick Review'
 
@@ -33,7 +33,6 @@ class ReviewsController < ApplicationController
   
   # Create a new job review.
   def create
-    puts params.inspect
     @review = Review.new(params[:review])
     @review.set_reviewable(params[:reviewable_type], params[:reviewable_id])
     respond_to do |format| 

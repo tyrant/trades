@@ -1,7 +1,7 @@
 !!! 5
 %html
   %head
-    = stylesheet_link_tag :all
+    = stylesheet_link_tag 'autosuggest', 'application', 'jquery-ui-1.8.14.custom', 'prettyPhoto', 'chosen'
     %link{:href => '/uploadify/uploadify.css', :type => 'text/css', :rel => 'stylesheet'}
     = csrf_meta_tag
 
@@ -9,11 +9,9 @@
     = yield :head
       
     = content_for?(:google_maps) ? yield(:google_maps) : ''
-    = javascript_include_tag 'jquery.min', 'jquery-ui-1.8.14.custom.min', 'application.js', 'rails.js'
-    %script{:type => 'text/javascript', :src => '/uploadify/swfobject.js'}
-    %script{:type => 'text/javascript', :src => '/uploadify/jquery.uploadify.v2.1.4.min.js'} 
+    = javascript_include_tag 'head.min'
 
-  %body  
+  %body
     #container
       #user_nav
         - if user_signed_in?
@@ -22,19 +20,59 @@
           #{link_to "Sign up", new_customer_registration_path} or #{link_to "sign in", new_customer_session_path}.
       
       #site_nav
-        - if current_user.instance_of? Customer
-          %span #{link_to 'Quick Review', '/reviews/quick'}
+        #main_heading This site's title
+        %ul#nav_links
+          - if current_user.instance_of? Customer
+            - if params[:controller] == 'reviews' && params[:action] == 'new'
+              %li #{link_to 'Quick Review', '/reviews/quick', {:class => 'selected_nav_links'}}
+            - else
+              %li #{link_to 'Quick Review', '/reviews/quick'}
 
-        - if user_signed_in?
-          %span #{link_to 'Profile', profile_path}
+          - if user_signed_in?
+            - if (params[:controller] == 'customers' && current_user.instance_of?(Customer)) || (params[:controller] == 'traders' && current_user.instance_of?(Trader))
+              %li #{link_to 'Profile', profile_path, {:class => 'selected_nav_links'}}
+            - else
+              %li #{link_to 'Profile', profile_path}
           
-        %span #{link_to 'Traders', traders_path}
-        %span #{link_to 'Reviews', reviews_path}
-        %span #{link_to 'Jobs', jobs_path}
-        - flash.each do |name, msg|
-          = content_tag :div, msg, :id => "flash_#{name}"
+          - if params[:controller] == 'traders'
+            %li #{link_to 'Traders', traders_path, {:class => 'selected_nav_links'}}
+          - else
+            %li #{link_to 'Traders', traders_path}
+            
+          - if params[:controller] == 'jobs'         
+            %li #{link_to 'Jobs', jobs_path, {:class => 'selected_nav_links'}}
+          - else
+            %li #{link_to 'Jobs', jobs_path}    
+                    
+          - if params[:controller] == 'reviews' && params[:action] != 'new'
+            %li #{link_to 'Reviews', reviews_path, {:class => 'selected_nav_links'}}
+          - else
+            %li #{link_to 'Reviews', reviews_path}
+        
+        #flash_messages
+          - flash.each do |name, msg|
+            = content_tag :div, msg, :id => "flash_#{name}"
+          
+      #main_content
+        %h1#page_title= content_for?(:title) ? yield(:title) : "Untitled"
+        
+        #left_col
+          = content_tag :h1, yield(:title) if show_title?
+          = yield
+
+        #right_col
+          Right-hand column content goes here.
+          
     
-      = content_tag :h1, yield(:title) if show_title?
-      = yield
-
-
+    :javascript
+      head.js(
+        '/javascripts/jquery.min.js',
+        '/javascripts/application.js',
+        '/javascripts/chosen.jquery.min.js',
+        '/javascripts/jquery-ui-1.8.14.custom.min.js',
+        '/javascripts/rails.js',
+        '/javascripts/sha1.min.js',
+        '/javascripts/jquery.prettyPhoto.js',
+        '/uploadify/swfobject.js',
+        '/uploadify/jquery.uploadify.v2.1.4.min.js'
+      );

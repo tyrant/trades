@@ -1,2 +1,11 @@
-%input{:id => "#{id}", :name => "#{name}", :type => 'hidden', :value => ''}
-%ul{:id => "#{thumbs}"}
+%li.required
+  %label{:for => 'image'} Any images you'd like to upload about this
+
+-# The image upload file form field.
+%input{:id => "#{upload_id}", :type => 'file'}
+
+-# Hidden input: contains thumbnail hashes, so that the uploaded images can be matched to their model.
+%input{:id => "#{hidden_id}", :name => "#{name}", :type => 'hidden', :value => ''}
+
+-# Display thumbnails here.
+%div{:id => "#{thumbs}"}

@@ -1,4 +1,4 @@
-- # Locatable stuff. Google map, centred and zoomed to the location of your choice, plus the ability to geocode a given address and spit out the lat+lng onto a pair of tags, and the Google-filtered address string onto a third tag.
+- # Locatable stuff. Google map, centred and zoomed to the location of your choice, plus the ability to geocode a given address and spit out the lat+lng onto a pair of tags, and the Google-filtered address string onto a third tag. Also - this can be called more than once on the same page, so to prevent variable clashes, this is all wrapped in a self-executing anonymous function.
 
 - map_lat = 'var map_lat = ' + js_var(map_lat)
 - map_lng = 'var map_lng = ' + js_var(map_lng)
@@ -12,57 +12,59 @@
 - tag_readable = 'var tag_readable = ' + js_var(tag_readable)
 
 :javascript
-  #{map_lat}
-  #{map_lng}
-  #{map_zoom}
-  #{map_canvas}
-  #{address}
-  #{button}
-  #{feedback}
-  #{tag_lat}
-  #{tag_lng}
-  #{tag_readable}
+  (function() {
+    #{map_lat}
+    #{map_lng}
+    #{map_zoom}
+    #{map_canvas}
+    #{address}
+    #{button}
+    #{feedback}
+    #{tag_lat}
+    #{tag_lng}
+    #{tag_readable}
 
-  $(document).ready(function() {    
-    var map = new google.maps.Map(document.getElementById(map_canvas), {
-      zoom: map_zoom,
-      center: new google.maps.LatLng(map_lat, map_lng),
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
+    head.ready(function() {    
+      var map = new google.maps.Map(document.getElementById(map_canvas), {
+        zoom: map_zoom,
+        center: new google.maps.LatLng(map_lat, map_lng),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
     
-    var geocoder = new google.maps.Geocoder();
-    var markers = [];    
-    $(button).click(function() {
-      geocoder.geocode({'address': $(address).val()}, function(results, status) {
-        $(feedback).html("");
-        for (i in markers) {
-          markers[i].setMap(null);
-        }
-        if (status == google.maps.GeocoderStatus.OK) {
-          for (i in results) {
-            marker = new google.maps.Marker({
-              map: map,
-              position: results[i].geometry.location
-            });
-            marker.formatted_address = results[i].formatted_address
-            markers.push(marker);
-            google.maps.event.addListener(marker, 'click', function() {
-              $(feedback).html("Address selected at: <em>" + marker.formatted_address + "</em>");
-              $(tag_lat).val(marker.getPosition().lat());
-              $(tag_lng).val(marker.getPosition().lng());
-              $(tag_readable).val(marker.formatted_address);
-            });
+      var geocoder = new google.maps.Geocoder();
+      var markers = [];    
+      $(button).click(function() {
+        geocoder.geocode({'address': $(address).val()}, function(results, status) {
+          $(feedback).html("");
+          for (i in markers) {
+            markers[i].setMap(null);
           }
-          // Only one result? Click it.
-          if (markers.length == 1) {
-            //alert(markers.length);
-            //markers[0].click();
+          if (status == google.maps.GeocoderStatus.OK) {
+            for (i in results) {
+              marker = new google.maps.Marker({
+                map: map,
+                position: results[i].geometry.location
+              });
+              marker.formatted_address = results[i].formatted_address
+              markers.push(marker);
+              google.maps.event.addListener(marker, 'click', function() {
+                $(feedback).html("Address selected at: <em>" + marker.formatted_address + "</em>");
+                $(tag_lat).val(marker.getPosition().lat());
+                $(tag_lng).val(marker.getPosition().lng());
+                $(tag_readable).val(marker.formatted_address);
+              });
+            }
+            // Only one result? Click it.
+            if (markers.length == 1) {
+              //alert(markers.length);
+              //markers[0].click();
+            }
+          } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+            $(feedback).html("No results! Try being a bit more specific.");
+          } else {
+            $(feedback).html("Error: " + status);
           }
-        } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-          $(feedback).html("No results! Try being a bit more specific.");
-        } else {
-          $(feedback).html("Error: " + status);
-        }
+        });
       });
     });
-  });
+  })();

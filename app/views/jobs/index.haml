@@ -1,39 +1,67 @@
+:javascript
+  head.ready(function() {
+    $("#trader_profession").chosen();
+    $("#trader_city").chosen();
+    $("job_mark_range").slider({
+      range: true,
+      change: function(event, ui) {
+        
+      });
+    });
+    
+    $("#job_search").submit(function() {
+      $.post($(self).attr("action"), $(self).serialize(), function(response) {
+        $("#results").html(response);
+      });
+    
+    
+      return false;
+    });
+  });
+
 - content_for :title do
-  All Jobs
+  = @title
 
 - content_for :google_maps do
   = render :partial => 'locatable/locatable.haml'
 
 = render :partial => 'job_map_js', :locals => { :map_lat => -41.079351, :map_lng => 173.144531, :map_zoom => 6, :job_objects => @jobs }
-
-%strong TODO
-%em Cool stuff to add to general display of jobs: crank out that ol' Google Mappage, plus suburb geocoding and KML overlays. (Although koordinates.com only has Wellington suburbs - this might not work for all of NZ). For privacy reasons, might as well not go below Suburb resolution level. Also. Scope creep. Get standard filtering done first, then add Maps. 
-%br/
-%em Now. When searching for and displaying Jobs, what I want done is to search, initially, by city; have a Marker over each suburb KML overlay with a counter showing the number of jobs in that suburb; (if a suburb has no jobs, show neither a Marker nor an overlay, just vanilla Map); and clicking on the suburb overlay brings up a MarkerInfoWindow, centred on the Marker for that suburb, containing a paginated list of Job links for that suburb.
-%br/
-
-%h1 All Jobs
-
 = render :partial => 'job_map'
 
 = link_to "New job", new_job_path
 
 %h2 Search
 %form#job_search{:method => 'post', :action => ''}
-  Trader name:
-  %input{:name => 'trader'}
-  %br/
-  Trader profession:
-  %select{:name => 'profession'}
-    - @professions.each do |p|
-      %option{:value => p.id}= p.name
-  %br/
-  City:
-  %select{:name => 'city'}
-    - @cities.each do |c|
-      %option{:value => c.id}=c.name
-  %br/
-  %input{:type => 'submit', :value => 'Find Jobs'}
+  %table.form_substrate
+    %tr
+      %td Job content
+      %td
+        %input{:name => 'job_content'}
+    %tr
+      %td Job mark range
+      %td
+        #job_mark_range
+        %input{:type => 'hidden', :name => 'mark_min'}
+        %input{:type => 'hidden', :name => 'mark_max'}
+    %tr
+      %td Trader name
+      %td
+        %input{:name => 'trader', :style => 'width:350px;'}
+    %tr
+      %td Trader profession:
+      %td= render :partial => 'professions/ddl.haml'
+    %tr
+      %td City:
+      %td
+        %select#trader_city{:name => 'city', :title => 'Choose a city...', :style => 'width:350px;'}
+          %option{:value => '0'}
+            \-- any city --
+          - @cities.each do |c|
+            %option{:value => c.id}=c.name
+    %tr
+      %td
+      %td
+        %input{:type => 'submit', :value => 'Find Jobs'}
 
 = render :partial => 'list', :locals => { :jobs => @jobs, :editable => false }
 

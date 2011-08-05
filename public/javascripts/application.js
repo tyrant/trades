@@ -142,7 +142,7 @@ String.prototype.slugify = function() {
 }
 
 
-$(document).ready(function() {
+head.ready(function() {
 
   function list_from_hash(hash) {
     var error_list = '<ul>';
@@ -156,7 +156,13 @@ $(document).ready(function() {
   // Expand or contract list items. FIXME: double-clicking writes height value to style attribute of .desc,
   // for some reason, overriding class height values.
   $(".listable .desc").click(function() {
-    if ($(this).parent().attr('editable') == 'false' || $($(this).children()[1]).attr('style') == 'display: none;') {
+    if ($(this).parent().hasClass("expanded_listable"))
+        console.log('has class!');
+    else
+        console.log('hasn\'t class!');
+        
+    var style = $($(this).children()[1]).attr('style');
+    if ($(this).parent().attr('editable') == 'false' || (style.indexOf('display:none;') != -1 || style.indexOf('display: none') != -1)) {
       $(this).parent().toggleClass("expanded_listable", 300);
     }
   });
@@ -196,7 +202,8 @@ $(document).ready(function() {
         if (response.job == undefined) {
           $("#job_" + job_id + "_errors").html(list_from_hash(response));
         } else {
-          $("#job_" + job_id + "_errors").html('<strong>Job successfully edited</strong>');
+          $("#job_" + job_id + "_errors").html('<strong class="listable_feedback">Job successfully edited</strong>');
+          $("#job_" + job_id + "_errors").effect('highlight', {}, 1000);
           $("#job_" + job_id + "_title_text").html(response.job.title);
           $("#job_" + job_id + "_desc_text").html('<p>' + response.job.description.replace(/\n/gi, "<br />") + '</p>');
         }
@@ -221,6 +228,8 @@ $(document).ready(function() {
     $("#review_" + review_id + "_submit").toggle();
     $("#review_" + review_id + "_errors").html('');
 
+    // If the description text isn't expanded, or if it's expanded and the edit text isn't expanded, then expand the desc text;
+    // otherwise contract it.
     if (!desc_expanded || (desc_expanded && !edit_expanded)) {
       $(this).parent().parent().addClass("expanded_listable", 300);
     } else {
@@ -243,7 +252,8 @@ $(document).ready(function() {
         if (response.review == undefined) {
           $("#review_" + review_id + "_errors").html(list_from_hash(response));
         } else {
-          $("#review_" + review_id + "_errors").html('<strong>Review successfully edited</strong>');
+          $("#review_" + review_id + "_errors").html('<strong class="listable_feedback">Review successfully edited</strong>');
+          $("#review_" + review_id + "_errors").effect('highlight', {}, 1000);
           $("#review_" + review_id + "_title_text").html(response.review.title);
           $("#review_" + review_id + "_mark_text").html(response.review.mark + (response.review.mark == 1 ? ' star' : ' stars'));
           $("#review_" + review_id + "_desc_text").html('<p>' + response.review.description.replace(/\n/gi, "<br />") + '</p>');
@@ -252,5 +262,5 @@ $(document).ready(function() {
       datatype: 'json'
     });
   });
-  
+
 });

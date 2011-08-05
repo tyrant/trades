@@ -21,7 +21,8 @@
   #{select_many}
   #{trader_bucket}
 
-  $(document).ready(function() {
+  head.ready(function() {
+  
     $("#choose_trader").submit(function(event) {
       $.getJSON($(this).attr('action'), $(this).serialize(), function(response) {
         $("#trader_results").html('<ul id="trader_results_list"></ul>');
@@ -55,6 +56,7 @@
               $("#trader_" + trader.id).click(function() {
                 $(trader_bucket).val(trader.id);
                 $("#selected_traders_list").html('<a href="/traders/' + trader.name.slugify() + '-' + trader.id + '">' + trader.name + '</a>');
+                $("#selected_traders_list").parent().parent().parent().effect('highlight', {}, 1000);
               });
 
             }
@@ -62,7 +64,7 @@
           
           // Pagination - prev/next.
           
-          $("#trader_results").prepend(' Page ' + response.page + ' of ' + response.total_pages);
+          $("#trader_results").prepend(' <em>Page ' + response.page + ' of ' + response.total_pages + '</em>');
           
           $('<button id="trader_search_next">Next</button>').prependTo("#trader_results").button();         
           if (response.page < response.total_pages) {
@@ -100,8 +102,8 @@
               $("#toggle_new_trader span").html("Minimise this");
             else if ($("#toggle_new_trader span").html() == "Minimise this") 
               $("#toggle_new_trader span").html("Add them!");
-            event.preventDefault();
 
+              return false;
           });
 
         }

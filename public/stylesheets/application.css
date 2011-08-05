@@ -1,5 +1,76 @@
+.pointer {
+  cursor: pointer;
+}
+
+textarea {
+  height: 130px;
+  width: 500px;
+}
+
+#map_canvas, #job_map_canvas {
+  height: 400px;
+  width: 100%;
+}
+
+
+/* Listable styling */
+
+.list_title {
+  font-size: 16px;
+}
+
+.listable {
+  height: 90px;
+  overflow: hidden;
+}
+
+.listable .desc textarea {
+  width: 673px;
+  height: 300px;
+}
+
+.listable_feedback {
+  padding: 6px;
+  margin: 6px;
+}
+
+hr.listable_hr {
+  margin: 10px 0px 10px 0px;
+  border-top: dotted thin grey;
+}
+
+.expanded_listable {
+  height: 100%;
+}
+
+.desc p {
+  font-size: 12px;
+  line-height: 15px;
+}
+
+
+
+
+ul#trader_results_list {
+  margin-top: 15px;
+}
+
+ul#trader_results_list li {
+  height: 25px;
+  list-style-type: none;
+}
+
+.list_heading {
+  color: #ff0084;
+}
+
+h1 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
 body {
-  background-color: #4B7399;
+  background-color: #fff;
   font-family: Verdana, Helvetica, Arial;
   font-size: 14px;
 }
@@ -10,6 +81,11 @@ a img {
 
 a {
   color: #0000FF;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .clear {
@@ -19,12 +95,17 @@ a {
 }
 
 #container {
-  width: 75%;
+  width: 1000px;
   margin: 0 auto;
   background-color: #FFF;
-  padding: 20px 40px;
-  border: solid 1px black;
+  padding: 0px;
+
   margin-top: 20px;
+}
+
+#flash_messages {
+  width: 100%;
+  clear: both;
 }
 
 #flash_notice, #flash_error, #flash_alert {
@@ -73,3 +154,96 @@ a {
 .error_messages ul {
   margin: 0;
 }
+
+#user_nav {
+  text-align: right;
+}
+
+#site_nav {
+  width: 100%;
+  height: 45px;
+  display: block;
+  clear: both;
+}
+
+#nav_links {
+  float: right;
+  
+}
+
+#nav_links li {
+  display: inline;
+  list-style-type: none;
+  text-decoration: none;
+}
+
+#nav_links li a {
+  padding: 5px 15px 5px 15px;
+  margin: 0px 2px 0px 2px;
+  background-color: grey;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+#nav_links li a:hover {
+  background-color: #00cc00;
+}
+
+selected_nav_links {
+  background-color: #00cc00;
+}
+
+#main_heading {
+  float: left;
+  font-weight: bold;
+  font-size: 48px;
+}
+
+#main_content {
+  width: 100%;
+  display: block;
+  clear: both;
+  border-bottom: thin solid black;
+}
+
+#main_content h1 {
+  margin-bottom: 4px;
+}
+
+#left_col, #right_col {
+  margin-top: 20px;
+  padding: 8px;
+}
+
+#left_col {
+  float: left;
+  width: 68%;
+  clear: left;
+}
+
+#right_col {
+  float: left;
+  width: 28%;
+  clear: right;
+}
+
+table.form_substrate {
+  width: 100%;
+}
+
+fieldset.inputs ol {
+  list-style-type: none;
+}
+
+#trader_results {
+  padding: 10px 10px 5px 20px;
+}
+
+#selected_traders_list {
+  
+}
+
+
+

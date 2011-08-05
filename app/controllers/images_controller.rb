@@ -3,7 +3,10 @@ class ImagesController < ApplicationController
   def create
     @image = Image.new(params[:image])
     if @image.save
-      render :inline => "<%= @image.path(:medium) %>"
+      render :json => {
+        'thumb' => @image.path(:thumb),
+        'original' => @image.path(:original)
+      }
     else
       render :inline => "<%= @image.errors.to_json %>"
     end

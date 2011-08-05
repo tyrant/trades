@@ -3,30 +3,18 @@ Either find the trader who did your job, or if s/he isn't listed, add them yours
 %form#choose_trader{:action => '/traders/search.json', :method => 'get', :class => 'formtastic'}
   %input#trader_search_page{:type => 'hidden', :name => 'page', :value => '1'}
   %fieldset{:class => 'inputs'}
-    %table
+    %table.form_substrate
       %tr
         %td Name
         %td
-          %input{:type => 'text', :id => 'trader_text', :name => 'trader_text'}
+          %input#trader_text{:type => 'text', :name => 'trader_text'}
           
       %tr
         %td Profession
-        %td
-          %select#profession{:name => 'profession'}
-            %option{:value => "0"}
-              \-- any profession --
-            - @professions.each do |profession|
-              %option{:value => "#{profession.id}"}
-                = profession.name
+        %td= render :partial => 'professions/ddl.haml'
       %tr
         %td City/Region
-        %td
-          %select#city{:name => 'city'}
-            %option{:value => '0'}
-              \-- any city --
-            - @cities.each do |city|
-              %option{:value => "#{city.id}"}
-                = city.name
+        %td= render :partial => 'traders/city.haml'
       %tr
         %td
         %td

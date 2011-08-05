@@ -1,25 +1,35 @@
 .results
+
   - if jobs.length != 0
+  
     - if editable
       - jobs.each do |job|
         .listable{ :editable => 'true' }
           .title
-            = link_to job.title, job, { :id => "job_#{job.id}_title_text" }
             = link_to 'Edit', edit_job_path(job), { :class => "job_edit_button", :id => "job_#{job.id}" }
+            %strong.list_title= link_to job.title, job, { :id => "job_#{job.id}_title_text" }
             %input{ :type => 'text', :value => job.title, :style => 'display:none;', :id => "job_#{job.id}_title_input" }
           .desc
             %div{ :id => "job_#{job.id}_desc_text" }
               = simple_format job.description
             %textarea{ :id => "job_#{job.id}_desc_input", :style => 'display:none;' }
               = job.description
+              
+              
           %div{ :id => "job_#{job.id}_errors" }
           %input{ :type => 'button', :id => "job_#{job.id}_submit", :class => 'job_submit_button', :value => 'Edit', :style => 'display:none;' }
+        %hr.listable_hr
+        
     - else
+    
       - jobs.each do |job|
         .listable{ :editable => 'false' }
-          .title
+          %strong.list_title
             = link_to job.title, job
           .desc
             = simple_format job.description
+          
+        %hr.listable_hr
+        
   - else
     No jobs exist just yet.

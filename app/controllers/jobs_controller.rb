@@ -2,11 +2,12 @@ class JobsController < ApplicationController
 
   # Job search options: by address (lat+lng), by trader name, by trader profession, 
   def index
-    @professions = Profession.all
+    @professions = Profession.where('parent_id' => nil)
     @cities = City.all
     @jobs = Job.where(1)
     @jobs = @jobs.where("(first_name LIKE ? OR last_name LIKE ?)", "%#{params[:trader]}%", "%#{params[:trader]}%") if params.has_key? 'trader'
     #@jobs = @jobs.where('name LIKE ?', 
+    @title = 'All Jobs'
   end
 
   def show

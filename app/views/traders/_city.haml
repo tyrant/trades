@@ -1,0 +1,11 @@
+:javascript 
+  head.ready(function() {
+    $("#trader_city").chosen();
+  });
+
+%select#trader_city{:name => 'city', :title => 'Choose a city...', :style => 'width:350px;'}
+  %option{:value => '0'}
+    \-- any city --
+    - City.all.each do |city|
+      %option{:value => "#{city.id}"}
+        = city.name

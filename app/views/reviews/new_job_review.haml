@@ -1,5 +1,5 @@
 :javascript
-  $(document).ready(function() {
+  head.ready(function() {
     $("#accordion").accordion({
       autoHeight: false,
       navigation: true,
@@ -16,11 +16,12 @@
   = render :partial => 'locatable/locatable.haml'
 
 = render :partial => 'traders/search_js', :locals => { :create_new => true, :select_many => false, :trader_bucket => '#job_trader_id' }
+= render :partial => 'traders/form_js'
 = render :partial => 'jobs/form_js'
 
-%h1= @title
-
 If you've just had a job done and want to throw together a quick review, this is the place.
+%br/
+%br/
 
 - if current_user.instance_of?(Trader) && @job.trader.nil?
   %input{:type => 'button', :value => 'I did this job!'}
@@ -30,7 +31,7 @@ If you've just had a job done and want to throw together a quick review, this is
   %h3#step_1
     %a{:href => '#section1'}
       Step 1: Choose a trader
-  %div
+  %div{:style => 'min-height:310px;'}
     = render 'traders/search'
 
     #new_trader_div{:style => "display:none;"}

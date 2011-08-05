@@ -1,5 +1,43 @@
+:javascript
+  head.ready(function() {
+    $("#mark_range").slider({
+      values: [0, 100],
+      range: true,
+      min: 0,
+      max: 100,
+      change: function(event, ui) {
+        console.log(event);
+        $("#mark_min").val($(this).slider('values', 0));
+        $("#mark_max").val($(this).slider('values', 1));
+      }
+    });
+  });
+
 - content_for :title do
   = @title
+  
+%form{:action => '', :method => 'get'}
+  %table.form_substrate
+    %tr
+      %td Name
+      %td
+        %input{:type => 'text', :name => 'name'}
+    %tr
+      %td Profession
+      %td= render :partial => 'professions/ddl'
+    %tr
+      %td Location
+      %td= render :partial => 'traders/city'
+    %tr
+      %td Mark range
+      %td
+        %input#mark_min{:type => 'hidden', :name => 'mark_min', :value => 0}
+        %input#mark_max{:type => 'hidden', :name => 'mark_max', :value => 100}
+        #mark_range
+    %tr
+      %td
+      %td
+        %input{:type => 'submit', :value => 'Find Traders'}
 
-%h1= @title
-= render :partial => 'list', :locals => { :traders => @traders }
+#trader_list
+  = render :partial => 'list', :locals => { :'@traders' => @traders }

@@ -16,25 +16,28 @@
     });
   });
 
-%h1 Reviews
+- content_for :title do
+  All Reviews
 
-%strong TODO
-%em Things to add: location-based search.
-
-
-%h2 Find Reviews
+%h2 Search
 %form#search_reviews{:method => 'post', :action => ''}
-  What's being reviewed?
-  = select_tag(:reviewable_type, options_for_select(Review::REVIEWABLE_TYPES))
-  -#%br
-  =# job location stuff
-  -#Who's doing the reviewing?
-  -# select_tag(:reviewer_type, options_for_select(Review::REVIEWER_TYPES))
-  %br
-  Search for keywords
-  = text_field_tag :text 
-  %br
-  %input{:type => 'submit', :value => 'Find reviews'}
+  %table
+    %tr
+      %td Review content
+      %td
+    %tr
+      %td What's being reviewed?
+      %td
+    %tr
+      %td Mark spread
+      %td
+    %tr
+      %td Trader profession?
+      %td 
+    %tr
+      %td 
+      %td
+        %input{:type => 'submit', :value => 'Search'}
   
 %ul#review_list
   - @reviews.each do |review|

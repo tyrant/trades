@@ -1,5 +1,5 @@
 :javascript
-  $(document).ready(function() {
+  head.ready(function() {
     $("#request_quote").submit(function(event) {
       $.post($(this).attr('action'), $(this).serialize(), function(response) {
         // blargh

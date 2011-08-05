@@ -1,3 +1,15 @@
+:javascript
+  head.ready(function() {
+    $("#review_mark_slider").slider({
+      range: false,
+      value: 50,
+      slide: function(event, ui) {
+        $("#mark_value").html(ui.value);
+        $("#review_mark").val(ui.value);
+      }
+    });
+  });
+
 Review the trader's efforts - how did they do? Are you satisfied? Would you recommend them?
 
 = semantic_form_for @review, :remote => true do |f|
@@ -6,7 +18,12 @@ Review the trader's efforts - how did they do? Are you satisfied? Would you reco
       %li= m
   = f.inputs "Review info" do
     = f.inputs :title, :description
-    = f.input :mark, :as => :select, :collection => Review.marks.map{ |m| [m, m]}
+    %br
+    Mark:
+    #review_mark_slider{:style => 'width: 400px;'}
+    %span#mark_value 50
+    %br
+    = f.input :mark, :as => :hidden, :value => 50
     = f.input :reviewable_type, :as => :hidden, :value => "Job"
     = f.input :reviewable_id, :as => :hidden
     = f.submit 'Create review'

@@ -7,6 +7,7 @@ class Review < ActiveRecord::Base
   belongs_to :reviewable, :polymorphic => :true
   belongs_to :reviewer, :polymorphic => :true
 
+  validates_presence_of :title
   validates_presence_of :description
   validates_numericality_of :mark
   

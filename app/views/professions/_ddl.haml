@@ -1,0 +1,12 @@
+:javascript
+  head.ready(function() {
+    $("#trader_profession").chosen();
+  });
+
+%select#trader_profession{:name => 'profession', :title => 'Choose a profession...', :style => 'width:350px;'}
+  %option{:value => "0"}
+    \-- any profession --
+  - Profession.where('parent_id' => nil).each do |p|
+    %option{:value => "#{p.id}"}
+      = p.name
+  

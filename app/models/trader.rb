@@ -22,15 +22,34 @@ class Trader < ActiveRecord::Base
   has_many :reviews, :as => :reviewer
   has_many :reviews, :as => :reviewable
   has_many :images, :as => :imageable
+  
+  define_index do
+    indexes [first_name, last_name], :as => :name, :sortable => true
+    indexes addresses.readable, :as => :address
+    
+    # Index reviews about this trader
+    indexes reviews.title, :as => 'review_title'
+    indexes reviews.description, :as => 'review_description'
+    indexes reviews.mark, :as => 'review_mark', :sortable => true
+    indexes reviews.created_at, :as => 'review_date', :sortable => true
+    indexes reviews.reviewable_type, :as => 'reviewable_type'
+    
+    # Index jobs this trader's done
+    indexes jobs.title, :as => 'job_title'
+    indexes jobs.description, :as => 'job_description'
+    indexes jobs.created_at, :as => 'job_date', :sortable => true
+    
+    #has professions(:name), :as => 'profession_name'
+  end
 
   cattr_reader :per_page
   @@per_page = 10
 
   validates_presence_of :first_name
   validates_presence_of :last_name
-  validates_presence_of :question, :unless => "sprightly?"
+  #validates_presence_of :question, :unless => "sprightly?"
 
-  before_create :set_login_and_temp_password
+  #before_create :set_login_and_temp_password
 
 
   def as_json(options)

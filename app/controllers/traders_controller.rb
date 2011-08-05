@@ -1,8 +1,17 @@
 class TradersController < ApplicationController
 
   def index
-    @traders = Trader.where(:sprightly => true)
-    @title = 'All Traders'
+    page = params.has_key?('page') ? params[:page] : 1
+    @traders = Trader.search
+      :conditions => {
+        :name => params[:name]
+      },
+      :with => {
+        :mark => params[:mark_min]..params[:mark_max],
+        :profession
+      }
+      
+    @title = 'All Traders' 
   end
   
   def show

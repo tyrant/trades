@@ -18,7 +18,7 @@ gem "cancan"
 gem "geocoder"
 gem "paperclip"
 gem "rmagick" # This needs imagemagick installed, at http://rmagick.rubyforge.org/install-osx.html (or OS of your choice)
-# rmagick: also, on Ubuntu, do sudo apt-get install libmagickwand-dev
+# rmagick dependency: also, on Ubuntu, do sudo apt-get install libmagickwand-dev
 gem "acts_as_commentable_with_threading"
 gem "haml"
 gem "sass"
@@ -30,3 +30,4 @@ gem "formtastic"
 gem "rspec-rails"
 gem "breadcrumbs_on_rails"
 gem "koala"
+gem "thinking-sphinx" # Install Sphinx for this
